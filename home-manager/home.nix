@@ -8,7 +8,7 @@
     ./gtk.nix
     ./brave.nix
     ./doom.nix
-   # ./xcompose.nix
+    ./xcompose.nix
     ./dnust.nix
     ./waybar.nix
 #    ./emacsPkgs.nix
