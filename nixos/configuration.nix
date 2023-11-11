@@ -151,6 +151,11 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+                "zotero-6.0.27"
+              ];
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
