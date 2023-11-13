@@ -169,9 +169,9 @@ in
     curl
     calibre
     cmake
-    #dmenu
-    #espanso
-    espanso-wayland
+    dmenu
+    espanso
+    #espanso-wayland
     eza
     element-desktop
     fzf
