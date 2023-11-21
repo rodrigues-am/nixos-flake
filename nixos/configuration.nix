@@ -7,7 +7,7 @@
 let
 
   user = "andre";
-  
+
 in
 {
   imports =
@@ -210,6 +210,10 @@ in
     zoom
     wget
     xournal
+
+    # receita tex
+    #
+    texlive.combined.scheme-full
 
 
     hyprland
