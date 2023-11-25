@@ -155,7 +155,6 @@ in
                 "zotero-6.0.27"
               ];
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -171,7 +170,7 @@ in
     cmake
     dmenu
     espanso
-    #espanso-wayland
+    espanso-wayland
     eza
     element-desktop
     fzf

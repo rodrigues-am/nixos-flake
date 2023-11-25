@@ -16,7 +16,7 @@ services.syncthing = {
       settings.devices = {
           "home-desktop" = { id = "SESEFI3-AKN5GKF-5U4YVBF-KGWPBYB-WRHFQ22-5DWW2SP-5VHJGBE-5WM3QQ6"; autoAcceptFolders = true;};
           "s22-cel" = { id = "V5FI5LW-TSHJUIR-LVFYZHA-3CZX7WV-QMRI7AA-NPETMDZ-G67UE2G-5MGMVQ4"; autoAcceptFolders = true;};
-          "usp-desktop" = { id = "AM5VQTL-46XWH4Y-V7OEGPI-YGLTINN-OWV5A3A-3TVCE7A-UF5OG57-PC65HAB"; autoAcceptFolders = true;};
+          "usp-desktop" = { id = "YAB3POW-GTB3WEC-OH4WJWA-VIG3DST-XFJVJ3Q-3HDYR66-RKAO7UI-FS32YAR"; autoAcceptFolders = true;};
           "dell-laptop" = { id = "W4NJAW2-FM2X2FP-VKFLILS-4JEUORB-AWQSKXA-LNVLMW6-K4LJEE6-5ODROA2"; autoAcceptFolders = true;};
           "hp-laptop" = { id = "AWARHUU-5XNZSLX-BUIQK7B-KR26TOW-UAMFEOB-HERNOQH-EJQCU5T-HQJ24AR"; autoAcceptFolders = true;};
     };
