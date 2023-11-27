@@ -16,6 +16,7 @@ in
       ./nvidia.nix
       ./syncthing.nix
       #./hyprland.nix
+      ./game.nix
     ];
 
   # Bootloader.
@@ -230,12 +231,6 @@ in
     fira-code
     google-fonts
 
-
-
-
-    # Jogos
-    steam
-    steam-run
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
