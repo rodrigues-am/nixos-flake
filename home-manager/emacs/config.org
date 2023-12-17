@@ -1,6 +1,6 @@
 #+TITLE:  Config
 #+STARTUP: folded
-#+PROPERTY: header-args :tangle ~/.dotfiles/.doom.d/config.el
+#+PROPERTY: header-args :tangle ./config.el
 
 * Pernonal info
 
@@ -24,6 +24,12 @@ Some personal information.
 
 #+end_src
 
+* Bookmarks
+
+#+begin_src emacs-lisp
+(setq bookmark-save-flag 1)
+#+end_src
+
 * Dired
 
 #+begin_src emacs-lisp
@@ -31,16 +37,22 @@ Some personal information.
 #+end_src
 
 
-* Eglot
-** Grammarly
+* Grammarly
 
 #+begin_src emacs-lisp
-;; (use-package eglot-grammarly
-;;  :ensure t
-;;  :hook (text-mode . (lambda ()
-;;                       (require 'eglot-grammarly)
-;;                       (call-interactively #'eglot))))
+(use-package lsp-grammarly
+  :ensure t
+  :hook ((text-mode org-mode) . (lambda ()
+                       (require 'lsp-grammarly)
+                       (lsp)))) ; or lsp-deferred
+#+end_src
 
+#+begin_src emacs-lisp
+(use-package eglot-grammarly
+  :ensure t
+  :hook ((text-mode org-mode) . (lambda ()
+                       (require 'eglot-grammarly)
+                       (call-interactively #'eglot))))
 #+end_src
 
 * Org-mode
@@ -57,17 +69,17 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 #+begin_src emacs-lisp
 
-(defun amr-clean ()
-   (display-line-numbers-mode 0)
+;;(defun amr-clean ()
+  ;; (display-line-numbers-mode 0)
 ;;   (set-fill-column 110)
-(set-window-margins (selected-window) 40 40)
+;;(set-window-margins (selected-window) 40 40)
 ;;   (setq left-margin-width 20)
   ;;                                                             (setq right-margin-width 10)
-   (company-mode -1))
-(add-hook 'org-mode-hook 'amr-clean)
+  ;; (company-mode -1))
+;;(add-hook 'org-mode-hook 'amr-clean)
 
 (setq
-org-superstar-headline-bullets-list '("" "⍟" "" "" "⋄" "✸" "✿"))
+org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
 
 (use-package org-fancy-priorities
   :ensure t
@@ -78,6 +90,9 @@ org-superstar-headline-bullets-list '("" "⍟" "" "" "⋄" "✸" "✿")
 
 #+end_src
 
+#+begin_src emacs-lisp
+(with-eval-after-load 'org (global-org-modern-mode))
+#+end_src
 *** Definição de palavras chave (TODO, etc)
 #+begin_src emacs-lisp
 
@@ -111,21 +126,20 @@ org-superstar-headline-bullets-list '("" "⍟" "" "" "⋄" "✸" "✿")
 ** Burly
 
 #+begin_src emacs-lisp  :tangle no
-
-(use-package burly)
+(use-package burly
+  ensure t)
 #+end_src
 
 ** Org-Babel
 
 #+begin_src emacs-lisp
-
 (org-babel-do-load-languages
   'org-babel-load-languages
   '((plantuml . t)))
 
-(setq org-plantuml-jar-path
-      (expand-file-name
-       "~/.script/plantuml-1.2022.8.jar"))
+;;(setq org-plantuml-jar-path
+ ;;     (expand-file-name
+;;       "~/.script/plantuml-1.2022.8.jar"))
 
 #+end_src
 
@@ -349,7 +363,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 #+end_src
 
-*** Emacs-lisp block (em)
+*** Emacs-lisp block (el)
 #+begin_src emacs-lisp
 
 (tempo-define-template "emacs-lisp" ; just some name for the template
@@ -364,9 +378,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 ** TODO Verificar se funciona
 #+begin_src emacs-lisp
-
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
-
 #+end_src
 
 * Icons
@@ -493,9 +505,7 @@ Recomendação feita por Doom Doctor
 
 #+begin_src emacs-lisp
 (after! projectile
-
           (setq projectile-project-root-files-bottom-up
-
                 (remove ".git" projectile-project-root-files-bottom-up)))
 
 #+end_src

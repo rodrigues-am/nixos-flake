@@ -78,6 +78,9 @@
 ;;(package! org-gcal)
 ;; (package! perspective)
 (package! lsp-grammarly)
+(package! grammarly)
+(package! eglot-grammarly)
+(package! org-modern)
 ;; visual fill
 ;;(package! visual-fill-column)
 (package! elfeed-goodies)
