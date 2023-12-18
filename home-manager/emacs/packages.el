@@ -79,16 +79,17 @@
 
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
-(package! shell maker
-  :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
-(package! chatgpt-shell
-  :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el")))
+
 (package! golden-ratio
   :recipe (:host github :repo "roman/golden-ratio.el" :files ("golden-ratio.el")))
 
 (package! nano-emacs
   :recipe (:host github :repo "rougier/nano-emacs"))
 
+;; (package! shell maker
+;;   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
+;; (package! chatgpt-shell
+;;   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el")))
 ;; Org Roam Bibtext
 ;;(package! org-roam-bibtex
 ;;  :recipe (:host github :repo "org-roam/org-roam-bibtex"))

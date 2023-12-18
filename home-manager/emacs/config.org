@@ -35,9 +35,10 @@ Some personal information.
 #+begin_src emacs-lisp
 (use-package lsp-grammarly
   :ensure t
-  :hook ((text-mode org-mode) . (lambda ()
-                       (require 'lsp-grammarly)
-                       (lsp)))) ; or lsp-deferred
+  ;; :hook ((text-mode org-mode) . (lambda ()
+  ;;                      (require 'lsp-grammarly)
+  ;;                      (lsp)))
+  ) ; or lsp-deferred
 #+end_src
 
 #+begin_src emacs-lisp
@@ -50,6 +51,19 @@ Some personal information.
 * ChatGPT
 
 #+begin_src emacs-lisp
+
+(use-package shell-maker
+  :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
+
+(use-package chatgpt-shell
+  :requires shell-maker
+  :straight (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el"))
+  :ensure t
+  :custom
+  ((chatgpt-shell-openai-key
+    (lambda ()
+      (auth-source-pass-get 'secret "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")))))
+
 (use-package chatgpt-shell
   :ensure t
   :custom
