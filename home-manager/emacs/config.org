@@ -2,26 +2,19 @@
 #+STARTUP: folded
 #+PROPERTY: header-args :tangle ./config.el
 
-* Pernonal info
+* Personal info
 
 Some personal information.
 
 #+begin_src emacs-lisp
-
 (setq user-full-name "André Rodrigues"
       user-mail-address "rodrigues.am@usp.br")
-
 #+end_src
 
 * Global Variables
-
 #+begin_src emacs-lisp  :tangle no
-
 ;; (add-to-list 'load-path "~/.script/elisp")
 ;; (require 'amr.el)
-
-
-
 #+end_src
 
 * Bookmarks
@@ -48,19 +41,27 @@ Some personal information.
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package eglot-grammarly
+(use-package grammarly
+  :ensure t)
+#+end_src
+
+
+
+* ChatGPT
+
+#+begin_src emacs-lisp
+(use-package chatgpt-shell
   :ensure t
-  :hook ((text-mode org-mode) . (lambda ()
-                       (require 'eglot-grammarly)
-                       (call-interactively #'eglot))))
+  :custom
+  ((chatgpt-shell-openai-key
+    (lambda ()
+      (auth-source-pass-get 'secret "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")))))
 #+end_src
 
 * Org-mode
 
 #+begin_src emacs-lisp
-
 (setq org-directory "~/notas/")
-
 #+end_src
 
 ** Visual do org-mode
@@ -78,16 +79,23 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   ;; (company-mode -1))
 ;;(add-hook 'org-mode-hook 'amr-clean)
 
-(setq
-org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
+;; (setq
+;; org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
 
-(use-package org-fancy-priorities
+
+;; (use-package org-fancy-priorities
+;;   :ensure t
+;;   :hook
+;;   (org-mode . org-fancy-priorities-mode)
+;;   :config
+;;   (setq org-fancy-priorities-list '("🔴" "🔶" "🟩")))
+
+(use-package org-modern
   :ensure t
   :hook
-  (org-mode . org-fancy-priorities-mode)
-  :config
-  (setq org-fancy-priorities-list '("🔴" "🔶" "🟩")))
-
+  (org-mode . org-modern-mode)
+  :custom
+  (org-modern-star '("" "" "⍟" "⋄" "✸" "✿")))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -113,22 +121,19 @@ org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
 : ((TODO . #00CC00) (READ . #00ACE6) (HOLD . #FFCC66) (IDEA . #CCCC00) (DONE . #CCCCCC) (KILL . #FF0000))
 
 
-** Abbrev
-
-#+begin_src emacs-lisp
-
-(setq abbrev-file-name
-        "~/notas/.abbrev_defs.el")
-
-
-#+end_src
-
 ** Burly
-
 #+begin_src emacs-lisp  :tangle no
 (use-package burly
   ensure t)
 #+end_src
+
+** Abbrev
+
+#+begin_src emacs-lisp
+(setq abbrev-file-name
+        "~/notas/.abbrev_defs.el")
+#+end_src
+
 
 ** Org-Babel
 
@@ -156,9 +161,43 @@ org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
 
 #+end_src
 
-#+RESULTS:
-| visual-fill-column-mode | visual-line-mode-set-explicitly |
+#+begin_src emacs-lisp
+(use-package golden-ratio
+  :ensure t)
 
+#+end_src
+** Nano
+#+begin_src emacs-lisp
+;;(straight-use-package
+;;  '(nano :type git :host github :repo "rougier/nano-emacs"))
+#+end_src
+
+** Themes-bespoke
+
+#+begin_src emacs-lisp
+(use-package bespoke-themes
+  :straight (:host github :repo "mclear-tools/bespoke-themes" :branch "main")
+  :config
+  ;; Set evil cursor colors
+  (setq bespoke-set-evil-cursors t)
+  ;; Set use of italics
+  (setq bespoke-set-italic-comments t
+        bespoke-set-italic-keywords t)
+  ;; Set variable pitch
+  (setq bespoke-set-variable-pitch t)
+  ;; Set initial theme variant
+  (setq bespoke-set-theme 'dark)
+  ;; Load theme
+  (load-theme 'bespoke t))
+#+end_src
+
+** Olivetti-mode
+
+#+begin_src emacs-lisp
+(use-package olivetti
+  :ensure t)
+
+#+end_src
 * Org-Roam
 
 #+begin_src emacs-lisp
@@ -365,13 +404,11 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 *** Emacs-lisp block (el)
 #+begin_src emacs-lisp
-
 (tempo-define-template "emacs-lisp" ; just some name for the template
                       '("#+begin_src emacs-lisp" n p n "#+end_src")
           "<el"
           "Insert a e-lisp block" ; documentation
           'org-tempo-tags)
-
 #+end_src
 
 * References & Bib

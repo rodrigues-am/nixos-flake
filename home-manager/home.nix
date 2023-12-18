@@ -33,7 +33,8 @@
   # environment.
   home.packages = with pkgs; [
 
-    emacs29-pgtk
+   # emacs29-pgtk
+   # emacsPackages.nerd-icons
 
   ];
 

@@ -1,34 +1,56 @@
 (setq user-full-name "André Rodrigues"
       user-mail-address "rodrigues.am@usp.br")
 
+(setq bookmark-save-flag 1)
+
 (setq dired-dwim-target t)
 
-;; (use-package eglot-grammarly
-;;  :ensure t
-;;  :hook (text-mode . (lambda ()
-;;                       (require 'eglot-grammarly)
-;;                       (call-interactively #'eglot))))
+(use-package lsp-grammarly
+  :ensure t
+  :hook ((text-mode org-mode) . (lambda ()
+                       (require 'lsp-grammarly)
+                       (lsp)))) ; or lsp-deferred
+
+(use-package grammarly
+  :ensure t)
+
+(use-package chatgpt-shell
+  :ensure t
+  :custom
+  ((chatgpt-shell-openai-key
+    (lambda ()
+      (auth-source-pass-get 'secret "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")))))
 
 (setq org-directory "~/notas/")
 
-(defun amr-clean ()
-   (display-line-numbers-mode 0)
+;;(defun amr-clean ()
+  ;; (display-line-numbers-mode 0)
 ;;   (set-fill-column 110)
-(set-window-margins (selected-window) 40 40)
+;;(set-window-margins (selected-window) 40 40)
 ;;   (setq left-margin-width 20)
   ;;                                                             (setq right-margin-width 10)
-   (company-mode -1))
-(add-hook 'org-mode-hook 'amr-clean)
+  ;; (company-mode -1))
+;;(add-hook 'org-mode-hook 'amr-clean)
 
-(setq
-org-superstar-headline-bullets-list '("" "⍟" "" "⁖" "⋄" "✸" "✿"))
+;; (setq
+;; org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
 
-(use-package org-fancy-priorities
+
+;; (use-package org-fancy-priorities
+;;   :ensure t
+;;   :hook
+;;   (org-mode . org-fancy-priorities-mode)
+;;   :config
+;;   (setq org-fancy-priorities-list '("🔴" "🔶" "🟩")))
+
+(use-package org-modern
   :ensure t
   :hook
-  (org-mode . org-fancy-priorities-mode)
-  :config
-  (setq org-fancy-priorities-list '("🔴" "🔶" "🟩")))
+  (org-mode . org-modern-mode)
+  :custom
+  (org-modern-star '("" "" "⍟" "⋄" "✸" "✿")))
+
+(with-eval-after-load 'org (global-org-modern-mode))
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "READ(l)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")))
@@ -48,13 +70,37 @@ org-superstar-headline-bullets-list '("" "⍟" "" "⁖" "⋄" "✸" "✿")
   'org-babel-load-languages
   '((plantuml . t)))
 
-(setq org-plantuml-jar-path
-      (expand-file-name
-       "~/.script/plantuml-1.2022.8.jar"))
+;;(setq org-plantuml-jar-path
+ ;;     (expand-file-name
+;;       "~/.script/plantuml-1.2022.8.jar"))
 
 (setq doom-theme 'doom-one)
 
 (setq display-line-numbers-type t)
+
+(use-package golden-ratio
+  :ensure t)
+
+;;(straight-use-package
+;;  '(nano :type git :host github :repo "rougier/nano-emacs"))
+
+(use-package bespoke-themes
+  :straight (:host github :repo "mclear-tools/bespoke-themes" :branch "main")
+  :config
+  ;; Set evil cursor colors
+  (setq bespoke-set-evil-cursors t)
+  ;; Set use of italics
+  (setq bespoke-set-italic-comments t
+        bespoke-set-italic-keywords t)
+  ;; Set variable pitch
+  (setq bespoke-set-variable-pitch t)
+  ;; Set initial theme variant
+  (setq bespoke-set-theme 'dark)
+  ;; Load theme
+  (load-theme 'bespoke t))
+
+(use-package olivetti
+  :ensure t)
 
 (use-package org-roam
  :ensure t
@@ -303,7 +349,5 @@ org-superstar-headline-bullets-list '("" "⍟" "" "⁖" "⋄" "✸" "✿")
         ))
 
 (after! projectile
-
           (setq projectile-project-root-files-bottom-up
-
                 (remove ".git" projectile-project-root-files-bottom-up)))

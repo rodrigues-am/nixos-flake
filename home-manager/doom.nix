@@ -7,6 +7,18 @@ home = {
       DOOMDIR = "${config.xdg.configHome}/doom-config";
       DOOMLOCALDIR = "${config.xdg.configHome}/doom-local";      
     };
+
+    packages = with pkgs; [
+
+    emacs29-pgtk
+    emacsPackages.nerd-icons
+    emacsPackages.pdf-tools
+    (pkgs.mu.override { emacs = emacs29-pgtk; })
+    emacsPackages.mu4e
+    isync
+    msmtp
+  ];
+
   };
 
 xdg = {
@@ -18,6 +30,10 @@ xdg = {
    };
   };
 
-
+# services.mbsync = {
+#     enable = true;
+#     package = pkgs.isync;
+#     frequency = "*:0/5";
+#   };
 
 }

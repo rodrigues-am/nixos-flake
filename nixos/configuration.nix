@@ -146,6 +146,10 @@ in
       rust-analyzer
       cargo
 
+      #nodejs
+      nodejs_21
+      nodePackages.grammarly-languageserver
+
     ];
   };
 
@@ -162,7 +166,6 @@ in
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
 
-    nodePackages.grammarly-languageserver
     emacsPackages.pdf-tools
     gnome.gucharmap
 
