@@ -17,6 +17,14 @@ Some personal information.
 ;; (require 'amr.el)
 #+end_src
 
+* Pass
+#+begin_src emacs-lisp
+(use-package auth-source
+  :ensure t
+  :custom
+  (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
+#+end_src
+
 * Bookmarks
 
 #+begin_src emacs-lisp
@@ -24,12 +32,9 @@ Some personal information.
 #+end_src
 
 * Dired
-
 #+begin_src emacs-lisp
 (setq dired-dwim-target t)
 #+end_src
-
-
 * Grammarly
 
 #+begin_src emacs-lisp
@@ -46,37 +51,40 @@ Some personal information.
   :ensure t)
 #+end_src
 
-
-
 * ChatGPT
 
 #+begin_src emacs-lisp
 
+;; (use-package shell-maker
+;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
+
+;; (use-package chatgpt-shell
+;;   :requires shell-maker
+;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el"))
+;;   :ensure t
+;;   :custom
+;;   ((chatgpt-shell-openai-key
+;;     (lambda ()
+;;       (auth-source-pass-get 'secret "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")))))
+
 (use-package shell-maker
-  :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
+  :ensure t)
 
 (use-package chatgpt-shell
   :requires shell-maker
-  :straight (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el"))
   :ensure t
   :custom
-  ((chatgpt-shell-openai-key
-    (lambda ()
-      (auth-source-pass-get 'secret "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")))))
-
-(use-package chatgpt-shell
-  :ensure t
-  :custom
-  ((chatgpt-shell-openai-key
-    (lambda ()
-      (auth-source-pass-get 'secret "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")))))
+  (chatgpt-shell-openai-key "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"))
 #+end_src
+
 
 * Org-mode
 
 #+begin_src emacs-lisp
 (setq org-directory "~/notas/")
 #+end_src
+
+
 
 ** Visual do org-mode
 
@@ -93,16 +101,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   ;; (company-mode -1))
 ;;(add-hook 'org-mode-hook 'amr-clean)
 
-;; (setq
-;; org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
-
-
-;; (use-package org-fancy-priorities
-;;   :ensure t
-;;   :hook
-;;   (org-mode . org-fancy-priorities-mode)
-;;   :config
-;;   (setq org-fancy-priorities-list '("🔴" "🔶" "🟩")))
 
 (use-package org-modern
   :ensure t
@@ -111,6 +109,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   :custom
   (org-modern-star '("" "" "⍟" "⋄" "✸" "✿")))
 #+end_src
+
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org (global-org-modern-mode))
@@ -136,9 +135,9 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 
 ** Burly
-#+begin_src emacs-lisp  :tangle no
+#+begin_src emacs-lisp
 (use-package burly
-  ensure t)
+  :ensure t)
 #+end_src
 
 ** Abbrev
@@ -169,7 +168,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 #+begin_src emacs-lisp
 
-(setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-one)
 
 (setq display-line-numbers-type t)
 
@@ -190,7 +189,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 #+begin_src emacs-lisp
 (use-package bespoke-themes
-  :straight (:host github :repo "mclear-tools/bespoke-themes" :branch "main")
   :config
   ;; Set evil cursor colors
   (setq bespoke-set-evil-cursors t)
@@ -302,28 +300,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 #+end_src
 
-** Org-gcal
-
-#+begin_src emacs-lisp
-
-;; (require 'org-gcal)
-;; (setq org-gcal-client-id "873354957001-1lbdhjvqp9f9l63qg1tmmunq2ra3jsqk.apps.googleusercontent.com"
-;;       org-gcal-client-secret "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"
-;;       org-gcal-fetch-file-alist '(("rodrigues.am@usp.br" .  "~/notas/cal.org")))
-
-#+end_src
-
-** Org-gtask
-
-#+begin_src emacs-lisp
-
-;; (require 'org-gtasks)
-;; (org-gtasks-register-account :name "rodrigues.am@usp.br"
-;;                              :directory "~/notas/"
-;;                              :client-id "873354957001-1lbdhjvqp9f9l63qg1tmmunq2ra3jsqk.apps.googleusercontent.com"
-;;                              :client-secret "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")
-
-#+end_src
 
 ** Org-agenda-export
 
@@ -346,7 +322,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
         ))
 
 #+end_src
-
 
 * Elfeed
 
@@ -561,8 +536,6 @@ Recomendação feita por Doom Doctor
 
 #+end_src
 
-
-
 * Perspective
 
 #+begin_src emacs-lisp :tangle no
@@ -600,17 +573,15 @@ Recomendação feita por Doom Doctor
 
 #+end_src
 
-*** Company completion
+* Company completion
 
-#+begin_src emacs-lisp :tangle no
-
-(eval-after-load "company"
- '(add-to-list 'company-backends 'company-anaconda))
-
-(add-hook 'python-mode-hook 'anaconda-mode)
-
- ;; (after! anaconda-mode
- ;;  (set-company-backend! 'anaconda-mode '(company-anaconda company-yasnippet)))
-
-
+#+begin_src emacs-lisp
+(use-package company
+  :ensure t
+  :custom
+  (company-minimum-prefix-length 4)
+  (company-idle-delay 0.5))
 #+end_src
+
+#+RESULTS:
+| anaconda-mode | doom-modeline-env-setup-python | doom--enable-+web-django-mode-in-python-mode-h | pipenv-mode |

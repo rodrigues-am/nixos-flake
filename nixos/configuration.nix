@@ -8,16 +8,14 @@ let
 
   user = "andre";
 
-in
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./nvidia.nix
-      ./syncthing.nix
-      #./hyprland.nix
-      ./game.nix
-    ];
+in {
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./nvidia.nix
+    ./syncthing.nix
+    #./hyprland.nix
+    ./game.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -28,10 +26,9 @@ in
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+      experimental-features = nix-command flakes
+    '';
   };
-
 
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -110,7 +107,6 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.andre = {
     isNormalUser = true;
@@ -150,15 +146,18 @@ in
       nodejs_21
       nodePackages.grammarly-languageserver
 
+      #Web
+      html-tidy
+      stylelint
+      nodePackages.js-beautify
+
+      #Nix
+      nixfmt
     ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  nixpkgs.config.permittedInsecurePackages = [
-                "zotero-6.0.27"
-              ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -166,7 +165,6 @@ in
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
 
-    emacsPackages.pdf-tools
     gnome.gucharmap
 
     alacritty
@@ -187,21 +185,28 @@ in
     ffmpeg_6-full
     feh
     gnucash
+    gnumake
+    gnupg
+    gnuplot
     gimp-with-plugins
     git
+    graphviz
     htop
     hugo
     home-manager
     inkscape-with-extensions
     imagemagick
+    jq # A lightweight and flexible command-line JSON processor
     libreoffice
     leftwm
     mpv
+    maim # A command-line screenshot utility to emacs
     nyxt
     neofetch
     neovim
     libsForQt5.okular
     pandoc
+    pass
     plantuml
     polybarFull
     pdftk
@@ -212,16 +217,19 @@ in
     syncthing
     stow
     starship
+    shfmt
+    shellcheck
+    sxhkd
     zathura
     zotero
     zoom
     wget
     xournal
+    xclip
 
     # receita tex
     #
     texlive.combined.scheme-full
-
 
     hyprland
     waybar
@@ -249,7 +257,6 @@ in
   # };
 
   # List services that you want to enable:
-
 
   # programs.gnupg.agent = {
   #    enable = true;

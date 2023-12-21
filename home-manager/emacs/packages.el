@@ -76,6 +76,7 @@
 (package! websocket)
 (package! htmlize)
 (package! burly)
+(package! olivetti)
 
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
@@ -86,9 +87,15 @@
 (package! nano-emacs
   :recipe (:host github :repo "rougier/nano-emacs"))
 
+(package! bespoke-themes
+  :recipe (:host github :repo "mclear-tools/bespoke-themes" :branch "main"))
+
+;;(package! shell-maker)
+;;(package! chatgpt-shell)
+
 ;; (package! shell maker
 ;;   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
-;; (package! chatgpt-shell
+;;(package! chatgpt-shell
 ;;   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el")))
 ;; Org Roam Bibtext
 ;;(package! org-roam-bibtex

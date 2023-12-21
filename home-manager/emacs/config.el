@@ -1,25 +1,45 @@
 (setq user-full-name "André Rodrigues"
       user-mail-address "rodrigues.am@usp.br")
 
+(use-package auth-source
+  :ensure t
+  :custom
+  (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
+
 (setq bookmark-save-flag 1)
 
 (setq dired-dwim-target t)
 
 (use-package lsp-grammarly
   :ensure t
-  :hook ((text-mode org-mode) . (lambda ()
-                       (require 'lsp-grammarly)
-                       (lsp)))) ; or lsp-deferred
+  ;; :hook ((text-mode org-mode) . (lambda ()
+  ;;                      (require 'lsp-grammarly)
+  ;;                      (lsp)))
+  ) ; or lsp-deferred
 
 (use-package grammarly
   :ensure t)
 
+;; (use-package shell-maker
+;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
+
+;; (use-package chatgpt-shell
+;;   :requires shell-maker
+;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el"))
+;;   :ensure t
+;;   :custom
+;;   ((chatgpt-shell-openai-key
+;;     (lambda ()
+;;       (auth-source-pass-get 'secret "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")))))
+
+(use-package shell-maker
+  :ensure t)
+
 (use-package chatgpt-shell
+  :requires shell-maker
   :ensure t
   :custom
-  ((chatgpt-shell-openai-key
-    (lambda ()
-      (auth-source-pass-get 'secret "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")))))
+  (chatgpt-shell-openai-key "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"))
 
 (setq org-directory "~/notas/")
 
@@ -32,16 +52,6 @@
   ;; (company-mode -1))
 ;;(add-hook 'org-mode-hook 'amr-clean)
 
-;; (setq
-;; org-superstar-headline-bullets-list '("" "" "⍟" "⋄" "✸" "✿"))
-
-
-;; (use-package org-fancy-priorities
-;;   :ensure t
-;;   :hook
-;;   (org-mode . org-fancy-priorities-mode)
-;;   :config
-;;   (setq org-fancy-priorities-list '("🔴" "🔶" "🟩")))
 
 (use-package org-modern
   :ensure t
@@ -63,6 +73,9 @@
         ("DONE"  . "#CCCCCC")
         ("KILL"  . "#FF0000")))
 
+(use-package burly
+  :ensure t)
+
 (setq abbrev-file-name
         "~/notas/.abbrev_defs.el")
 
@@ -74,7 +87,7 @@
  ;;     (expand-file-name
 ;;       "~/.script/plantuml-1.2022.8.jar"))
 
-(setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-one)
 
 (setq display-line-numbers-type t)
 
@@ -85,7 +98,6 @@
 ;;  '(nano :type git :host github :repo "rougier/nano-emacs"))
 
 (use-package bespoke-themes
-  :straight (:host github :repo "mclear-tools/bespoke-themes" :branch "main")
   :config
   ;; Set evil cursor colors
   (setq bespoke-set-evil-cursors t)
@@ -177,17 +189,6 @@
          (:name "Scheduled earlier"
                 :scheduled past))))
   (org-agenda-list))
-
-;; (require 'org-gcal)
-;; (setq org-gcal-client-id "873354957001-1lbdhjvqp9f9l63qg1tmmunq2ra3jsqk.apps.googleusercontent.com"
-;;       org-gcal-client-secret "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"
-;;       org-gcal-fetch-file-alist '(("rodrigues.am@usp.br" .  "~/notas/cal.org")))
-
-;; (require 'org-gtasks)
-;; (org-gtasks-register-account :name "rodrigues.am@usp.br"
-;;                              :directory "~/notas/"
-;;                              :client-id "873354957001-1lbdhjvqp9f9l63qg1tmmunq2ra3jsqk.apps.googleusercontent.com"
-;;                              :client-secret "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")
 
 (setq org-agenda-custom-commands
    '(("X" agenda "" nil ("~/org-agenda/agenda.html" "~/org-agenda/agenda.ps"))
@@ -351,3 +352,9 @@
 (after! projectile
           (setq projectile-project-root-files-bottom-up
                 (remove ".git" projectile-project-root-files-bottom-up)))
+
+(use-package company
+  :ensure t
+  :custom
+  (company-minimum-prefix-length 4)
+  (company-idle-delay 0.5))
