@@ -17,10 +17,6 @@ in {
     #./game.nix
   ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   programs.hyprland.enable = true;
 
   nix = {
