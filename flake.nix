@@ -16,23 +16,49 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
+        home-desktop = nixpkgs.lib.nixosSystem {
 
           modules = [
+
+            ./nixos/home-desktop/hardware-configuration.nix
             ./nixos/configuration.nix
+            ./nixos/app/image.nix
+            ./nixos/home-desktop/nvidia.nix
+            ./nixos/home-desktop/game.nix
+            ./nixos/desktop-keymap.nix
 
-           home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useUserPackages = true;
-              useGlobalPkgs = true;
-              users.andre = ./home-manager/home.nix;
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                users.andre = ./home-manager/home.nix;
 
-            };
-          }
+              };
+            }
 
           ];
         };
+
+        hp-laptop = nixpkgs.lib.nixosSystem {
+
+          modules = [
+            ./nixos/hp-laptop/hardware-configuration.nix
+            ./nixos/configuration.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                users.andre = ./home-manager/home.nix;
+
+              };
+            }
+
+          ];
+        };
+
       };
     };
 }

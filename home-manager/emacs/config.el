@@ -20,27 +20,6 @@
 (use-package grammarly
   :ensure t)
 
-;; (use-package shell-maker
-;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
-
-;; (use-package chatgpt-shell
-;;   :requires shell-maker
-;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el"))
-;;   :ensure t
-;;   :custom
-;;   ((chatgpt-shell-openai-key
-;;     (lambda ()
-;;       (auth-source-pass-get 'secret "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")))))
-
-(use-package shell-maker
-  :ensure t)
-
-(use-package chatgpt-shell
-  :requires shell-maker
-  :ensure t
-  :custom
-  (chatgpt-shell-openai-key "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"))
-
 (setq org-directory "~/notas/")
 
 ;;(defun amr-clean ()

@@ -10,11 +10,11 @@ let
 
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    ./nvidia.nix
+    #./hardware-configuration.nix
+    #./nvidia.nix
     ./syncthing.nix
     #./hyprland.nix
-    ./game.nix
+    #./game.nix
   ];
 
   # Bootloader.
@@ -74,15 +74,6 @@ in {
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "intl";
-  };
-
-  # Configure console keymap
-  console.keyMap = "us-acentos";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -182,20 +173,16 @@ in {
     fzf
     firefox
     fd
-    ffmpeg_6-full
     feh
     gnucash
     gnumake
     gnupg
     gnuplot
-    gimp-with-plugins
     git
     graphviz
     htop
     hugo
     home-manager
-    inkscape-with-extensions
-    imagemagick
     jq # A lightweight and flexible command-line JSON processor
     libreoffice
     leftwm

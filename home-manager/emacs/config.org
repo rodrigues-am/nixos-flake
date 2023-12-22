@@ -53,7 +53,7 @@ Some personal information.
 
 * ChatGPT
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
 ;; (use-package shell-maker
 ;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
@@ -65,7 +65,7 @@ Some personal information.
 ;;   :custom
 ;;   ((chatgpt-shell-openai-key
 ;;     (lambda ()
-;;       (auth-source-pass-get 'secret "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")))))
+;;       (auth-source-pass-get 'secret "XXX")))))
 
 (use-package shell-maker
   :ensure t)
@@ -74,7 +74,7 @@ Some personal information.
   :requires shell-maker
   :ensure t
   :custom
-  (chatgpt-shell-openai-key "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"))
+  (chatgpt-shell-openai-key "XXX"))
 #+end_src
 
 
