@@ -45,6 +45,7 @@
           modules = [
             ./nixos/hp-laptop/hardware-configuration.nix
             ./nixos/configuration.nix
+            ./nixos/hp-laptop/hp-laptop-keymap.nix
 
             home-manager.nixosModules.home-manager
             {
