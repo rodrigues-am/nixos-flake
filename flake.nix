@@ -47,7 +47,7 @@
             ./nixos/hp-laptop/hardware-configuration.nix
             ./nixos/configuration.nix
             ./nixos/hp-laptop/keymap-hp-laptop.nix
-            .nixos/hp-laptop/boot-hp-laptop.nix
+            ./nixos/hp-laptop/boot-hp-laptop.nix
 
             home-manager.nixosModules.home-manager
             {
