@@ -20,6 +20,16 @@
 (use-package grammarly
   :ensure t)
 
+(use-package shell-maker
+  :ensure t)
+
+(use-package chatgpt-shell
+  :requires shell-maker
+  :ensure t)
+
+(use-package gptel
+  :ensure t)
+
 (setq org-directory "~/notas/")
 
 ;;(defun amr-clean ()
@@ -62,19 +72,14 @@
   'org-babel-load-languages
   '((plantuml . t)))
 
-;;(setq org-plantuml-jar-path
- ;;     (expand-file-name
-;;       "~/.script/plantuml-1.2022.8.jar"))
-
 ;;(setq doom-theme 'doom-one)
-
 (setq display-line-numbers-type t)
 
 (use-package golden-ratio
   :ensure t)
 
-;;(straight-use-package
-;;  '(nano :type git :host github :repo "rougier/nano-emacs"))
+;;(use-package nano-emacs
+;;  :ensure t)
 
 (use-package bespoke-themes
   :config

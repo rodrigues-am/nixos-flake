@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
 
@@ -13,8 +13,10 @@ in {
     #./hardware-configuration.nix
     #./nvidia.nix
     ./syncthing.nix
+    inputs.sops-nix.nixosModules.sops
     #./hyprland.nix
     #./game.nix
+
   ];
 
   programs.hyprland.enable = true;
@@ -24,6 +26,14 @@ in {
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "~/sync/pessoal/security/sops-keys.txt";
+
+    #secrets.hello = { };
   };
 
   # networking.hostName = "nixos"; # Define your hostname.
@@ -140,6 +150,9 @@ in {
 
       #Nix
       nixfmt
+
+      #Yaml
+      yaml-language-server
     ];
   };
 
@@ -149,77 +162,80 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
 
-    gnome.gucharmap
+    aspell
+    aspellDicts.pt_BR
+    aspellDicts.en
+    hunspell
+    hunspellDicts.pt_BR
+    hunspellDicts.en_US-large
 
     alacritty
+    age
     auctex
-    brave
     bat
-    curl
+    brave
     calibre
     cmake
+    curl
     dmenu
+    dunst
+    element-desktop
     espanso
     espanso-wayland
     eza
-    element-desktop
-    fzf
-    firefox
     fd
     feh
+    firefox
+    fzf
+    gh
+    git
+    gnome.gucharmap
     gnucash
     gnumake
     gnupg
     gnuplot
-    git
     graphviz
+    home-manager
     htop
     hugo
-    home-manager
+    hyprland
     jq # A lightweight and flexible command-line JSON processor
-    libreoffice
     leftwm
-    mpv
+    libreoffice
+    libsForQt5.okular
     maim # A command-line screenshot utility to emacs
-    nyxt
+    mpv
     neofetch
     neovim
-    libsForQt5.okular
+    nyxt
     pandoc
     pass
-    plantuml
-    polybarFull
     pdftk
     picom
+    plantuml
+    polybarFull
     ranger
     ripgrep
     rofi
-    syncthing
-    stow
-    starship
-    shfmt
-    shellcheck
-    sxhkd
-    zathura
-    zotero
-    zoom
-    wget
-    xournal
-    xclip
-
-    # receita tex
-    #
-    texlive.combined.scheme-full
-
-    hyprland
-    waybar
     rofi-wayland
+    shellcheck
+    shfmt
+    starship
+    stow
     swww
-    dunst
+    sops
+    sxhkd
+    syncthing
+    texlive.combined.scheme-full
+    waybar
+    wget
+    xclip
     xdg-desktop-portal-hyprland
+    xournal
+    zathura
+    zoom
+    zotero
 
     # fonts
     dejavu_fonts

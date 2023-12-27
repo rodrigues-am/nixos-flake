@@ -77,6 +77,7 @@
 (package! htmlize)
 (package! burly)
 (package! olivetti)
+(package! gptel)
 
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
@@ -84,25 +85,10 @@
 (package! golden-ratio
   :recipe (:host github :repo "roman/golden-ratio.el" :files ("golden-ratio.el")))
 
-(package! nano-emacs
-  :recipe (:host github :repo "rougier/nano-emacs"))
+;;(package! nano-emacs
+;;  :recipe (:host github :repo "rougier/nano-emacs"))
 
 (package! bespoke-themes
   :recipe (:host github :repo "mclear-tools/bespoke-themes" :branch "main"))
-
-;;(package! shell-maker)
-;;(package! chatgpt-shell)
-
-;; (package! shell maker
-;;   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
-;;(package! chatgpt-shell
-;;   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el")))
-;; Org Roam Bibtext
-;;(package! org-roam-bibtex
-;;  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
-;;
-;; (package! perspective)
-;;(package! org-gtasks
-;;  :recipe (:host github :repo "JulienMasson/org-gtasks" :files ("*.el" "out")))
 
 ;; ends here

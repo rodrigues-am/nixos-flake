@@ -53,30 +53,21 @@ Some personal information.
 
 * ChatGPT
 
-#+begin_src emacs-lisp :tangle no
 
-;; (use-package shell-maker
-;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
-
-;; (use-package chatgpt-shell
-;;   :requires shell-maker
-;;   :straight (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el"))
-;;   :ensure t
-;;   :custom
-;;   ((chatgpt-shell-openai-key
-;;     (lambda ()
-;;       (auth-source-pass-get 'secret "XXX")))))
-
+** Chatgpt-shell
+#+begin_src emacs-lisp
 (use-package shell-maker
   :ensure t)
 
 (use-package chatgpt-shell
   :requires shell-maker
-  :ensure t
-  :custom
-  (chatgpt-shell-openai-key "XXX"))
+  :ensure t)
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package gptel
+  :ensure t)
+#+end_src
 
 * Org-mode
 
@@ -154,35 +145,26 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 (org-babel-do-load-languages
   'org-babel-load-languages
   '((plantuml . t)))
-
-;;(setq org-plantuml-jar-path
- ;;     (expand-file-name
-;;       "~/.script/plantuml-1.2022.8.jar"))
-
 #+end_src
 
-#+RESULTS:
-: /home/andre/.script/plantuml-1.2022.8.jar
 
 * Visual
 
 #+begin_src emacs-lisp
-
 ;;(setq doom-theme 'doom-one)
-
 (setq display-line-numbers-type t)
-
 #+end_src
 
 #+begin_src emacs-lisp
 (use-package golden-ratio
   :ensure t)
-
 #+end_src
+
 ** Nano
+
 #+begin_src emacs-lisp
-;;(straight-use-package
-;;  '(nano :type git :host github :repo "rougier/nano-emacs"))
+(use-package nano-emacs
+  :ensure t)
 #+end_src
 
 ** Themes-bespoke
@@ -208,12 +190,10 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 #+begin_src emacs-lisp
 (use-package olivetti
   :ensure t)
-
 #+end_src
 * Org-Roam
 
 #+begin_src emacs-lisp
-
 (use-package org-roam
  :ensure t
  :init
@@ -264,7 +244,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
         ("C-M-i" . completion-at-point))
  :config
   (org-roam-setup))
-
 #+end_src
 
 * Org-super-agenda
@@ -346,28 +325,22 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 ** HUGO
 
 #+begin_src emacs-lisp
-
 (with-eval-after-load 'ox
     (require 'ox-hugo))
-
- #+end_src
+#+end_src
 
 ** Capture template
 #+begin_src emacs-lisp
-
 (setq org-capture-templates
       '(("b" "blog post" entry
          (file+headline "~/blog/blog.org" "NO New ideas")
          (file "~/blog/org-templates/post.org"))))
-
-
 #+end_src
 
 * Templates
 
 *** Mettings
 #+begin_src emacs-lisp
-
 (require 'org-tempo)
 (tempo-define-template "org-meeting" ; just some name for the template
                       '("*** m: "
@@ -387,8 +360,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
           "<rj"
           "Insert Negado" ; documentation
           'org-tempo-tags)
-
-
 #+end_src
 
 *** Emacs-lisp block (el)

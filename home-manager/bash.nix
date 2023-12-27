@@ -20,9 +20,9 @@
       ls = "exa --icons";
       cat = "bat";
       gedit = "gnome-text-editor";
-      nixos-home-desktop =
+      amr-nixos-home-desktop =
         "sudo nixos-rebuild switch --flake ~/nixos-flake#home-desktop";
-      nixos-hp-laptop =
+      amr-nixos-hp-laptop =
         "sudo nixos-rebuild switch --flake ~/nixos-flake#hp-laptop";
     };
 
