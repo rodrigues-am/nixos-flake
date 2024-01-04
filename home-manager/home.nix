@@ -44,6 +44,7 @@
     #   # espanso
     ".config/espanso/match/base.yml".source = ./espanso/match/base.yml;
 
+    #".config/sxhkdrc".source = ./sxhkdrc;
     #  ".emacs.d/early-init.el".source =  ~/.config/emacs/early-init.el;
 
     #   # leftwm (window-manager)

@@ -162,7 +162,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 ** Nano
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package nano-emacs
   :ensure t)
 #+end_src
@@ -309,7 +309,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 (use-package elfeed-org
   :defer
   :config
-  (setq rmh-elfeed-org-files (list "~/notas/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/sync/pessoal/elfeed/elfeed.org"))
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
 (use-package elfeed-goodies
@@ -317,7 +317,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
   :custom
   (feed-source-column-width 75)
   (tag-column-width 30))
-
 #+end_src
 
 * Blog
@@ -337,10 +336,20 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
          (file "~/blog/org-templates/post.org"))))
 #+end_src
 
+* Yasnippet
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs '("~/sync/pessoal/emacs/snippets"))
+  (yas-global-mode 1))
+#+end_src
+
 * Templates
 
 *** Mettings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle t
 (require 'org-tempo)
 (tempo-define-template "org-meeting" ; just some name for the template
                       '("*** m: "
@@ -363,7 +372,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 #+end_src
 
 *** Emacs-lisp block (el)
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (tempo-define-template "emacs-lisp" ; just some name for the template
                       '("#+begin_src emacs-lisp" n p n "#+end_src")
           "<el"

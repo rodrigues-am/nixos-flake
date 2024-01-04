@@ -31,9 +31,7 @@ in {
   sops = {
     defaultSopsFile = ./secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile = "~/sync/pessoal/security/sops-keys.txt";
-
-    #secrets.hello = { };
+    age.keyFile = ".config/sops/age/keys.txt";
   };
 
   # networking.hostName = "nixos"; # Define your hostname.
@@ -271,21 +269,22 @@ in {
   #  };
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+
+  services.openssh.enable = true;
+  networking.firewall.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ 80 443];
   #   networking.firewall.allowedUDPPorts = [{from=4000; to=4007;} {from=8000; to=8010;} ];
   # Or disable the firewall altogether.
-  #networking.firewall.enable = true;
 
   services.postgresql.enable = true;
-
+  #services.sxhkd.enable = true;
   services.espanso.enable = true;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }

@@ -1,0 +1,5 @@
+super + Return
+	alacritty
+
+super + o ; {e,b,z,f}
+	{emacs,brave,zotero,nautilus}
