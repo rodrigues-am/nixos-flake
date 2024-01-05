@@ -40,14 +40,71 @@ Some personal information.
 #+begin_src emacs-lisp
 (use-package lsp-grammarly
   :ensure t
-  ;; :hook ((text-mode org-mode) . (lambda ()
-  ;;                      (require 'lsp-grammarly)
-  ;;                      (lsp)))
-  ) ; or lsp-deferred
+  :hook ((text-mode org-mode) . (lambda ()
+                        (require 'lsp-grammarly)
+                        (lsp)))) ; or lsp-deferred
 #+end_src
 
 #+begin_src emacs-lisp
 (use-package grammarly
+  :ensure t)
+#+end_src
+* SpellCheck
+
+#+begin_src emacs-lisp
+(use-package flyspell
+  :defer t
+  :config
+  (add-to-list 'ispell-skip-region-alist '("~" "~"))
+  (add-to-list 'ispell-skip-region-alist '("=" "="))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC"))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_EXPORT" . "^#\\+END_EXPORT"))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_EXPORT" . "^#\\+END_EXPORT"))
+  (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+
+  (dolist (mode '(
+                  ;;org-mode-hook
+                  mu4e-compose-mode-hook))
+    (add-hook mode (lambda () (flyspell-mode 1)))))
+#+end_src
+* Writeroom
+
+#+begin_src emacs-lisp
+(use-package writeroom-mode
+  :defer t
+  :config
+  (setq writeroom-maximize-window nil
+        writeroom-mode-line t
+        writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
+        writeroom-extra-line-spacing 3)
+  (setq writeroom-width visual-fill-column-width))
+#+end_src
+
+* Social network
+
+** Telegram Client
+
+#+begin_src emacs-lisp
+(use-package telega
+  )
+#+end_src
+
+** Ement - Matrix Client
+
+#+begin_src emacs-lisp
+(use-package ement
+  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
+#+end_src
+
+** Matodon
+
+#+begin_src emacs-lisp
+(use-package mastodon
+  :ensure t)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package mastodon-alt
   :ensure t)
 #+end_src
 
@@ -135,7 +192,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 #+begin_src emacs-lisp
 (setq abbrev-file-name
-        "~/notas/.abbrev_defs.el")
+        "~/sync/pessoal/emacs/abbrev/.abbrev_defs.el")
 #+end_src
 
 
@@ -162,7 +219,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 ** Nano
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle t
 (use-package nano-emacs
   :ensure t)
 #+end_src
@@ -182,7 +239,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   ;; Set initial theme variant
   (setq bespoke-set-theme 'dark)
   ;; Load theme
-  (load-theme 'bespoke t))
+  (load-theme  'bespoke t))
 #+end_src
 
 ** Olivetti-mode
@@ -246,45 +303,138 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   (org-roam-setup))
 #+end_src
 
-* Org-super-agenda
+* Agenda
 
-** TODO Verificar se funciona
+** Org-agenda
+#+begin_src emacs-lisp
+(setq org-agenda-span 1
+      org-agenda-start-day "+0d"
+      org-agenda-skip-timestamp-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-scheduled-if-deadline-is-shown t
+      org-agenda-skip-timestamp-if-deadline-is-shown t)
+
+;; Ricing org agenda
+(setq org-agenda-current-time-string "")
+(setq org-agenda-time-grid '((daily) () "" ""))
+
+(setq org-agenda-prefix-format '(
+(agenda . "  %?-2i %t ")
+ (todo . " %i %-12:c")
+ (tags . " %i %-12:c")
+ (search . " %i %-12:c")))
+
+(setq org-agenda-hide-tags-regexp ".*")
+
+#+end_src
+#+begin_src emacs-lisp :tangle no
+(setq org-agenda-category-icon-alist
+      `(("Teaching.p" ,(list (all-the-icons-faicon "graduation-cap" :height 0.8)) nil nil :ascent center)
+        ("Family.s" ,(list (all-the-icons-faicon "home" :v-adjust 0.005)) nil nil :ascent center)
+        ("Producer.p" ,(list (all-the-icons-faicon "youtube-play" :height 0.9)) nil nil :ascent center)
+        ("Bard.p" ,(list (all-the-icons-faicon "music" :height 0.9)) nil nil :ascent center)
+        ("Stories.s" ,(list (all-the-icons-faicon "book" :height 0.9)) nil nil :ascent center)
+        ("Author.p" ,(list (all-the-icons-faicon "pencil" :height 0.9)) nil nil :ascent center)
+        ("Gamedev.s" ,(list (all-the-icons-faicon "gamepad" :height 0.9)) nil nil :ascent center)
+        ("Knowledge.p" ,(list (all-the-icons-faicon "database" :height 0.8)) nil nil :ascent center)
+        ("Personal.p" ,(list (all-the-icons-material "person" :height 0.9)) nil nil :ascent center)))
+#+end_src
+
+#+begin_src emacs-lisp
+;; Function to be run when org-agenda is opened
+(defun org-agenda-open-hook ()
+  "Hook to be run when org-agenda is opened"
+  (olivetti-mode))
+
+;; Adds hook to org agenda mode, making follow mode active in org agenda
+(add-hook 'org-agenda-mode-hook 'org-agenda-open-hook)
+#+end_src
+
+** Org-super-agenda
 
 #+begin_src emacs-lisp
 
 ;; org-super-agenda
 
- (let ((org-super-agenda-groups
-       '((:log t)  ; Automatically named "Log"
-         (:name "Schedule"
-                :time-grid t)
-         (:name "Today"
-                :scheduled today)
-         (:habit t)
-         (:name "Due today"
-                :deadline today)
-         (:name "Overdue"
-                :deadline past)
-         (:name "Due soon"
-                :deadline future)
-         (:name "Unimportant"
-                :todo "START"
-                :order 100)
-         (:name "HOLD"
-                :todo "HOLD"
-                :order 98)
-         (:name "Scheduled earlier"
-                :scheduled past))))
-  (org-agenda-list))
+(use-package org-super-agenda
+  :after org
+  :config
+  (setq org-super-agenda-header-map nil) ;; takes over 'j'
+  ;; (setq org-super-agenda-header-prefix " ◦ ") ;; There are some unicode "THIN SPACE"s after the ◦
+  ;; Hide the thin width char glyph. This is dramatic but lets me not be annoyed
+  (add-hook 'org-agenda-mode-hook
+            #'(lambda () (setq-local nobreak-char-display nil)))
+  (org-super-agenda-mode)
+  (setq org-super-agenda-groups
+       '(;; Each group has an implicit boolean OR operator between its selectors.
+         (:name " Overdue "  ; Optionally specify section name
+                :scheduled past
+                :order 2
+                :face 'error)
+
+         ;; (:name "Personal "
+         ;;        :and(:file-path "Personal.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Family "
+         ;;        :and(:file-path "Family.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Teaching "
+         ;;        :and(:file-path "Teaching.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Gamedev "
+         ;;        :and(:file-path "Gamedev.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Youtube "
+         ;;        :and(:file-path "Producer.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Music "
+         ;;        :and(:file-path "Bard.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Storywriting "
+         ;;        :and(:file-path "Stories.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Writing "
+         ;;        :and(:file-path "Author.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Learning "
+         ;;        :and(:file-path "Knowledge.p" :not (:tag "event"))
+         ;;        :order 3)
+
+          (:name " Today "  ; Optionally specify section name
+                :time-grid t
+                :date today
+                :scheduled today
+                :order 1
+                :face 'warning)
+
+))
+
+(org-super-agenda-mode t)
+)
 
 #+end_src
 
+** Org-ql
+#+begin_src emacs-lisp
+(use-package org-ql
+  :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
+            :files (:defaults (:exclude "helm-org-ql.el"))))
+#+end_src
 
-** Org-agenda-export
+** TODO Org-agenda-export
 
 Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views.html][Org-export-agenda-view]]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
 (setq org-agenda-custom-commands
    '(("X" agenda "" nil ("~/org-agenda/agenda.html" "~/org-agenda/agenda.ps"))
@@ -330,13 +480,13 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 ** Capture template
 #+begin_src emacs-lisp
-(setq org-capture-templates
+(add-to-list 'org-capture-templates
       '(("b" "blog post" entry
          (file+headline "~/blog/blog.org" "NO New ideas")
-         (file "~/blog/org-templates/post.org"))))
+         (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
 #+end_src
 
-* Yasnippet
+** Yasnippet
 
 #+begin_src emacs-lisp
 (use-package yasnippet
@@ -349,7 +499,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 * Templates
 
 *** Mettings
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp :tangle no
 (require 'org-tempo)
 (tempo-define-template "org-meeting" ; just some name for the template
                       '("*** m: "
@@ -382,7 +532,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 * References & Bib
 
-** TODO Verificar se funciona
 #+begin_src emacs-lisp
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 #+end_src
@@ -390,7 +539,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 * Icons
 
 #+begin_src emacs-lisp
-
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 (use-package all-the-icons
@@ -403,8 +551,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 (use-package ivy-rich
   :ensure t
   :init (ivy-rich-mode 1))
-
-
 #+end_src
 * Latex
 ** Documents
@@ -559,8 +705,8 @@ Recomendação feita por Doom Doctor
 (use-package company
   :ensure t
   :custom
-  (company-minimum-prefix-length 4)
-  (company-idle-delay 0.5))
+  (company-minimum-prefix-length 3)
+  (company-idle-delay 0.3))
 #+end_src
 
 #+RESULTS:

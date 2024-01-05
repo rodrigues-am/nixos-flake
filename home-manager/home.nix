@@ -11,6 +11,8 @@
     ./xcompose.nix
     ./dnust.nix
     ./waybar.nix
+
+    ./bin/doomcapture.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should

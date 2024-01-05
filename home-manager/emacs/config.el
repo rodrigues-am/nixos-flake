@@ -12,12 +12,47 @@
 
 (use-package lsp-grammarly
   :ensure t
-  ;; :hook ((text-mode org-mode) . (lambda ()
-  ;;                      (require 'lsp-grammarly)
-  ;;                      (lsp)))
-  ) ; or lsp-deferred
+  :hook ((text-mode org-mode) . (lambda ()
+                        (require 'lsp-grammarly)
+                        (lsp)))) ; or lsp-deferred
 
 (use-package grammarly
+  :ensure t)
+
+(use-package flyspell
+  :defer t
+  :config
+  (add-to-list 'ispell-skip-region-alist '("~" "~"))
+  (add-to-list 'ispell-skip-region-alist '("=" "="))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC"))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_EXPORT" . "^#\\+END_EXPORT"))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_EXPORT" . "^#\\+END_EXPORT"))
+  (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+
+  (dolist (mode '(
+                  ;;org-mode-hook
+                  mu4e-compose-mode-hook))
+    (add-hook mode (lambda () (flyspell-mode 1)))))
+
+(use-package writeroom-mode
+  :defer t
+  :config
+  (setq writeroom-maximize-window nil
+        writeroom-mode-line t
+        writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
+        writeroom-extra-line-spacing 3)
+  (setq writeroom-width visual-fill-column-width))
+
+(use-package telega
+  )
+
+(use-package ement
+  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
+
+(use-package mastodon
+  :ensure t)
+
+(use-package mastodon-alt
   :ensure t)
 
 (use-package shell-maker
@@ -66,7 +101,7 @@
   :ensure t)
 
 (setq abbrev-file-name
-        "~/notas/.abbrev_defs.el")
+        "~/sync/pessoal/emacs/abbrev/.abbrev_defs.el")
 
 (org-babel-do-load-languages
   'org-babel-load-languages
@@ -77,9 +112,6 @@
 
 (use-package golden-ratio
   :ensure t)
-
-;;(use-package nano-emacs
-;;  :ensure t)
 
 (use-package bespoke-themes
   :config
@@ -93,7 +125,7 @@
   ;; Set initial theme variant
   (setq bespoke-set-theme 'dark)
   ;; Load theme
-  (load-theme 'bespoke t))
+  (load-theme  'bespoke t))
 
 (use-package olivetti
   :ensure t)
@@ -149,49 +181,108 @@
  :config
   (org-roam-setup))
 
+(setq org-agenda-span 1
+      org-agenda-start-day "+0d"
+      org-agenda-skip-timestamp-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-scheduled-if-deadline-is-shown t
+      org-agenda-skip-timestamp-if-deadline-is-shown t)
+
+;; Ricing org agenda
+(setq org-agenda-current-time-string "")
+(setq org-agenda-time-grid '((daily) () "" ""))
+
+(setq org-agenda-prefix-format '(
+(agenda . "  %?-2i %t ")
+ (todo . " %i %-12:c")
+ (tags . " %i %-12:c")
+ (search . " %i %-12:c")))
+
+(setq org-agenda-hide-tags-regexp ".*")
+
+;; Function to be run when org-agenda is opened
+(defun org-agenda-open-hook ()
+  "Hook to be run when org-agenda is opened"
+  (olivetti-mode))
+
+;; Adds hook to org agenda mode, making follow mode active in org agenda
+(add-hook 'org-agenda-mode-hook 'org-agenda-open-hook)
+
 ;; org-super-agenda
 
- (let ((org-super-agenda-groups
-       '((:log t)  ; Automatically named "Log"
-         (:name "Schedule"
-                :time-grid t)
-         (:name "Today"
-                :scheduled today)
-         (:habit t)
-         (:name "Due today"
-                :deadline today)
-         (:name "Overdue"
-                :deadline past)
-         (:name "Due soon"
-                :deadline future)
-         (:name "Unimportant"
-                :todo "START"
-                :order 100)
-         (:name "HOLD"
-                :todo "HOLD"
-                :order 98)
-         (:name "Scheduled earlier"
-                :scheduled past))))
-  (org-agenda-list))
+(use-package org-super-agenda
+  :after org
+  :config
+  (setq org-super-agenda-header-map nil) ;; takes over 'j'
+  ;; (setq org-super-agenda-header-prefix " ◦ ") ;; There are some unicode "THIN SPACE"s after the ◦
+  ;; Hide the thin width char glyph. This is dramatic but lets me not be annoyed
+  (add-hook 'org-agenda-mode-hook
+            #'(lambda () (setq-local nobreak-char-display nil)))
+  (org-super-agenda-mode)
+  (setq org-super-agenda-groups
+       '(;; Each group has an implicit boolean OR operator between its selectors.
+         (:name " Overdue "  ; Optionally specify section name
+                :scheduled past
+                :order 2
+                :face 'error)
 
-(setq org-agenda-custom-commands
-   '(("X" agenda "" nil ("~/org-agenda/agenda.html" "~/org-agenda/agenda.ps"))
-        ("z" todo ""
-         (
-          ;;(org-columns-default-format "%25ITEM %TODO %3PRIORITY %TAGS")
-          (org-agenda-overriding-header "Lista TODO")
-          (org-agenda-with-colors true)
-          (org-agenda-remove-tags t)
-          (ps-number-of-column 2)
-          (ps-landscape-mode t)
-          )
-         ("~/org-agenda/todo.html" "~/org-agenda/todo.txt" "~/org-agenda/todo.ps"))
-        ))
+         ;; (:name "Personal "
+         ;;        :and(:file-path "Personal.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Family "
+         ;;        :and(:file-path "Family.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Teaching "
+         ;;        :and(:file-path "Teaching.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Gamedev "
+         ;;        :and(:file-path "Gamedev.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Youtube "
+         ;;        :and(:file-path "Producer.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Music "
+         ;;        :and(:file-path "Bard.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Storywriting "
+         ;;        :and(:file-path "Stories.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Writing "
+         ;;        :and(:file-path "Author.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Learning "
+         ;;        :and(:file-path "Knowledge.p" :not (:tag "event"))
+         ;;        :order 3)
+
+          (:name " Today "  ; Optionally specify section name
+                :time-grid t
+                :date today
+                :scheduled today
+                :order 1
+                :face 'warning)
+
+))
+
+(org-super-agenda-mode t)
+)
+
+(use-package org-ql
+  :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
+            :files (:defaults (:exclude "helm-org-ql.el"))))
 
 (use-package elfeed-org
   :defer
   :config
-  (setq rmh-elfeed-org-files (list "~/notas/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/sync/pessoal/elfeed/elfeed.org"))
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
 (use-package elfeed-goodies
@@ -203,36 +294,16 @@
 (with-eval-after-load 'ox
     (require 'ox-hugo))
 
-(setq org-capture-templates
+(add-to-list 'org-capture-templates
       '(("b" "blog post" entry
          (file+headline "~/blog/blog.org" "NO New ideas")
-         (file "~/blog/org-templates/post.org"))))
+         (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
 
-(require 'org-tempo)
-(tempo-define-template "org-meeting" ; just some name for the template
-                      '("*** m: "
-                         (insert (format-time-string "%d %b %Y")) n p)
-          "<mt"
-          "Insert a metting with day" ; documentation
-          'org-tempo-tags)
-
-(tempo-define-template "requerimento-aprovado-equivalencia" ; just some name for the template
-                       '("Solicitação " p ": Aprovado\nDisciplina:")
-          "<ap"
-          "Insert aprovado" ; documentation
-          'org-tempo-tags)
-
-(tempo-define-template "requerimento-negado-equivalencia" ; just some name for the template
-                      '("Solicitação " p ": Negado\nDisciplina:")
-          "<rj"
-          "Insert Negado" ; documentation
-          'org-tempo-tags)
-
-(tempo-define-template "emacs-lisp" ; just some name for the template
-                      '("#+begin_src emacs-lisp" n p n "#+end_src")
-          "<el"
-          "Insert a e-lisp block" ; documentation
-          'org-tempo-tags)
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs '("~/sync/pessoal/emacs/snippets"))
+  (yas-global-mode 1))
 
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
@@ -340,5 +411,5 @@
 (use-package company
   :ensure t
   :custom
-  (company-minimum-prefix-length 4)
-  (company-idle-delay 0.5))
+  (company-minimum-prefix-length 3)
+  (company-idle-delay 0.3))

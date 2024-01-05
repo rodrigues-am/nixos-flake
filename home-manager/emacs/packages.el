@@ -67,6 +67,9 @@
 (package! grammarly)
 (package! org-modern)
 
+;; Write
+(package! writeroom-mode)
+
 
 (package! elfeed-goodies)
 (package! esxml)
