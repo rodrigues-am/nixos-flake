@@ -1,6 +1,12 @@
 (setq user-full-name "André Rodrigues"
       user-mail-address "rodrigues.am@usp.br")
 
+;; (add-to-list 'load-path "~/.script/elisp")
+;; (require 'amr.el)
+
+(use-package use-package-quelpa
+  :defer t)
+
 (use-package auth-source
   :ensure t
   :custom
@@ -44,16 +50,10 @@
   (setq writeroom-width visual-fill-column-width))
 
 (use-package telega
-  )
-
-(use-package ement
-  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
+  :defer t)
 
 (use-package mastodon
-  :ensure t)
-
-(use-package mastodon-alt
-  :ensure t)
+  :defer t)
 
 (use-package shell-maker
   :ensure t)
@@ -274,10 +274,6 @@
 
 (org-super-agenda-mode t)
 )
-
-(use-package org-ql
-  :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
-            :files (:defaults (:exclude "helm-org-ql.el"))))
 
 (use-package elfeed-org
   :defer

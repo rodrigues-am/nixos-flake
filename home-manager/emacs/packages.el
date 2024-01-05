@@ -47,7 +47,13 @@
 ;; ...or multiple packages
                                         ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
+
                                         ;(unpin! t)
+
+;; Quelpa
+(package! quelpa)
+(package! quelpa-use-package)
+
 ;; References
 (package! zotxt)
 (package! citeproc-org)
@@ -70,7 +76,8 @@
 ;; Write
 (package! writeroom-mode)
 
-
+(package! telega)
+(package! mastodon)
 (package! elfeed-goodies)
 (package! esxml)
 (package! psgml)

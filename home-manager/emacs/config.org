@@ -12,9 +12,12 @@ Some personal information.
 #+end_src
 
 * Global Variables
-#+begin_src emacs-lisp  :tangle no
+#+begin_src emacs-lisp
 ;; (add-to-list 'load-path "~/.script/elisp")
 ;; (require 'amr.el)
+
+(use-package use-package-quelpa
+  :defer t)
 #+end_src
 
 * Pass
@@ -67,6 +70,7 @@ Some personal information.
                   mu4e-compose-mode-hook))
     (add-hook mode (lambda () (flyspell-mode 1)))))
 #+end_src
+
 * Writeroom
 
 #+begin_src emacs-lisp
@@ -86,12 +90,12 @@ Some personal information.
 
 #+begin_src emacs-lisp
 (use-package telega
-  )
+  :defer t)
 #+end_src
 
 ** Ement - Matrix Client
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package ement
   :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
 #+end_src
@@ -100,10 +104,10 @@ Some personal information.
 
 #+begin_src emacs-lisp
 (use-package mastodon
-  :ensure t)
+  :defer t)
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package mastodon-alt
   :ensure t)
 #+end_src
@@ -424,7 +428,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 #+end_src
 
 ** Org-ql
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package org-ql
   :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
             :files (:defaults (:exclude "helm-org-ql.el"))))
