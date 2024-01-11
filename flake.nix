@@ -28,12 +28,12 @@
           modules = [
 
             ./nixos/home-desktop/hardware-configuration.nix
-            ./nixos/configuration.nix
+            ./nixos/core.nix
             ./nixos/app/image.nix
             ./nixos/home-desktop/nvidia.nix
             ./nixos/home-desktop/game.nix
             ./nixos/desktop-keymap.nix
-            ./nixos/home-desktop/boot-home-desktop.nix
+            ./nixos/boot-desktop.nix
 
             home-manager.nixosModules.home-manager
             {
@@ -53,9 +53,9 @@
           modules = [
 
             ./nixos/usp-desktop/hardware-configuration.nix
-            ./nixos/configuration.nix
+            ./nixos/core.nix
             ./nixos/desktop-keymap.nix
-            ./nixos/usp-desktop/boot-usp-desktop.nix
+            ./nixos/boot-desktop.nix
 
             home-manager.nixosModules.home-manager
             {
@@ -75,7 +75,7 @@
 
           modules = [
             ./nixos/hp-laptop/hardware-configuration.nix
-            ./nixos/configuration.nix
+            ./nixos/core.nix
             ./nixos/hp-laptop/keymap-hp-laptop.nix
             ./nixos/hp-laptop/boot-hp-laptop.nix
 

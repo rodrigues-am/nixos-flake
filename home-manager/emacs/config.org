@@ -487,6 +487,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
     (require 'ox-hugo))
 #+end_src
 
+
 ** Capture template
 #+begin_src emacs-lisp
 (add-to-list 'org-capture-templates
@@ -494,6 +495,8 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
          (file+headline "~/blog/blog.org" "NO New ideas")
          (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
 #+end_src
+
+* Template
 
 ** Yasnippet
 
@@ -505,39 +508,13 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
   (yas-global-mode 1))
 #+end_src
 
-* Templates
+** Org-tempo
 
-*** Mettings
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (require 'org-tempo)
-(tempo-define-template "org-meeting" ; just some name for the template
-                      '("*** m: "
-                         (insert (format-time-string "%d %b %Y")) n p)
-          "<mt"
-          "Insert a metting with day" ; documentation
-          'org-tempo-tags)
-
-(tempo-define-template "requerimento-aprovado-equivalencia" ; just some name for the template
-                       '("Solicitação " p ": Aprovado\nDisciplina:")
-          "<ap"
-          "Insert aprovado" ; documentation
-          'org-tempo-tags)
-
-(tempo-define-template "requerimento-negado-equivalencia" ; just some name for the template
-                      '("Solicitação " p ": Negado\nDisciplina:")
-          "<rj"
-          "Insert Negado" ; documentation
-          'org-tempo-tags)
 #+end_src
 
-*** Emacs-lisp block (el)
-#+begin_src emacs-lisp :tangle no
-(tempo-define-template "emacs-lisp" ; just some name for the template
-                      '("#+begin_src emacs-lisp" n p n "#+end_src")
-          "<el"
-          "Insert a e-lisp block" ; documentation
-          'org-tempo-tags)
-#+end_src
+
 
 * References & Bib
 

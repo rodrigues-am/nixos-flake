@@ -53,7 +53,10 @@
   :defer t)
 
 (use-package mastodon
-  :defer t)
+  :defer t
+  :config
+  (setq mastodon-instance-url "https://mastodon.social"
+  mastodon-active-user "rodrigues_am"))
 
 (use-package shell-maker
   :ensure t)
@@ -300,6 +303,8 @@
   :config
   (setq yas-snippet-dirs '("~/sync/pessoal/emacs/snippets"))
   (yas-global-mode 1))
+
+(require 'org-tempo)
 
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
