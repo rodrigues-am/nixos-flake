@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, lib, pkgs, inputs, ... }:
 
 let
@@ -10,13 +6,8 @@ let
 
 in {
   imports = [ # Include the results of the hardware scan.
-    #./hardware-configuration.nix
-    #./nvidia.nix
     ./syncthing.nix
     inputs.sops-nix.nixosModules.sops
-    #./hyprland.nix
-    #./game.nix
-
   ];
 
   programs.hyprland.enable = true;
@@ -33,18 +24,6 @@ in {
     defaultSopsFormat = "yaml";
     age.keyFile = ".config/sops/age/keys.txt";
   };
-
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  #networking = {
-  #     networkmanager.enable = true;
-  #     hostName = "nixos";
-  #     nameservers = [ "1.1.1.1" "::1"];
-  #     dhcpcd.extraConfig = "nohook resolv.conf";
-  #     networkmanager.dns = lib.mkDefault "none";
-  #     resolvconf.dnsExtensionMechanism = false;
-  #   };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -91,12 +70,6 @@ in {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -168,11 +141,11 @@ in {
     hunspellDicts.pt_BR
     hunspellDicts.en_US-large
 
-    alacritty
-    age
-    auctex
+    alacritty # terminal
+    age # encryption
+    auctex # text
     bat
-    brave
+    brave # web browser
     calibre
     cmake
     curl
@@ -184,7 +157,7 @@ in {
     eza
     fd
     feh
-    firefox
+    firefox # web browser
     fzf
     gh
     git
@@ -193,45 +166,45 @@ in {
     gnumake
     gnupg
     gnuplot
-    graphviz
+    graphviz # build diagrams declaratively
     home-manager
     htop
-    hugo
+    hugo # blog and static sities
     hyprland
-    jq # A lightweight and flexible command-line JSON processor
+    jq # lightweight and flexible command-line JSON processor
     leftwm
     libreoffice
     libsForQt5.okular
-    maim # A command-line screenshot utility to emacs
-    mpv
+    maim # command-line screenshot utility to emacs
+    mpv # media player
     neofetch
     neovim
-    nyxt
+    nyxt # web browser
     pandoc
     pass
     pdftk
     picom
-    plantuml
+    plantuml # build diagrams declaratively
     polybarFull
-    ranger
+    ranger # file manager
     ripgrep
     rofi
     rofi-wayland
     shellcheck
     shfmt
-    starship
+    starship # terminal prompt
     stow
     swww
     sops
     sxhkd
     syncthing
-    texlive.combined.scheme-full
+    texlive.combined.scheme-full # latex
     waybar
     wget
     xclip
     xdg-desktop-portal-hyprland
-    xournal
-    zathura
+    xournal # pdf edit
+    zathura # pdf viwer
     zoom
     zotero
 
@@ -245,38 +218,23 @@ in {
 
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # programs.gnupg.agent = {
-  #    enable = true;
-  #    enableSSHSupport = true;
-  #  };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  #  services.openssh = {
-  #   enable = true;
-  # passwordauthentication = false;
-  #  };
-
   # Enable the OpenSSH daemon.
 
   services.openssh.enable = true;
-  networking.firewall.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ 80 443];
-  #   networking.firewall.allowedUDPPorts = [{from=4000; to=4007;} {from=8000; to=8010;} ];
-  # Or disable the firewall altogether.
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPortRanges = [
+      {
+        from = 4000;
+        to = 4007;
+      }
+      {
+        from = 8000;
+        to = 8010;
+      }
+    ];
+  };
 
   services.postgresql.enable = true;
   #services.sxhkd.enable = true;

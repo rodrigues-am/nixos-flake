@@ -24,6 +24,9 @@
         "sudo nixos-rebuild switch --flake ~/nixos-flake#home-desktop";
       amr-nixos-hp-laptop =
         "sudo nixos-rebuild switch --flake ~/nixos-flake#hp-laptop";
+      amr-nixos-usp-desktop =
+        "sudo nixos-rebuild switch --flake ~/nixos-flake#usp-desktop";
+
     };
 
   };

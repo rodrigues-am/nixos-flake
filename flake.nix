@@ -47,6 +47,28 @@
 
           ];
         };
+        usp-desktop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+
+          modules = [
+
+            ./nixos/usp-desktop/hardware-configuration.nix
+            ./nixos/configuration.nix
+            ./nixos/desktop-keymap.nix
+            ./nixos/usp-desktop/boot-usp-desktop.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                users.andre = ./home-manager/home.nix;
+
+              };
+            }
+
+          ];
+        };
 
         hp-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };

@@ -93,7 +93,7 @@ Some personal information.
   :defer t)
 #+end_src
 
-** Ement - Matrix Client
+** TODO Ement - Matrix Client
 
 #+begin_src emacs-lisp :tangle no
 (use-package ement
@@ -104,8 +104,13 @@ Some personal information.
 
 #+begin_src emacs-lisp
 (use-package mastodon
-  :defer t)
+  :defer t
+  :config
+  (setq mastodon-instance-url "https://mastodon.social"
+  mastodon-active-user "rodrigues_am"))
 #+end_src
+
+#+RESULTS:
 
 #+begin_src emacs-lisp :tangle no
 (use-package mastodon-alt
