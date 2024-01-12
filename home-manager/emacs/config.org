@@ -73,7 +73,7 @@ Some personal information.
 
 * Writeroom
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package writeroom-mode
   :defer t
   :config
