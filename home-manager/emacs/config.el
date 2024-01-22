@@ -40,15 +40,6 @@
                   mu4e-compose-mode-hook))
     (add-hook mode (lambda () (flyspell-mode 1)))))
 
-(use-package writeroom-mode
-  :defer t
-  :config
-  (setq writeroom-maximize-window nil
-        writeroom-mode-line t
-        writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
-        writeroom-extra-line-spacing 3)
-  (setq writeroom-width visual-fill-column-width))
-
 (use-package telega
   :defer t)
 
@@ -68,7 +59,10 @@
 (use-package gptel
   :ensure t)
 
-(setq org-directory "~/notas/")
+(use-package org-mode
+  :defer t
+  :config (org-directory "~/notas/")
+  :hook (org-mode . auto-fill-mode))
 
 ;;(defun amr-clean ()
   ;; (display-line-numbers-mode 0)
@@ -281,14 +275,14 @@
 (use-package elfeed-org
   :defer
   :config
-  (setq rmh-elfeed-org-files (list "~/sync/pessoal/elfeed/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/sync/pessoal/emacs/elfeed/elfeed.org"))
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
 (use-package elfeed-goodies
   :ensure t
   :custom
-  (feed-source-column-width 75)
-  (tag-column-width 30))
+  (elfeed-goodies/feed-source-column-width 36)
+  (elfeed-goodies/tag-column-width 25))
 
 (with-eval-after-load 'ox
     (require 'ox-hugo))

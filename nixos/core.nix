@@ -1,8 +1,6 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, userSettings, ... }:
 
 let
-
-  user = "andre";
 
 in {
   imports = [ # Include the results of the hardware scan.
@@ -36,19 +34,19 @@ in {
   time.timeZone = "America/Sao_Paulo";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "${userSettings.locale}";
 
   i18n.extraLocaleSettings = {
-    LANGUAGE = "pt_BR:pt:en";
-    LC_ADDRESS = "pt_BR.UTF-8";
-    LC_IDENTIFICATION = "pt_BR.UTF-8";
-    LC_MEASUREMENT = "pt_BR.UTF-8";
-    LC_MONETARY = "pt_BR.UTF-8";
-    LC_NAME = "pt_BR.UTF-8";
-    LC_NUMERIC = "pt_BR.UTF-8";
-    LC_PAPER = "pt_BR.UTF-8";
-    LC_TELEPHONE = "pt_BR.UTF-8";
-    LC_TIME = "pt_BR.UTF-8";
+    LANGUAGE = "${userSettings.locale}:pt:en";
+    LC_ADDRESS = "${userSettings.locale}";
+    LC_IDENTIFICATION = "${userSettings.locale}";
+    LC_MEASUREMENT = "${userSettings.locale}";
+    LC_MONETARY = "${userSettings.locale}";
+    LC_NAME = "${userSettings.locale}";
+    LC_NUMERIC = "${userSettings.locale}";
+    LC_PAPER = "${userSettings.locale}";
+    LC_TELEPHONE = "${userSettings.locale}";
+    LC_TIME = "${userSettings.locale}";
   };
 
   # Enable the X11 windowing system.
@@ -76,7 +74,7 @@ in {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.andre = {
+  users.users.${userSettings.name} = {
     isNormalUser = true;
     description = "andre";
     extraGroups = [ "networkmanager" "wheel" ];
@@ -87,7 +85,7 @@ in {
       # database
       sqlite
       #surrealdb
-      postgresql
+      #postgresql
 
       # general
       #postman
@@ -103,7 +101,7 @@ in {
       R
       rstudio
 
-      # rust
+      rust
       rustc
       rustup
       rustfmt
@@ -149,14 +147,14 @@ in {
     calibre
     cmake
     curl
-    dmenu
-    dunst
+    #dmenu
+    #dunst
     element-desktop
     espanso
     espanso-wayland
     eza
     fd
-    feh
+    #feh
     firefox # web browser
     fzf
     gh
@@ -170,11 +168,10 @@ in {
     home-manager
     htop
     hugo # blog and static sities
-    hyprland
+    #hyprland
     jq # lightweight and flexible command-line JSON processor
-    leftwm
+    #leftwm
     libreoffice
-    libsForQt5.okular
     maim # command-line screenshot utility to emacs
     mpv # media player
     neofetch
@@ -183,37 +180,38 @@ in {
     pandoc
     pass
     pdftk
-    picom
+    #picom
     plantuml # build diagrams declaratively
-    polybarFull
+    #polybarFull
     ranger # file manager
     ripgrep
-    rofi
-    rofi-wayland
+    #rofi
+    #rofi-wayland
     shellcheck
     shfmt
     starship # terminal prompt
     stow
     swww
     sops
-    sxhkd
     syncthing
     texlive.combined.scheme-full # latex
-    waybar
+    unzip
+    #waybar
     wget
     xclip
-    xdg-desktop-portal-hyprland
+    #xdg-desktop-portal-hyprland
     xournal # pdf edit
     zathura # pdf viwer
+    zip
     zoom
     zotero
 
     # fonts
     dejavu_fonts
     emacs-all-the-icons-fonts
-    comic-relief
     font-awesome_4
     fira-code
+    comic-relief
     google-fonts
 
   ];
@@ -236,7 +234,7 @@ in {
     ];
   };
 
-  services.postgresql.enable = true;
+  #services.postgresql.enable = true;
   #services.sxhkd.enable = true;
   services.espanso.enable = true;
   # This value determines the NixOS release from which the default

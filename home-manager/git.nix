@@ -1,10 +1,10 @@
-{
+{ config, lib, pkgs, inputs, userSettings, ... }: {
 
-programs.git = {
-  enable = true;
-  userName = "rodrigues-am";
-  userEmail = "rodrigues.am@usp.br";
+  programs.git = {
+    enable = true;
+    userName = "${userSettings.gitUser}";
+    userEmail = "${userSettings.email}";
 
-};
+  };
 
 }

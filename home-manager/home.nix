@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userSettings, nix-doom-emacs, ... }:
 
 {
   imports = [
@@ -11,14 +11,15 @@
     ./xcompose.nix
     ./dnust.nix
     ./waybar.nix
-
     ./bin/doomcapture.nix
+
+    nix-doom-emacs.hmModule
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "andre";
-  home.homeDirectory = "/home/andre";
+  home.username = "${userSettings.name}";
+  home.homeDirectory = "/home/${userSettings.name}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -27,7 +28,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -41,7 +42,7 @@
   home.file = {
 
     # alacritty
-    ".config/alacritty.yml".source = ./alacritty.yml;
+    ".config/alacritty.toml".source = ./alacritty.toml;
 
     #   # espanso
     ".config/espanso/match/base.yml".source = ./espanso/match/base.yml;
@@ -77,7 +78,8 @@
   # if you don't want to manage your shell through Home Manager.
 
   home.sessionVariables = {
-    EDITOR = "emacs";
+    EDITOR = "${userSettings.editor}";
+    TERM = "${userSettings.term}";
     GTK_IM_MODULE = "cedilla";
     QT_IM_MODULE = "cedilla";
 

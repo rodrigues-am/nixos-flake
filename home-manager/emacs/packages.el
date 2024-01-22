@@ -76,6 +76,8 @@
 ;; Write
 (package! writeroom-mode)
 
+(package! nov)
+(package! org-web-tools)
 (package! telega)
 (package! mastodon)
 (package! elfeed-goodies)
@@ -100,5 +102,8 @@
 
 (package! bespoke-themes
   :recipe (:host github :repo "mclear-tools/bespoke-themes" :branch "main"))
+
+(package! org-noter
+  :recipe (:host github :repo "dmitrym0/org-noter-plus" :branch "main"))
 
 ;; ends here

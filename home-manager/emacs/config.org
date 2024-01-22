@@ -1,4 +1,4 @@
-#+TITLE:  Config
+#+TITLE: Config
 #+STARTUP: folded
 #+PROPERTY: header-args :tangle ./config.el
 
@@ -138,10 +138,27 @@ Some personal information.
 * Org-mode
 
 #+begin_src emacs-lisp
-(setq org-directory "~/notas/")
+(use-package org-mode
+  :defer t
+  :config (org-directory "~/notas/")
+  :hook (org-mode . auto-fill-mode))
+
 #+end_src
 
 
+** Org-noter
+#+begin_src emacs-lisp :tangle t
+(use-package org-noter
+  :defer t
+  :custom
+  (org-noter-highlight-selected-text t)
+  (org-noter-max-short-selected-text-length 5)
+  :hook
+  (org-noter-open-document-functions . golden-ratio-mode))
+#+end_src
+
+#+RESULTS:
+| golden-ratio-mode |
 
 ** Visual do org-mode
 
@@ -256,6 +273,16 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 #+begin_src emacs-lisp
 (use-package olivetti
   :ensure t)
+#+end_src
+* Ereader - Nov
+
+#+begin_src emacs-lisp :tangle t
+
+(use-package nov
+  :defer t
+  :hook
+  (nov-mode . scroll-lock-mode))
+
 #+end_src
 * Org-Roam
 
@@ -468,14 +495,14 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 (use-package elfeed-org
   :defer
   :config
-  (setq rmh-elfeed-org-files (list "~/sync/pessoal/elfeed/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/sync/pessoal/emacs/elfeed/elfeed.org"))
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
 (use-package elfeed-goodies
   :ensure t
   :custom
-  (feed-source-column-width 75)
-  (tag-column-width 30))
+  (elfeed-goodies/feed-source-column-width 36)
+  (elfeed-goodies/tag-column-width 25))
 #+end_src
 
 * Blog
