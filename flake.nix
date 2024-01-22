@@ -20,14 +20,13 @@
       inputs.hyprland.follows = "hyprland";
     };
 
-    nix-doom-emacs.url = "github:librephoenix/nix-doom-emacs?ref=pgtk-patch";
-    eaf = {
-      url = "github:emacs-eaf/emacs-application-framework";
-      flake = false;
-    };
+    nix-doom-emacs.url = "github:librephoenix/nix-doom-emacs";
+
+    nix-colors.url = "github:misterio77/nix-colors";
+
   };
 
-  outputs = { self, nixpkgs, home-manager,  ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nix-colors, ... }@inputs:
     let
       system = "x86_64-linux";
 
@@ -36,8 +35,10 @@
         email = "rodrigues.am@usp.br";
         term = "alcritty";
         editor = "emacs";
+        browser = "brave";
         locale = "pt_BR.UTF-8";
         gitUser = "rodrigues-am";
+        wallpaperDir = "/home/${self.name}/Pictures/Wallpapers";
       };
 
       pkgs = nixpkgs.legacyPackages.${system};
@@ -47,9 +48,11 @@
 
         # home-desktop
         home-desktop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs;
-                          inherit userSettings;
-                        };
+          specialArgs = {
+            inherit inputs;
+            inherit userSettings;
+            inherit nix-colors;
+          };
 
           modules = [
 
@@ -68,6 +71,7 @@
                   inherit inputs;
                   inherit userSettings;
                   inherit (inputs) nix-doom-emacs;
+                  inherit nix-colors;
                 };
                 useUserPackages = true;
                 useGlobalPkgs = true;
@@ -81,9 +85,10 @@
 
         # usp-desktop
         usp-desktop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs;
-                          inherit userSettings;
-                        }
+          specialArgs = {
+            inherit inputs;
+            inherit userSettings;
+          };
           modules = [
 
             ./nixos/usp-desktop/hardware-configuration.nix
@@ -106,7 +111,10 @@
 
         # hp-laptop
         hp-laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; inherit userSettings; };
+          specialArgs = {
+            inherit inputs;
+            inherit userSettings;
+          };
 
           modules = [
             ./nixos/hp-laptop/hardware-configuration.nix
@@ -117,7 +125,10 @@
             home-manager.nixosModules.home-manager
             {
               home-manager = {
-                extraSpecialArgs = { inherit inputs; inherit userSettings; };
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit userSettings;
+                };
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 users.${userSettings.name} = ./home-manager/home.nix;
@@ -130,7 +141,10 @@
 
         # dell-laptop
         dell-laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; inherit userSettings; };
+          specialArgs = {
+            inherit inputs;
+            inherit userSettings;
+          };
 
           modules = [
             ./nixos/hp-laptop/hardware-configuration.nix

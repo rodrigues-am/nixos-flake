@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, userSettings, ... }:
+{ config, lib, pkgs, inputs, nix-colors, userSettings, ... }:
 
 let
 
@@ -6,8 +6,10 @@ in {
   imports = [ # Include the results of the hardware scan.
     ./syncthing.nix
     inputs.sops-nix.nixosModules.sops
+    nix-colors.homeManagerModules.default
   ];
 
+  colorScheme = nix-colors.colorSchemes.dracula;
   programs.hyprland.enable = true;
 
   nix = {
@@ -79,7 +81,7 @@ in {
     description = "andre";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
+      #firefox
       #  thunderbird
 
       # database
@@ -101,7 +103,7 @@ in {
       R
       rstudio
 
-      rust
+      # rust
       rustc
       rustup
       rustfmt

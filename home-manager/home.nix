@@ -32,14 +32,29 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs;
-    [
+  home.packages = with pkgs; [
+    # hyprland
+    waybar
+    swaynotificationcenter
+    swaylock
+    rofi-wayland
+    swww
+    grim
+    slurp
+    swayidle
 
-    ];
+  ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+
+    # hyprland
+    ".config/zaney-stinger.mov".source = ./resources/zaney-stinger.mov;
+    ".emoji".source = ./resources/emoji;
+    ".base16-themes".source = ./resources/base16-themes;
+    ".face".source = ./resources/face.jpg;
+    ".config/rofi/rofi.jpg".source = ./resources/rofi.jpg;
 
     # alacritty
     ".config/alacritty.toml".source = ./alacritty.toml;
