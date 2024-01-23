@@ -1,4 +1,4 @@
-{ config, lib, pkgs, userSettings, nix-doom-emacs, ... }:
+{ config, lib, pkgs, userSettings, nix-doom-emacs, nix-colors, ... }:
 
 {
   imports = [
@@ -11,8 +11,19 @@
     ./xcompose.nix
     ./dnust.nix
     ./waybar.nix
-    ./bin/doomcapture.nix
+    ./rofi.nix
+    ./swaylock.nix
+    ./swaync.nix
+    ./hyprland.nix
 
+    # scripts
+    ./bin/doomcapture.nix
+    ./bin/emopicker9000.nix
+    #./bin/wallsetter.nix
+    #./bin/themechange.nix
+    #./bin/theme-selector.nix
+
+    nix-colors.homeManagerModules.default
     nix-doom-emacs.hmModule
   ];
 
@@ -20,6 +31,8 @@
   # manage.
   home.username = "${userSettings.name}";
   home.homeDirectory = "/home/${userSettings.name}";
+
+  colorScheme = nix-colors.colorSchemes.nord;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -42,6 +55,9 @@
     grim
     slurp
     swayidle
+    wl-clipboard
+    libnotify
+    ydotool
 
   ];
 

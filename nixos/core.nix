@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, nix-colors, userSettings, ... }:
+{ config, lib, pkgs, inputs, userSettings, nix-colors, ... }:
 
 let
 
@@ -9,8 +9,8 @@ in {
     nix-colors.homeManagerModules.default
   ];
 
-  colorScheme = nix-colors.colorSchemes.dracula;
-  programs.hyprland.enable = true;
+  #  colorScheme = nix-colors.colorSchemes.dracula;
+  # programs.hyprland.enable = true;
 
   nix = {
     package = pkgs.nixFlakes;

@@ -52,6 +52,7 @@
             inherit inputs;
             inherit userSettings;
             inherit nix-colors;
+            #inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
           };
 
           modules = [

@@ -102,7 +102,7 @@ in with lib; {
       bind = ${modifier}SHIFT,W,exec,kitty -e amfora
       bind = ${modifier}SHIFT,S,exec,swaync-client -rs
       bind = ${modifier},W,exec,${browser}
-      bind = ${modifier},E,exec,emopicker9000
+      bind = ${modifier},E,exec,emacsclient
       bind = ${modifier},S,exec,grim -g "$(slurp)"
       bind = ${modifier},D,exec,discord
       bind = ${modifier},O,exec,obs
