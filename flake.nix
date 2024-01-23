@@ -33,12 +33,12 @@
       userSettings = rec {
         name = "andre";
         email = "rodrigues.am@usp.br";
-        term = "alcritty";
+        term = "alacritty";
         editor = "emacs";
         browser = "brave";
         locale = "pt_BR.UTF-8";
         gitUser = "rodrigues-am";
-        wallpaperDir = "/home/${self.name}/Pictures/Wallpapers";
+        wallpaperDir = "/home/andre/Pictures/Wallpapers";
       };
 
       pkgs = nixpkgs.legacyPackages.${system};

@@ -6,7 +6,7 @@
     ignore-empty-password
     indicator-thickness=15
     indicator-radius=150
-    image=~/Pictures/Wallpapers/Gangsta-Hoodie.jpeg
+    image=~/Pictures/Wallpapers/w1.jpg
     clock
     effect-blur=7x5
     effect-vignette=0.5:0.5

@@ -119,6 +119,7 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  services.espanso.enable = true;
   services.emacs.enable = true;
 
 }

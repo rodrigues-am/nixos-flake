@@ -6,11 +6,9 @@ in {
   imports = [ # Include the results of the hardware scan.
     ./syncthing.nix
     inputs.sops-nix.nixosModules.sops
-    nix-colors.homeManagerModules.default
   ];
 
-  #  colorScheme = nix-colors.colorSchemes.dracula;
-  # programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
 
   nix = {
     package = pkgs.nixFlakes;
@@ -236,9 +234,27 @@ in {
     ];
   };
 
+  xdg = {
+    portal = {
+      extraPortals = with pkgs; [
+        xdg-desktop-portal
+        xdg-desktop-portal-hyprland
+      ];
+    };
+  };
+
+  # Optimization settings and garbage collection automation
+  nix = {
+    settings.auto-optimise-store = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
+
   #services.postgresql.enable = true;
-  #services.sxhkd.enable = true;
-  services.espanso.enable = true;
+  # services.espanso.enable = true;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
