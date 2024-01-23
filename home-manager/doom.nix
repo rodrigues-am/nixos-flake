@@ -37,4 +37,5 @@
   #     frequency = "*:0/5";
   #   };
 
+  programs.emacs.enable = true;
 }

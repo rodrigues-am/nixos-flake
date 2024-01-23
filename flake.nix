@@ -46,13 +46,14 @@
     in {
       nixosConfigurations = {
 
-        # home-desktop
+        ################
+        # home-desktop #
+        ################
+
         home-desktop = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
             inherit userSettings;
-            inherit nix-colors;
-            #inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
           };
 
           modules = [
@@ -84,7 +85,10 @@
           ];
         };
 
-        # usp-desktop
+        ###############
+        # usp-desktop #
+        ###############
+
         usp-desktop = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
@@ -100,6 +104,13 @@
             home-manager.nixosModules.home-manager
             {
               home-manager = {
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit userSettings;
+                  inherit (inputs) nix-doom-emacs;
+                  inherit nix-colors;
+                };
+
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 users.${userSettings.name} = ./home-manager/home.nix;
@@ -110,7 +121,10 @@
           ];
         };
 
-        # hp-laptop
+        #############
+        # hp-laptop #
+        #############
+
         hp-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
@@ -129,7 +143,10 @@
                 extraSpecialArgs = {
                   inherit inputs;
                   inherit userSettings;
+                  inherit (inputs) nix-doom-emacs;
+                  inherit nix-colors;
                 };
+
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 users.${userSettings.name} = ./home-manager/home.nix;
@@ -140,7 +157,10 @@
           ];
         };
 
-        # dell-laptop
+        ################
+        # dell-desktop #
+        ################
+
         dell-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
@@ -156,6 +176,12 @@
             home-manager.nixosModules.home-manager
             {
               home-manager = {
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit userSettings;
+                  inherit (inputs) nix-doom-emacs;
+                  inherit nix-colors;
+                };
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 users.${userSettings.name} = ./home-manager/home.nix;
