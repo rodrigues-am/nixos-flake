@@ -2,7 +2,10 @@
 
 {
 
-  home.packages = with pkgs; [ espanso espanso-wayland ];
+  home.packages = with pkgs; [ 
+	espanso 
+	#espanso-wayland
+	 ];
 
   home.file = {
     # espanso

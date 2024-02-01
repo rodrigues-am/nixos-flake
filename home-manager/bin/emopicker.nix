@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
 
-  emopicker9000 = pkgs.writeShellScriptBin "emopicker9000" ''
+  emopicker = pkgs.writeShellScriptBin "emopicker" ''
         # Get user selection via wofi from emoji file.
         chosen=$(cat $HOME/.emoji | ${pkgs.rofi-wayland}/bin/rofi -dmenu | awk '{print $1}')
 
@@ -18,6 +18,9 @@ let
         fi
   '';
 in {
-  home.packages = [ emopicker9000 ];
+  home = {
+    packages = with pkgs; [ emopicker ];
+    file = { ".emoji".source = ../resources/emoji; };
+  };
 
 }

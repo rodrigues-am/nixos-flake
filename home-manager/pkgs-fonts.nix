@@ -6,19 +6,12 @@
     # fonts
     dejavu_fonts
     emacs-all-the-icons-fonts
-    #font-awesome
+    font-awesome
     comic-relief
     google-fonts
 
     (nerdfonts.override {
-      fonts = [
-        "JetBrainsMono"
-        "FiraCode"
-        "Iosevka"
-        "FontAwesome"
-        "Noto"
-        "WeatherIcons"
-      ];
+      fonts = [ "JetBrainsMono" "FiraCode" "Iosevka" "Noto" ];
     })
   ];
 

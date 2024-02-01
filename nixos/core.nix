@@ -4,7 +4,8 @@ let
 
 in {
   imports = [ # Include the results of the hardware scan.
-    #./syncthing.nix
+    ./syncthing.nix
+    ./polkit.nix
     inputs.sops-nix.nixosModules.sops
   ];
 
@@ -81,12 +82,17 @@ in {
     packages = with pkgs; [ ];
   };
 
+  environment.variables = {
+    POLKIT_BIN =
+      "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [ home-manager ];
 
   # Enable the OpenSSH daemon.
 

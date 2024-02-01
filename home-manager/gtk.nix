@@ -13,11 +13,26 @@
       package = pkgs.papirus-icon-theme;
     };
     theme = {
-      name = "Catppuccin-Mocha-Standard-Mauve-Dark";
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "mauve" ];
-        variant = "mocha";
-      };
+      name = "Nordic";
+      #name = "Catppuccin-Mocha-Standard-Mauve-Dark";
+      package = pkgs.nordic;
+      #  pkgs.catppuccin-gtk.override {
+      #   accents = [ "mauve" ];
+      #   variant = "mocha";
+      # };
+    };
+    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+  };
+
+  # Theme QT -> GTK
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style = {
+      name = "adwaita-dark";
+      package = pkgs.adwaita-qt;
     };
   };
+
 }

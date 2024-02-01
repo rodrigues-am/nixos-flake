@@ -5,13 +5,11 @@
   home.packages = with pkgs; [
 
     age # encryption
-    alacritty # terminal
     aspell
     aspellDicts.en
     aspellDicts.pt_BR
     auctex # text
     bat
-    brave # web browser
     calibre
     cmake
     curl
@@ -21,7 +19,6 @@
     firefox # web browser
     fzf
     gh
-    git
     gnome.gucharmap
     gnucash
     gnumake
@@ -46,17 +43,17 @@
     ranger # file manager
     ripgrep
     sops
-    starship # terminal prompt
     stow
     syncthing
     texlive.combined.scheme-full # latex
+    tree
     unzip
     wget
     xclip
     xournal # pdf edit
     zathura # pdf viwer
     zip
-    zoom
+    zoom-us
     zotero
 
   ];

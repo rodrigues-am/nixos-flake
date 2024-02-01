@@ -1,0 +1,17 @@
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+
+(use-package org-noter
+  :defer t
+  :custom
+  (org-noter-highlight-selected-text t)
+  (org-noter-max-short-selected-text-length 5)
+  :hook
+  (org-noter-open-document-functions . golden-ratio-mode))
+
+(use-package nano-emacs
+  :ensure t)
+
+(use-package nov
+  :defer t
+  :hook
+  (nov-mode . scroll-lock-mode))

@@ -1,13 +1,13 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 
 {
   programs.brave = {
-        enable = true;
-        
-        extensions = [ 
-          "ekhagklcjbdpajgpjgmbionohlpdbjgc" # zotero
-          "ldipcbpaocekfooobnbcddclnhejkcpn" # google scholar
-          "kbfnbcaeplbcioakkpcpgfkobkghlhen" # grammarly
-        ];
+    enable = true;
+    package = pkgs.brave;
+    extensions = [
+      "ekhagklcjbdpajgpjgmbionohlpdbjgc" # zotero
+      "ldipcbpaocekfooobnbcddclnhejkcpn" # google scholar
+      "kbfnbcaeplbcioakkpcpgfkobkghlhen" # grammarly
+    ];
   };
 }

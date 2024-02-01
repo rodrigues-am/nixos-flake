@@ -7,6 +7,10 @@
 (use-package use-package-quelpa
   :defer t)
 
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+
+(setq auto-insert-mode t)
+
 (use-package auth-source
   :ensure t
   :custom
@@ -18,9 +22,10 @@
 
 (use-package lsp-grammarly
   :ensure t
-  :hook ((text-mode org-mode) . (lambda ()
-                        (require 'lsp-grammarly)
-                        (lsp)))) ; or lsp-deferred
+  ;; :hook ((text-mode org-mode) . (lambda ()
+  ;;                       (require 'lsp-grammarly)
+  ;;                       (lsp)))
+  ) ; or lsp-deferred
 
 (use-package grammarly
   :ensure t)
@@ -104,25 +109,21 @@
   'org-babel-load-languages
   '((plantuml . t)))
 
-;;(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-one)
 (setq display-line-numbers-type t)
 
 (use-package golden-ratio
   :ensure t)
 
-(use-package bespoke-themes
+(use-package lambda-themes
+  :defer t
+  :custom
+  (lambda-themes-set-italic-comments t)
+  (lambda-themes-set-italic-keywords t)
+  (lambda-themes-set-variable-pitch t)
   :config
-  ;; Set evil cursor colors
-  (setq bespoke-set-evil-cursors t)
-  ;; Set use of italics
-  (setq bespoke-set-italic-comments t
-        bespoke-set-italic-keywords t)
-  ;; Set variable pitch
-  (setq bespoke-set-variable-pitch t)
-  ;; Set initial theme variant
-  (setq bespoke-set-theme 'dark)
-  ;; Load theme
-  (load-theme  'bespoke t))
+  ;; load preferred theme
+  (load-theme 'lambda-dark-faded))
 
 (use-package olivetti
   :ensure t)
@@ -404,7 +405,7 @@
                 (remove ".git" projectile-project-root-files-bottom-up)))
 
 (use-package company
-  :ensure t
+  :defer t
   :custom
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))

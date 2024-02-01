@@ -30,7 +30,7 @@
 
     # rust
     rustc
-    rustup
+    #rustup
     rustfmt
     rust-analyzer
     cargo
@@ -54,6 +54,6 @@
 
   ];
 
-  services.postgresql.enable = true;
+  # services.postgresql.enable = true;
 
 }

@@ -8,6 +8,7 @@
       DOOMLOCALDIR = "${config.xdg.configHome}/doom-local";
     };
 
+
     packages = with pkgs; [
 
       emacs29-pgtk
@@ -37,5 +38,6 @@
   #     frequency = "*:0/5";
   #   };
 
-  programs.emacs.enable = true;
+  services.emacs.enable = true;
+ 
 }

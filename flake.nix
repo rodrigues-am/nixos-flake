@@ -34,11 +34,12 @@
         name = "andre";
         email = "rodrigues.am@usp.br";
         term = "alacritty";
-        editor = "emacs";
+        editor = "emacsclient -c -a emacs";
         browser = "brave";
         locale = "pt_BR.UTF-8";
         gitUser = "rodrigues-am";
-        wallpaperDir = "/home/andre/Pictures/Wallpapers";
+        wallpaperDir = "/home/andre/sync/pessoal/pic/wallpapers";
+        theme = "nord";
       };
 
       pkgs = nixpkgs.legacyPackages.${system};
@@ -65,23 +66,8 @@
             ./nixos/home-desktop/game.nix
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
-
             home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit inputs;
-                  inherit userSettings;
-                  inherit (inputs) nix-doom-emacs;
-                  inherit nix-colors;
-                };
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                users.${userSettings.name} = ./home-manager/home.nix;
-
-              };
-            }
-
+            { imports = [ ./home-manager/hm-module.nix ]; }
           ];
         };
 
@@ -103,19 +89,8 @@
 
             home-manager.nixosModules.home-manager
             {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit inputs;
-                  inherit userSettings;
-                  inherit (inputs) nix-doom-emacs;
-                  inherit nix-colors;
-                };
+              imports = [ ./home-manager/hm-module.nix ];
 
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                users.${userSettings.name} = ./home-manager/home.nix;
-
-              };
             }
 
           ];
@@ -139,19 +114,9 @@
 
             home-manager.nixosModules.home-manager
             {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit inputs;
-                  inherit userSettings;
-                  inherit (inputs) nix-doom-emacs;
-                  inherit nix-colors;
-                };
 
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                users.${userSettings.name} = ./home-manager/home.nix;
+              imports = [ ./home-manager/hm-module.nix ];
 
-              };
             }
 
           ];
@@ -174,20 +139,7 @@
             ./nixos/hp-laptop/boot-hp-laptop.nix
 
             home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit inputs;
-                  inherit userSettings;
-                  inherit (inputs) nix-doom-emacs;
-                  inherit nix-colors;
-                };
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                users.${userSettings.name} = ./home-manager/home.nix;
-
-              };
-            }
+            { imports = [ ./home-manager/hm-module.nix ]; }
 
           ];
         };

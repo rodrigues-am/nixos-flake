@@ -100,8 +100,8 @@
 ;;(package! nano-emacs
 ;;  :recipe (:host github :repo "rougier/nano-emacs"))
 
-(package! bespoke-themes
-  :recipe (:host github :repo "mclear-tools/bespoke-themes" :branch "main"))
+(package! lambda-themes
+  :recipe (:host github :repo "lambda-emacs/lambda-themes" :branch "main"))
 
 (package! org-noter
   :recipe (:host github :repo "dmitrym0/org-noter-plus" :branch "main"))
