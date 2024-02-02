@@ -1,6 +1,6 @@
 { pkgs, config, lib, userSettings, ... }:
 
-let theme = config.colorScheme.colors;
+let theme = config.colorScheme.palette;
 in with lib; {
   imports = [
     ./waybar.nix

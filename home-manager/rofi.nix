@@ -8,7 +8,7 @@
             @theme "/dev/null"
 
             * {
-                bg: #${config.colorScheme.colors.base00};
+                bg: #${config.colorScheme.palette.base00};
                 background-color: @bg;
             }
 
@@ -24,7 +24,7 @@
         	    width: 35%;
         	    transparency: "real";
         	    orientation: vertical;
-        	    border-color: #${config.colorScheme.colors.base0B};
+        	    border-color: #${config.colorScheme.palette.base0B};
                 border-radius: 10px;
             }
 
@@ -38,13 +38,13 @@
 
             element {
         	    padding: 4 12;
-        	    text-color: #${config.colorScheme.colors.base05};
+        	    text-color: #${config.colorScheme.palette.base05};
                 border-radius: 5px;
             }
 
             element selected {
-        	    text-color: #${config.colorScheme.colors.base01};
-        	    background-color: #${config.colorScheme.colors.base0B};
+        	    text-color: #${config.colorScheme.palette.base01};
+        	    background-color: #${config.colorScheme.palette.base0B};
             }
 
             element-text {
@@ -73,7 +73,7 @@
             //------------------------------------------------
 
             entry {
-        	    text-color: #${config.colorScheme.colors.base05};
+        	    text-color: #${config.colorScheme.palette.base05};
         	    padding: 10 10 0 0;
         	    margin: 0 -2 0 0;
             }
@@ -85,7 +85,7 @@
             }
 
             prompt {
-        	    text-color: #${config.colorScheme.colors.base0D};
+        	    text-color: #${config.colorScheme.palette.base0D};
         	    padding: 10 6 0 10;
         	    margin: 0 -2 0 0;
             }
