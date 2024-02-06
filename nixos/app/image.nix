@@ -1,7 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, userSettings, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
+  users.users.${userSettings.name}.packages = with pkgs; [
     darktable
     ffmpeg_6-full
     gimp-with-plugins

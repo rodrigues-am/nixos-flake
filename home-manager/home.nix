@@ -1,4 +1,5 @@
-{ config, lib, pkgs, userSettings, nix-doom-emacs, nix-colors, ... }:
+{ config, lib, pkgs, inputs, userSettings, nix-doom-emacs, sops-nix, nix-colors
+, ... }:
 
 {
   imports = [
@@ -27,9 +28,21 @@
     #./bin/themechange.nix
     #./bin/theme-selector.nix
 
+    inputs.sops-nix.homeManagerModule
     nix-colors.homeManagerModules.default
     nix-doom-emacs.hmModule
   ];
+
+  sops = {
+    defaultSopsFile = ../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
+
+    secrets = {
+      gmail_key = { };
+      ifusp_key = { };
+    };
+  };
 
   home = {
     username = "${userSettings.name}";

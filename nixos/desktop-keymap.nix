@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "intl., with dead keys";
+    variant = "intl., with dead keys";
   };
 
   # Configure console keymap

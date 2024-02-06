@@ -26,7 +26,8 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-colors, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nix-colors, sops-nix, hyprland
+    , nix-doom-emacs, hyprland-plugins, ... }@inputs:
     let
       system = "x86_64-linux";
 

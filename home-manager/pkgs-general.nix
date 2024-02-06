@@ -42,6 +42,7 @@
     plantuml # build diagrams declaratively
     ranger # file manager
     ripgrep
+    shotwell
     sops
     stow
     syncthing
