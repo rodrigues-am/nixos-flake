@@ -7,10 +7,6 @@
 (use-package use-package-quelpa
   :defer t)
 
-(remove-hook 'text-mode-hook #'spell-fu-mode)
-
-(setq auto-insert-mode t)
-
 (use-package auth-source
   :ensure t
   :custom
@@ -66,7 +62,9 @@
 
 (use-package org-mode
   :defer t
-  :config (org-directory "~/notas/")
+  :config
+  (org-directory "~/notas/")
+  (fill-column 110)
   :hook (org-mode . auto-fill-mode))
 
 ;;(defun amr-clean ()
@@ -84,6 +82,9 @@
   :hook
   (org-mode . org-modern-mode)
   :custom
+  (org-hide-emphasis-markers t)
+  (org-pretty-entities t)
+  (org-ellipsis "…")
   (org-modern-star '("" "" "⍟" "⋄" "✸" "✿")))
 
 (with-eval-after-load 'org (global-org-modern-mode))
@@ -109,9 +110,6 @@
   'org-babel-load-languages
   '((plantuml . t)))
 
-(setq doom-theme 'doom-one)
-(setq display-line-numbers-type t)
-
 (use-package golden-ratio
   :ensure t)
 
@@ -125,9 +123,6 @@
   ;; load preferred theme
   (load-theme 'lambda-dark-faded))
 
-(use-package olivetti
-  :ensure t)
-
 (use-package org-roam
  :ensure t
  :init
@@ -135,8 +130,7 @@
  (setq org-roam-mode-section-functions
        (list #'org-roam-backlinks-section
              #'org-roam-reflinks-section
-              #'org-roam-unlinked-references-section
-             ))
+              #'org-roam-unlinked-references-section ))
  (add-to-list 'display-buffer-alist
               '("\\*org-roam\\*"
                 (display-buffer-in-direction)
@@ -266,12 +260,9 @@
                 :date today
                 :scheduled today
                 :order 1
-                :face 'warning)
+                :face 'warning)))
 
-))
-
-(org-super-agenda-mode t)
-)
+(org-super-agenda-mode t))
 
 (use-package elfeed-org
   :defer
@@ -387,18 +378,7 @@
          :title "Notes"
          :include ("academic.org")
          :exclude "\\.org$"
-         )
-        ;; ("home"
-        ;;  :base-directory "~/notes/org/"
-        ;;  :base-extension "org"
-        ;;  :publishing-directory "~/notes/export/home/"
-        ;;  :publishing-function org-publish-org-to-latex
-        ;;  :select-tags     ("@HOME")
-        ;;  :title "Home Phone"
-        ;;  :include ("index.org")
-        ;;  :exclude "\\.org$"
-        ;;  )
-        ))
+         )))
 
 (after! projectile
           (setq projectile-project-root-files-bottom-up
@@ -409,3 +389,5 @@
   :custom
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
+
+
