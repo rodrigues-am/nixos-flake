@@ -1,8 +1,6 @@
 { config, lib, pkgs, inputs, userSettings, nix-colors, ... }:
 
-let
-
-in {
+{
   imports = [ # Include the results of the hardware scan.
     ./syncthing.nix
     ./polkit.nix

@@ -25,8 +25,8 @@
     python3Full
 
     # r
-    R
-    rstudio
+    # R
+    # rstudio
 
     # rust
     rustc
