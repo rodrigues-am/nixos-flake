@@ -2,7 +2,7 @@
 
 {
 
-  home.packages = with pkgs; [
+    home.packages = (with pkgs; [
 
     age # encryption
     aspell
@@ -57,6 +57,11 @@
     zoom-us
     zotero
 
-  ];
+    ];)
+        ++
+
+        (with pkgs-stable; [
+           mu
+        ])
 
 }

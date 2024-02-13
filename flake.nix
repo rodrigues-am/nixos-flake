@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -26,8 +27,8 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-colors, sops-nix, hyprland
-    , nix-doom-emacs, hyprland-plugins, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nix-colors, sops-nix
+    , hyprland, nix-doom-emacs, hyprland-plugins, ... }@inputs:
     let
       system = "x86_64-linux";
 
@@ -44,6 +45,7 @@
       };
 
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 
     in {
       nixosConfigurations = {
