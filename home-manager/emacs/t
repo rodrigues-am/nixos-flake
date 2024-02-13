@@ -40,7 +40,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
       (olivetti-mode -1)
       (set-window-fringes (selected-window) nil) ; Use default width
       (amr/variable-pitch-mode -1)))
-    :bind ("M-p o" . amr/olivetti-mode))
+    :bind ("C-c p o" . amr/olivetti-mode))
 
 
   (use-package face-remap
@@ -80,7 +80,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
     ;; C-c l is used for `org-store-link'.  The mnemonic for this is to
     ;; focus the Line and also works as a variant of C-l.
-    :bind ("M-p s" . amr/scroll-centre-cursor-mode))
+    :bind ("C-c p s" . amr/scroll-centre-cursor-mode))
 
 
   (use-package display-line-numbers
@@ -99,7 +99,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
             (hl-line-mode 1))
         (display-line-numbers-mode -1)
         (hl-line-mode -1)))
-    :bind ("M-p l" . amr/display-line-numbers-mode))
+    :bind ("C-c p l" . amr/display-line-numbers-mode))
 
 (use-package nov
   :defer t

@@ -60,12 +60,16 @@
 (use-package gptel
   :ensure t)
 
-(use-package org-mode
+(use-package org
   :defer t
+  :mode (("\\.org$" . org-mode))
+  :ensure org-plus-contrib
   :config
-  (org-directory "~/notas/")
-  (fill-column 110)
-  :hook (org-mode . auto-fill-mode))
+  (setq org-directory "~/notas")
+  :custom
+  (setq-local fill-column 110)
+  :hook
+  (org-mode . auto-fill-mode))
 
 ;;(defun amr-clean ()
   ;; (display-line-numbers-mode 0)

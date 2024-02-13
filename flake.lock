@@ -432,6 +432,22 @@
     },
     "nixpkgs-stable": {
       "locked": {
+        "lastModified": 1707650010,
+        "narHash": "sha256-dOhphIA4MGrH4ElNCy/OlwmN24MsnEqFjRR6+RY7jZw=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "809cca784b9f72a5ad4b991e0e7bcf8890f9c3a6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-stable_2": {
+      "locked": {
         "lastModified": 1707603439,
         "narHash": "sha256-LodBVZ3+ehJP2azM5oj+JrhfNAAzmTJ/OwAIOn0RfZ0=",
         "owner": "NixOS",
@@ -597,6 +613,7 @@
         "nix-colors": "nix-colors",
         "nix-doom-emacs": "nix-doom-emacs",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix"
       }
     },
@@ -637,7 +654,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nixpkgs-stable": "nixpkgs-stable"
+        "nixpkgs-stable": "nixpkgs-stable_2"
       },
       "locked": {
         "lastModified": 1707748232,

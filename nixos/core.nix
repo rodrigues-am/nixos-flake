@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, userSettings, nix-colors, ... }:
+{ config, lib, pkgs, pkgs-stable, inputs, userSettings, nix-colors, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -91,7 +91,8 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ home-manager ];
+  environment.systemPackages = (with pkgs; [ home-manager ])
+    ++ (with pkgs-stable; [ mu ]);
 
   # Enable the OpenSSH daemon.
 

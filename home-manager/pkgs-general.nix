@@ -1,8 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, inputs, ... }:
 
 {
 
-    home.packages = (with pkgs; [
+  home.packages = (with pkgs; [
 
     age # encryption
     aspell
@@ -57,11 +57,6 @@
     zoom-us
     zotero
 
-    ];)
-        ++
-
-        (with pkgs-stable; [
-           mu
-        ])
+  ]) ++ (with pkgs-stable; [ btop ]);
 
 }

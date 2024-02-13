@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -58,6 +58,7 @@
           specialArgs = {
             inherit inputs;
             inherit userSettings;
+            inherit pkgs-stable;
           };
 
           modules = [
@@ -82,6 +83,7 @@
           specialArgs = {
             inherit inputs;
             inherit userSettings;
+            inherit pkgs-stable;
           };
           modules = [
 
@@ -107,6 +109,7 @@
           specialArgs = {
             inherit inputs;
             inherit userSettings;
+            inherit pkgs-stable;
           };
 
           modules = [
@@ -133,6 +136,7 @@
           specialArgs = {
             inherit inputs;
             inherit userSettings;
+            inherit pkgs-stable;
           };
 
           modules = [
