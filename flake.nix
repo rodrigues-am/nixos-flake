@@ -140,10 +140,10 @@
           };
 
           modules = [
-            ./nixos/hp-laptop/hardware-configuration.nix
+            ./nixos/dell-laptop/hardware-configuration.nix
             ./nixos/core.nix
-            ./nixos/hp-laptop/keymap-hp-laptop.nix
-            ./nixos/hp-laptop/boot-hp-laptop.nix
+            ./nixos/dell-laptop/keymap-dell-laptop.nix
+            ./nixos/dell-laptop/boot-dell-laptop.nix
 
             home-manager.nixosModules.home-manager
             { imports = [ ./home-manager/hm-module.nix ]; }

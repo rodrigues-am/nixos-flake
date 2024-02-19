@@ -57,6 +57,6 @@
     zoom-us
     zotero
 
-  ]) ++ (with pkgs-stable; [ btop ]);
+  ]) ++ (with pkgs-stable; [ gnomeExtensions.forge ]);
 
 }

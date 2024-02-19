@@ -59,7 +59,7 @@ Some personal information.
 #+end_src
 * SpellCheck
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 #+end_src
 #+begin_src emacs-lisp
@@ -150,8 +150,7 @@ Some personal information.
   :ensure org-plus-contrib
   :config
   (setq org-directory "~/notas")
-  :custom
-  (setq-local fill-column 110)
+  (setq fill-column 110)
   :hook
   (org-mode . auto-fill-mode))
 
@@ -160,7 +159,7 @@ Some personal information.
 
 ** Org-noter
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 (use-package org-noter
   :defer t
   :custom
@@ -173,15 +172,6 @@ Some personal information.
 Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a coluna; desliga autocomplete - company.
 
 #+begin_src emacs-lisp
-
-;;(defun amr-clean ()
-  ;; (display-line-numbers-mode 0)
-;;   (set-fill-column 110)
-;;(set-window-margins (selected-window) 40 40)
-;;   (setq left-margin-width 20)
-  ;;                                                             (setq right-margin-width 10)
-  ;; (company-mode -1))
-;;(add-hook 'org-mode-hook 'amr-clean)
 
 
 (use-package org-modern
@@ -243,11 +233,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 * Visual
 
-#+begin_src emacs-lisp :tangle nil
-;; (setq doom-theme 'doom-one)
-;; (setq display-line-numbers-type t)
-#+end_src
-
+#+begin_
 #+begin_src emacs-lisp
 (use-package golden-ratio
   :ensure t)
@@ -255,7 +241,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 ** Nano
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp :tangle no
 (use-package nano-emacs
   :ensure t)
 #+end_src
@@ -274,20 +260,25 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   (load-theme 'lambda-dark-faded))
 #+end_src
 
+#+RESULTS:
+: t
+
 ** Olivetti-mode
 
 #+begin_src emacs-lisp :tangle no
 (use-package olivetti
   :defer t)
 #+end_src
-#+begin_src emacs-lisp :tangle t
+
+
+#+begin_src emacs-lisp :tangle no
 
 
 ;;(set-face-attribute 'variable-pitch nil :font "Noto Sans")
 
 #+end_src
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 (use-package olivetti
   :ensure
@@ -318,7 +309,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
       (olivetti-mode -1)
       (set-window-fringes (selected-window) nil) ; Use default width
       (amr/variable-pitch-mode -1)))
-    :bind ("C-c p o" . amr/olivetti-mode))
+    :bind ("M-p o" . amr/olivetti-mode))
 
 
   (use-package face-remap
@@ -358,7 +349,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
     ;; C-c l is used for `org-store-link'.  The mnemonic for this is to
     ;; focus the Line and also works as a variant of C-l.
-    :bind ("C-c p s" . amr/scroll-centre-cursor-mode))
+    :bind ("M-p s" . amr/scroll-centre-cursor-mode))
 
 
   (use-package display-line-numbers
@@ -377,7 +368,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
             (hl-line-mode 1))
         (display-line-numbers-mode -1)
         (hl-line-mode -1)))
-    :bind ("C-c p l" . amr/display-line-numbers-mode))
+    :bind ("M-p l" . amr/display-line-numbers-mode))
 
 
 #+end_src
@@ -387,7 +378,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 * Ereader - Nov
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 (use-package nov
   :defer t
   :hook
@@ -652,8 +643,26 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 * References & Bib
 
 #+begin_src emacs-lisp
+(require 'oc-csl)
+(setq org-cite-global-bibliography '("~/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 #+end_src
+
+#+RESULTS:
+: ~/Zotero/styles
+
+** Zotxt
+
+#+begin_src emacs-lisp
+
+(use-package zotxt
+  :defer t
+  :custom
+  (setq zotxt-default-bibiliography-style "apa"))
+
+#+end_src
+
+#+RESULTS:
 
 * Icons
 

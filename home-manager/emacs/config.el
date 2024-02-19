@@ -26,6 +26,8 @@
 (use-package grammarly
   :ensure t)
 
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+
 (use-package flyspell
   :defer t
   :config
@@ -66,20 +68,15 @@
   :ensure org-plus-contrib
   :config
   (setq org-directory "~/notas")
-  :custom
-  (setq-local fill-column 110)
+  (setq fill-column 110)
   :hook
   (org-mode . auto-fill-mode))
 
-;;(defun amr-clean ()
-  ;; (display-line-numbers-mode 0)
-;;   (set-fill-column 110)
-;;(set-window-margins (selected-window) 40 40)
-;;   (setq left-margin-width 20)
-  ;;                                                             (setq right-margin-width 10)
-  ;; (company-mode -1))
-;;(add-hook 'org-mode-hook 'amr-clean)
-
+(use-package org-noter
+  :defer t
+  :custom
+  (org-noter-highlight-selected-text t)
+  (org-noter-max-short-selected-text-length 5))
 
 (use-package org-modern
   :ensure t
@@ -126,6 +123,101 @@
   :config
   ;; load preferred theme
   (load-theme 'lambda-dark-faded))
+
+(use-package olivetti
+  :ensure
+  :defer
+  :diminish
+  :config
+  (setq olivetti-body-width 0.65)
+  (setq olivetti-minimum-body-width 72)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+
+  (define-minor-mode amr/olivetti-mode
+    "Toggle buffer-local `olivetti-mode' with additional parameters.
+
+Fringes are disabled.  The modeline is hidden, except for
+`prog-mode' buffers (see `amr/hidden-mode-line-mode').  The
+default typeface is set to a proportionately-spaced family,
+except for programming modes (see `amr/variable-pitch-mode').
+The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
+    :init-value nil
+    :global nil
+    (if amr/olivetti-mode
+        (progn
+          (olivetti-mode 1)
+          (set-window-fringes (selected-window) 0 0)
+          (amr/variable-pitch-mode 1)
+          (amr/scroll-centre-cursor-mode 1)
+          (amr/display-line-numbers-mode 0))
+      (olivetti-mode -1)
+      (set-window-fringes (selected-window) nil) ; Use default width
+      (amr/variable-pitch-mode -1)))
+    :bind ("M-p o" . amr/olivetti-mode))
+
+
+  (use-package face-remap
+    :diminish buffer-face-mode            ; the actual mode
+    :commands amr/variable-pitch-mode
+    :config
+    (define-minor-mode amr/variable-pitch-mode
+      "Toggle `variable-pitch-mode', except for `prog-mode'."
+      :init-value nil
+      :global nil
+      (if amr/variable-pitch-mode
+          (unless (derived-mode-p 'prog-mode)
+            (variable-pitch-mode 1))
+        (variable-pitch-mode -1))))
+
+
+  (use-package emacs
+    :config
+    (setq-default scroll-preserve-screen-position t)
+    (setq-default scroll-conservatively 1) ; affects `scroll-step'
+    (setq-default scroll-margin 0)
+
+    (define-minor-mode amr/scroll-centre-cursor-mode
+      "Toggle centred cursor scrolling behaviour."
+      :init-value nil
+      :lighter " S="
+      :global nil
+      (if amr/scroll-centre-cursor-mode
+          (setq-local scroll-margin (* (frame-height) 2)
+                      scroll-conservatively 0
+                      maximum-scroll-margin 0.5)
+        (dolist (local '(scroll-preserve-screen-position
+                         scroll-conservatively
+                         maximum-scroll-margin
+                         scroll-margin))
+          (kill-local-variable `,local))))
+
+    ;; C-c l is used for `org-store-link'.  The mnemonic for this is to
+    ;; focus the Line and also works as a variant of C-l.
+    :bind ("M-p s" . amr/scroll-centre-cursor-mode))
+
+
+  (use-package display-line-numbers
+    :defer
+    :config
+    ;; Set absolute line numbers.  A value of "relative" is also useful.
+    (setq display-line-numbers-type t)
+
+    (define-minor-mode amr/display-line-numbers-mode
+      "Toggle `display-line-numbers-mode' and `hl-line-mode'."
+      :init-value nil
+      :global nil
+      (if amr/display-line-numbers-mode
+          (progn
+            (display-line-numbers-mode 1)
+            (hl-line-mode 1))
+        (display-line-numbers-mode -1)
+        (hl-line-mode -1)))
+    :bind ("M-p l" . amr/display-line-numbers-mode))
+
+(use-package nov
+  :defer t
+  :hook
+  (nov-mode . scroll-lock-mode))
 
 (use-package org-roam
  :ensure t
@@ -296,7 +388,14 @@
 
 (require 'org-tempo)
 
+(require 'oc-csl)
+(setq org-cite-global-bibliography '("~/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
+
+(use-package zotxt
+  :defer t
+  :custom
+  (setq zotxt-default-bibiliography-style "apa"))
 
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
