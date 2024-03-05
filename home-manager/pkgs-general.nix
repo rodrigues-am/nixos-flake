@@ -35,7 +35,6 @@
     mpv # media player
     neofetch
     neovim
-    nyxt # web browser
     pandoc
     pass
     pdftk
@@ -57,6 +56,9 @@
     zoom-us
     zotero
 
-  ]) ++ (with pkgs-stable; [ gnomeExtensions.forge ]);
+  ]) ++ (with pkgs-stable; [
+    gnomeExtensions.forge
+    nyxt # web browser
+  ]);
 
 }
