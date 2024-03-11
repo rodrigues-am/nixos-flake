@@ -25,7 +25,7 @@
         autoAcceptFolders = true;
       };
       "dell-laptop" = {
-        id = "W4NJAW2-FM2X2FP-VKFLILS-4JEUORB-AWQSKXA-LNVLMW6-K4LJEE6-5ODROA2";
+        id = "RQAGBOY-2LMUEDW-3X7OFNR-7J6AFFX-NXTZUWY-63C3GJZ-6HG7GU4-H3E6TQ6";
         autoAcceptFolders = true;
       };
       "hp-laptop" = {
@@ -46,15 +46,15 @@
         };
       };
 
-      "projects" = {
-        id = "rsfww-9aoyp";
-        path = "/home/andre/projects";
-        devices = [ "home-desktop" "usp-desktop" "dell-laptop" "hp-laptop" ];
-        versioning = {
-          type = "simple";
-          params = { keep = "10"; };
-        };
-      };
+      # "projects" = {
+      #   id = "rsfww-9aoyp";
+      #   path = "/home/andre/projects";
+      #   devices = [ "home-desktop" "usp-desktop" "dell-laptop" "hp-laptop" ];
+      #   versioning = {
+      #     type = "simple";
+      #     params = { keep = "10"; };
+      #   };
+      # };
 
       "notas" = {
         id = "tkpde-x2smc";
@@ -67,16 +67,16 @@
         };
       };
 
-      "blog" = {
-        id = "hufdp-52p2n";
-        path = "/home/andre/blog";
-        devices =
-          [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
-        versioning = {
-          type = "simple";
-          params = { keep = "10"; };
-        };
-      };
+      # "blog" = {
+      #   id = "hufdp-52p2n";
+      #   path = "/home/andre/blog";
+      #   devices =
+      #     [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
+      #   versioning = {
+      #     type = "simple";
+      #     params = { keep = "10"; };
+      #   };
+      # } ;
 
       ".ssh" = {
         id = "vworj-qlkdr";
@@ -89,27 +89,27 @@
         };
       };
 
-      "roam-notes" = {
-        id = "rqlad-kzr24";
-        path = "/home/andre/roam-notes";
-        devices =
-          [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
-        versioning = {
-          type = "simple";
-          params = { keep = "10"; };
-        };
-      };
+      # "roam-notes" = {
+      #   id = "rqlad-kzr24";
+      #   path = "/home/andre/roam-notes";
+      #   devices =
+      #     [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
+      #   versioning = {
+      #     type = "simple";
+      #     params = { keep = "10"; };
+      #   };
+      # };
 
-      ".dotfiles" = {
-        id = "kcjj3-wpgry";
-        path = "/home/andre/.dotfiles";
-        devices =
-          [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
-        versioning = {
-          type = "simple";
-          params = { keep = "10"; };
-        };
-      };
+      # ".dotfiles" = {
+      #   id = "kcjj3-wpgry";
+      #   path = "/home/andre/.dotfiles";
+      #   devices =
+      #     [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
+      #   versioning = {
+      #     type = "simple";
+      #     params = { keep = "10"; };
+      #   };
+      # };
 
     };
 
