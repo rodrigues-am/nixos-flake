@@ -1,9 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, inputs, ... }:
 
 {
 
-  home.packages = with pkgs; [
-    # hyprland
+  home.packages = (with pkgs; [
     swaynotificationcenter
     swaylock
     swww
@@ -15,7 +14,7 @@
     ydotool
     xorg.xhost
     gnome.nautilus
-  ];
+  ]) ++ (with pkgs-stable; [ ]);
 
   home.file = {
 

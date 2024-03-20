@@ -1,10 +1,10 @@
-{ pkgs, config, ... }:
+{ pkgs, config, pkgs-stable, ... }:
 
 {
   # Configure & Theme Waybar
   programs.waybar = {
     enable = true;
-    package = pkgs.waybar;
+    package = pkgs-stable.waybar;
     settings = [{
       layer = "top";
       position = "top";

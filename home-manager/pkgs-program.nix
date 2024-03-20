@@ -1,8 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, inputs, ... }:
 
 {
 
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     # programing
 
     # database
@@ -37,7 +37,6 @@
 
     #nodejs
     nodejs_21
-    nodePackages.grammarly-languageserver
 
     #Web
     html-tidy
@@ -52,7 +51,12 @@
     #Yaml
     yaml-language-server
 
-  ];
+  ]) ++ (with pkgs-stable;
+    [
+
+      nodePackages.grammarly-languageserver
+
+    ]);
 
   # services.postgresql.enable = true;
 

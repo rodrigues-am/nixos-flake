@@ -1,11 +1,11 @@
-{ config, lib, pkgs, inputs, userSettings, ... }:
+{ config, lib, pkgs, pkgs-stable, inputs, userSettings, ... }:
 
 {
-  users.users.${userSettings.name}.packages = with pkgs; [
+  users.users.${userSettings.name}.packages = (with pkgs; [
     darktable
     ffmpeg_6-full
-    gimp-with-plugins
     imagemagick
     inkscape-with-extensions
-  ];
+  ]) ++ (with pkgs-stable; [ gimp-with-plugins ]);
+
 }
