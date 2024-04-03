@@ -67,7 +67,8 @@
   :mode (("\\.org$" . org-mode))
   :ensure org-plus-contrib
   :config
-  (setq org-directory "~/notas")
+  (setq org-directory "~/notas/general")
+  (setq org-agenda-files '("~/notas/general"))
   (setq fill-column 110)
   :hook
   (org-mode . auto-fill-mode))
