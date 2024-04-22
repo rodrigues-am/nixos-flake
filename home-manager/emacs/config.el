@@ -69,9 +69,7 @@
   :config
   (setq org-directory "~/notas/general")
   (setq org-agenda-files '("~/notas/general"))
-  (setq fill-column 110)
-  :hook
-  (org-mode . auto-fill-mode))
+  (setq fill-column 100))
 
 (use-package org-noter
   :defer t
@@ -493,5 +491,3 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :custom
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
-
-

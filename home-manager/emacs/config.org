@@ -151,9 +151,7 @@ Some personal information.
   :config
   (setq org-directory "~/notas/general")
   (setq org-agenda-files '("~/notas/general"))
-  (setq fill-column 110)
-  :hook
-  (org-mode . auto-fill-mode))
+  (setq fill-column 100))
 
 #+end_src
 
@@ -261,9 +259,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   (load-theme 'lambda-dark-faded))
 #+end_src
 
-#+RESULTS:
-: t
-
 ** Olivetti-mode
 
 #+begin_src emacs-lisp :tangle no
@@ -271,13 +266,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   :defer t)
 #+end_src
 
-
-#+begin_src emacs-lisp :tangle no
-
-
-;;(set-face-attribute 'variable-pitch nil :font "Noto Sans")
-
-#+end_src
 
 #+begin_src emacs-lisp
 
@@ -373,9 +361,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 
 #+end_src
-
-#+RESULTS:
-: amr/display-line-numbers-mode
 
 * Ereader - Nov
 
@@ -826,12 +811,4 @@ Recomendação feita por Doom Doctor
   :custom
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
-#+end_src
-
-* Email
-
-#+begin_src emacs-lisp
-
-
-
 #+end_src
