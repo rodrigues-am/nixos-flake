@@ -24,19 +24,12 @@
     # python
     python3Full
 
-    # r
-    # R
-    # rstudio
-
     # rust
     rustc
     #rustup
     rustfmt
     rust-analyzer
     cargo
-
-    #nodejs
-    nodejs_21
 
     #Web
     html-tidy
@@ -51,12 +44,15 @@
     #Yaml
     yaml-language-server
 
-  ]) ++ (with pkgs-stable;
-    [
+  ]) ++ (with pkgs-stable; [
 
-      nodePackages.grammarly-languageserver
-
-    ]);
+    #nodejs
+    nodejs_21
+    nodePackages.grammarly-languageserver
+    # r
+    R
+    rstudio
+  ]);
 
   # services.postgresql.enable = true;
 
