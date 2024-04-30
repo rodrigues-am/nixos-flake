@@ -39,7 +39,7 @@
     jq # lightweight and flexible command-line JSON processor
 
     #Nix
-    nixfmt
+    nixfmt-classic
 
     #Yaml
     yaml-language-server
@@ -52,6 +52,9 @@
     # r
     R
     rstudio
+
+    #Cliente DB para o IFUSP
+    dbeaver
   ]);
 
   # services.postgresql.enable = true;
