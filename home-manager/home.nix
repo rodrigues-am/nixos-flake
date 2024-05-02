@@ -61,6 +61,7 @@
   };
 
   colorScheme = nix-colors.colorSchemes."${userSettings.theme}";
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 

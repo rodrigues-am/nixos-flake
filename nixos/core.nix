@@ -1,6 +1,7 @@
-{ config, lib, pkgs, pkgs-stable, inputs, userSettings, nix-colors, ... }:
+{ config, lib, pkgs-stable, inputs, userSettings, nix-colors, pkgs, ... }:
 
 {
+
   imports = [ # Include the results of the hardware scan.
     ./syncthing.nix
     ./polkit.nix
@@ -131,5 +132,9 @@
     };
   };
 
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+
+  virtualisation.docker.enable = true;
   system.stateVersion = "24.05"; # Did you read the comment?
 }
