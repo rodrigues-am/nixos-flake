@@ -13,9 +13,6 @@
     calibre
     cmake
     curl
-    dpkg
-    distrobox
-    docker
     element-desktop
     eza
     fd

@@ -132,9 +132,5 @@
     };
   };
 
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-
-  virtualisation.docker.enable = true;
   system.stateVersion = "24.05"; # Did you read the comment?
 }
