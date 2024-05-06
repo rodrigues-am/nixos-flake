@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, ... }:
 
 {
   home = {
@@ -8,18 +8,14 @@
       DOOMLOCALDIR = "${config.xdg.configHome}/doom-local";
     };
 
-
-    packages = with pkgs; [
-
+    packages = (with pkgs; [ isync msmtp ]) ++ (with pkgs-stable; [
       emacs29-pgtk
-      isync
-      msmtp
       emacsPackages.nerd-icons
       emacsPackages.pdf-tools
       emacsPackages.vterm
-      (pkgs.mu.override { emacs = emacs29-pgtk; })
       emacsPackages.mu4e
-    ];
+      (pkgs.mu.override { emacs = emacs29-pgtk; })
+    ]);
 
   };
 
@@ -39,5 +35,5 @@
   #   };
 
   services.emacs.enable = true;
- 
+
 }
