@@ -28,7 +28,7 @@
         "sudo nixos-rebuild switch --flake ~/nixos-flake#usp-desktop";
       amr-nixos-dell-laptop =
         "sudo nixos-rebuild switch --flake ~/nixos-flake#dell-laptop";
-      amr-nixos-cleanup- =
+      amr-nixos-cleanup =
         "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
 
     };
