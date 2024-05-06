@@ -52,6 +52,9 @@
     # r
     R
     rstudio
+    rPackages.ggplot2
+    rPackages.tidyverse
+    rPackages.ggthemes
 
     #Cliente DB para o IFUSP
     dbeaver
