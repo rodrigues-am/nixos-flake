@@ -20,7 +20,7 @@
     fzf
     gh
     gnome.gucharmap
-    gnucash
+    #gnucash
     gnumake
     gnupg
     gnuplot
