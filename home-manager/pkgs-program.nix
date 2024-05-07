@@ -1,19 +1,34 @@
 { config, lib, pkgs, pkgs-stable, inputs, ... }:
+with pkgs;
+let
+  RStudio-with-my-packages = rstudioWrapper.override {
+    packages = with rPackages; [
+      ggplot2
+      dplyr
+      tidyr
+      ggthemes
+      gsheet
+      tidytext
+      stringr
+      glue
+      ggrepel
 
-{
+    ];
+  };
+in {
 
   home.packages = (with pkgs; [
     # programing
 
     # database
     sqlite
-    #surrealdb
+    # surrealdb
     postgresql
 
     # general
-    #postman
+    # postman
 
-    #sh
+    # sh
     shellcheck
     shfmt
 
@@ -26,7 +41,8 @@
 
     # rust
     rustc
-    #rustup
+
+    # rustup
     rustfmt
     rust-analyzer
     cargo
@@ -49,13 +65,10 @@
     #nodejs
     nodejs_21
     nodePackages.grammarly-languageserver
-    # r
-    R
-    rstudio
-    rPackages.ggplot2
-    rPackages.tidyverse
-    rPackages.ggthemes
 
+    # R
+    R
+    rstudioWrapper
     #Cliente DB para o IFUSP
     dbeaver
   ]);
