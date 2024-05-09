@@ -3,22 +3,30 @@ with pkgs;
 let
   RStudio-with-my-packages = rstudioWrapper.override {
     packages = with rPackages; [
-      ggplot2
       dplyr
       tidyr
-      ggthemes
       gsheet
       tidytext
       stringr
       glue
-      ggrepel
 
+      # tables
+      gtable
+
+      # plot
+      ggplot2
+      ggthemes
+      ggrepel
     ];
   };
 in {
 
   home.packages = (with pkgs; [
     # programing
+    RStudio-with-my-packages
+    # R
+    R
+    #rstudioWrapper
 
     # database
     sqlite
@@ -66,9 +74,6 @@ in {
     nodejs_21
     nodePackages.grammarly-languageserver
 
-    # R
-    R
-    rstudioWrapper
     #Cliente DB para o IFUSP
     dbeaver
   ]);
