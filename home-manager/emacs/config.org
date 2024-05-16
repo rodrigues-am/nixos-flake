@@ -79,6 +79,19 @@ Some personal information.
     (add-hook mode (lambda () (flyspell-mode 1)))))
 #+end_src
 
+#+begin_src emacs-lisp
+
+(global-set-key (kbd "M-p s") 'my-flyspell-toggle)
+
+(defun my-flyspell-toggle ()
+  "Toggle flyspell-buffer and flyspell-mode."
+  (interactive)
+  (if flyspell-mode
+      (flyspell-mode-off)
+    (flyspell-mode-on))
+  (flyspell-buffer))
+
+#+end_src
 * TODO Writeroom
 
 #+begin_src emacs-lisp :tangle no
@@ -338,7 +351,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
     ;; C-c l is used for `org-store-link'.  The mnemonic for this is to
     ;; focus the Line and also works as a variant of C-l.
-    :bind ("M-p s" . amr/scroll-centre-cursor-mode))
+    :bind ("M-p q" . amr/scroll-centre-cursor-mode))
 
 
   (use-package display-line-numbers
@@ -811,4 +824,49 @@ Recomendação feita por Doom Doctor
   :custom
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
+#+end_src
+
+* Pessoal
+** Lista de disciplinas
+
+#+begin_src emacs-lisp
+(defgroup amr-custom-group nil
+  "Custom group for my settings."
+  :group 'convenience)
+
+(defcustom amr-course-list-file-path "~/notas/.script/curso.txt"
+  "Path to the text file with courses list."
+  :type 'file
+  :group 'amr-custom-group)
+
+
+(defun amr-read--text-file-to-alist (file-path)
+  "Read a text file with one item per line and return an alist."
+  (with-temp-buffer
+    (insert-file-contents file-path)
+    (let ((alist '()))
+      (while (not (eobp))
+        (push (cons (buffer-substring-no-properties (line-beginning-position) (line-end-position)) nil) alist)
+        (forward-line))
+      (nreverse alist))))
+
+
+(defun amr-insert--alist-item (alist)
+  "Prompt the user to select an item from the given alist using ivy-read."
+  (let ((selected-item (ivy-read "Select item: " (mapcar 'car alist))))
+    (when selected-item
+      (insert selected-item))))
+
+(defun amr-insert-course-ifusp ()
+  "Read a text file with one item per line, create an alist,
+  and then prompt the user to select and insert an item from it using ivy-read."
+  (interactive)
+  (let ((file-path amr-course-list-file-path))
+    (setq my-alist (amr-read--text-file-to-alist file-path))
+    (amr-insert--alist-item my-alist)))
+
+
+;; Bind the function to "C-j c"
+(global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
+
 #+end_src

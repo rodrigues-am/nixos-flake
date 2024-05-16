@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }: {
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_8;
   # Enable OpenGL
   hardware.opengl = {
     enable = true;
