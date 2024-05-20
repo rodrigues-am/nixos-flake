@@ -80,18 +80,20 @@ Some personal information.
 #+end_src
 
 #+begin_src emacs-lisp
-
 (global-set-key (kbd "M-p s") 'my-flyspell-toggle)
 
 (defun my-flyspell-toggle ()
-  "Toggle flyspell-buffer and flyspell-mode."
+  "Toggle flyspell-mode and run flyspell-buffer if enabling flyspell-mode."
   (interactive)
   (if flyspell-mode
-      (flyspell-mode-off)
-    (flyspell-mode-on))
-  (flyspell-buffer))
-
+      (flyspell-mode -1)
+    (flyspell-mode 1)
+    (flyspell-buffer)))
 #+end_src
+
+#+RESULTS:
+: my-flyspell-toggle
+
 * TODO Writeroom
 
 #+begin_src emacs-lisp :tangle no

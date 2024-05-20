@@ -46,12 +46,12 @@
 (global-set-key (kbd "M-p s") 'my-flyspell-toggle)
 
 (defun my-flyspell-toggle ()
-  "Toggle flyspell-buffer and flyspell-mode."
+  "Toggle flyspell-mode and run flyspell-buffer if enabling flyspell-mode."
   (interactive)
   (if flyspell-mode
-      (flyspell-mode-off)
-    (flyspell-mode-on))
-  (flyspell-buffer))
+      (flyspell-mode -1)
+    (flyspell-mode 1)
+    (flyspell-buffer)))
 
 (use-package telega
   :defer t)
