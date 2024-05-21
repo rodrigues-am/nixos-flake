@@ -872,3 +872,23 @@ Recomendação feita por Doom Doctor
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
 
 #+end_src
+
+** Latex to svg
+
+#+begin_src emacs-lisp
+
+(defun amr-org-latex-filter-plantuml (text backend info)
+  "Ensure that LaTeX export includes SVG file extension for PlantUML blocks."
+  (when (org-export-derived-backend-p backend 'latex)
+    (replace-regexp-in-string
+     "\\\\includesvg\\(\\[.*\\]\\)?{\\(.*\\)}"
+     "\\\\includesvg\\1{\\2.svg}"
+     text)))
+
+(add-to-list 'org-export-filter-final-output-functions
+             'amr-org-latex-filter-plantuml)
+
+#+end_src
+
+#+RESULTS:
+| amr-org-latex-filter-plantuml |
