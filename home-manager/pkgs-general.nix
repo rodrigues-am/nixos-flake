@@ -36,6 +36,7 @@
     neofetch
     neovim
     pandoc
+    poppler_utils
     pass
     pdftk
     plantuml # build diagrams declaratively

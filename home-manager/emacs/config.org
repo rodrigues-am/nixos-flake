@@ -875,7 +875,7 @@ Recomendação feita por Doom Doctor
 
 ** Latex to svg
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
 (defun amr-org-latex-filter-plantuml (text backend info)
   "Ensure that LaTeX export includes SVG file extension for PlantUML blocks."

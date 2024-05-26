@@ -15,6 +15,7 @@ let
     xml2
     knitr
     standardize
+    latex2exp
 
     # organização e limpeza
     dplyr
