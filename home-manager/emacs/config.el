@@ -452,14 +452,22 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
                  "\\documentclass{article}
-           [NO-DEFAULT-PACKAGES]
+                [NO-DEFAULT-PACKAGES]
            [PACKAGES]
            [EXTRA]"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  '("papel_timbrado"
+                    "\\documentclass\{scrlttr2\}
+     \\usepackage[english]{babel}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
 
 (add-to-list 'org-latex-classes
                '("pocketmod"

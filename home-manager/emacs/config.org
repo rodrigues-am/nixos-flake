@@ -720,17 +720,28 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
                  "\\documentclass{article}
-           [NO-DEFAULT-PACKAGES]
+                [NO-DEFAULT-PACKAGES]
            [PACKAGES]
            [EXTRA]"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
+  '("papel_timbrado"
+                    "\\documentclass\{scrlttr2\}
+     \\usepackage[english]{babel}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
 
 #+end_src
+
+#+RESULTS:
+| papel_timbrado | \documentclass{article} |
+
 **** PocketMod
 
 #+begin_src emacs-lisp
@@ -755,6 +766,18 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 
 #+end_src
+
+#+begin_src emacs-lisp :tangle no
+(use-package ox-koma-letter
+  :ensure t
+  :after ox
+  :config
+  (setq koma-letter-sender-name "André Machado Rodrigues"
+        koma-letter-sender-address "Rua do Matão"
+        koma-letter-sender-phone "+55 (11) 97357-2622"
+        koma-letter-sender-email "rodrigues.am@usp.br"))
+#+end_src
+
 ** Export
 
 #+begin_src emacs-lisp
@@ -892,3 +915,14 @@ Recomendação feita por Doom Doctor
 
 #+RESULTS:
 | amr-org-latex-filter-plantuml |
+* ESS R
+
+#+begin_src emacs-lisp :tangle t
+(add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
+(defun amr-ess-keybindings ()
+  (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))
+(add-hook 'ess-mode-hook 'amr-ess-keybindings)
+#+end_src
+
+#+RESULTS:
+| amr-ess-keybindings | (lambda nil (abbrev-mode 1)) |
