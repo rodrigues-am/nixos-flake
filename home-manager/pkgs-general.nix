@@ -9,6 +9,7 @@
     aspellDicts.en
     aspellDicts.pt_BR
     auctex # text
+    audacity
     bat
     calibre
     cmake
@@ -56,6 +57,7 @@
     zip
     zoom-us
     zotero
+    zoxide
 
   ]) ++ (with pkgs-stable; [
     gnomeExtensions.forge
