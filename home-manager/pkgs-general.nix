@@ -3,7 +3,6 @@
 {
 
   home.packages = (with pkgs; [
-
     age # encryption
     aspell
     aspellDicts.en
@@ -18,10 +17,11 @@
     eza
     fd
     firefox # web browser
+    fontforge-gtk
     fzf
     gh
+    gimp-with-plugins
     gnome.gucharmap
-    #gnucash
     gnumake
     gnupg
     gnuplot
@@ -31,16 +31,17 @@
     hunspell
     hunspellDicts.en_US-large
     hunspellDicts.pt_BR
+    inkscape-with-extensions
     libreoffice
     maim # command-line screenshot utility to emacs
     mpv # media player
     neofetch
     neovim
     pandoc
-    poppler_utils
     pass
     pdftk
     plantuml # build diagrams declaratively
+    poppler_utils
     ranger # file manager
     ripgrep
     shotwell
@@ -58,7 +59,6 @@
     zoom-us
     zotero
     zoxide
-
   ]) ++ (with pkgs-stable; [
     gnomeExtensions.forge
     nyxt # web browser
