@@ -66,7 +66,6 @@
 
             ./nixos/home-desktop/hardware-configuration.nix
             ./nixos/core.nix
-            ./nixos/app/image.nix
             ./nixos/home-desktop/nvidia.nix
             ./nixos/home-desktop/game.nix
             ./nixos/desktop-keymap.nix

@@ -13,6 +13,9 @@
     calibre
     cmake
     curl
+    darktable
+    ffmpeg_6-full
+    imagemagick
     element-desktop
     eza
     fd
