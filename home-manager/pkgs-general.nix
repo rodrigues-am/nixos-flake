@@ -20,7 +20,6 @@
     fontforge-gtk
     fzf
     gh
-    gimp-with-plugins
     gnome.gucharmap
     gnumake
     gnupg
@@ -61,6 +60,7 @@
     zoxide
   ]) ++ (with pkgs-stable; [
     gnomeExtensions.forge
+    gimp-with-plugins
     nyxt # web browser
   ]);
 
