@@ -8,7 +8,7 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_8;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
   programs.hyprland.enable = true;
 
   nix = {
@@ -132,5 +132,5 @@
       options = "--delete-older-than 7d";
     };
   };
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }
