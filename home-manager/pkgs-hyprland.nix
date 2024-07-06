@@ -13,7 +13,7 @@
     libnotify
     ydotool
     xorg.xhost
-    gnome.nautilus
+    nautilus
   ]) ++ (with pkgs-stable; [ ]);
 
   home.file = {
