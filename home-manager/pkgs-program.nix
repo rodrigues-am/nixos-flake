@@ -142,11 +142,11 @@ in {
   ]) ++ (with pkgs-stable; [
 
     #nodejs
-    nodejs_21
-    nodePackages.grammarly-languageserver
+    nodejs_22
+    #nodePackages_latest.grammarly-languageserver
 
     #Cliente DB para o IFUSP
-    dbeaver
+    dbeaver-bin
   ]);
 
   # services.postgresql.enable = true;

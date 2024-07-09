@@ -8,7 +8,7 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   programs.hyprland.enable = true;
 
   nix = {

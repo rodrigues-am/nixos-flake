@@ -20,7 +20,7 @@
     fontforge-gtk
     fzf
     gh
-    gucharmap
+    gnome.gucharmap
     gnumake
     gnupg
     gnuplot
