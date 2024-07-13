@@ -143,7 +143,7 @@ in {
 
     #nodejs
     nodejs_22
-    #nodePackages_latest.grammarly-languageserver
+    #    nodePackages.grammarly-languageserver
 
     #Cliente DB para o IFUSP
     dbeaver-bin

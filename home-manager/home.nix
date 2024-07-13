@@ -47,7 +47,7 @@
   home = {
     username = "${userSettings.name}";
     homeDirectory = "/home/${userSettings.name}";
-    stateVersion = "24.05"; # Please read the comment before changing.
+    stateVersion = "24.11"; # Please read the comment before changing.
     packages = with pkgs; [ ];
     file = { };
     sessionVariables = {
