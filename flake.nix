@@ -158,6 +158,28 @@
 
           ];
         };
+        ################
+        # thinkpad      #
+        ################
+
+        thinkpad = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit userSettings;
+            inherit pkgs-stable;
+          };
+
+          modules = [
+            ./nixos/thinkpad/hardware-configuration.nix
+            ./nixos/core.nix
+            ./nixos/dell-laptop/keymap-dell-laptop.nix
+            ./nixos/dell-laptop/boot-dell-laptop.nix
+
+            home-manager.nixosModules.home-manager
+            { imports = [ ./home-manager/hm-module.nix ]; }
+
+          ];
+        };
 
       };
     };

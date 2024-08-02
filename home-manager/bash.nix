@@ -30,6 +30,8 @@
         "sudo nixos-rebuild switch --flake ~/nixos-flake#dell-laptop";
       amr-nixos-cleanup =
         "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
+      amr-nixos-thinkpad =
+        "sudo nixos-rebuild switch --flake ~/nixos-flake#thinkpad";
 
     };
 
