@@ -173,8 +173,7 @@
             ./nixos/thinkpad/hardware-configuration.nix
             ./nixos/core.nix
             ./nixos/dell-laptop/keymap-dell-laptop.nix
-            ./nixos/dell-laptop/boot-dell-laptop.nix
-
+            ./nixos/boot-desktop.nix
             home-manager.nixosModules.home-manager
             { imports = [ ./home-manager/hm-module.nix ]; }
 
