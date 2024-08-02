@@ -32,6 +32,10 @@
         id = "AWARHUU-5XNZSLX-BUIQK7B-KR26TOW-UAMFEOB-HERNOQH-EJQCU5T-HQJ24AR";
         autoAcceptFolders = true;
       };
+      "thinkpad" = {
+        id = "SHARK5X-T43RLXJ-JYQIIU6-LKFOIT4-DVII6XM-XW4VKRJ-MYO77XU-QKBZUAF";
+        autoAcceptFolders = true;
+      };
     };
 
     settings.folders = {
@@ -39,77 +43,47 @@
       "sync" = {
         id = "default";
         path = "/home/andre/sync";
-        devices = [ "home-desktop" "usp-desktop" "dell-laptop" "hp-laptop" ];
+        devices =
+          [ "home-desktop" "usp-desktop" "dell-laptop" "hp-laptop" "thinkpad" ];
         versioning = {
           type = "simple";
           params = { keep = "10"; };
         };
       };
-
-      # "projects" = {
-      #   id = "rsfww-9aoyp";
-      #   path = "/home/andre/projects";
-      #   devices = [ "home-desktop" "usp-desktop" "dell-laptop" "hp-laptop" ];
-      #   versioning = {
-      #     type = "simple";
-      #     params = { keep = "10"; };
-      #   };
-      # };
 
       "notas" = {
         id = "tkpde-x2smc";
         path = "/home/andre/notas";
-        devices =
-          [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
+        devices = [
+          "home-desktop"
+          "usp-desktop"
+          "dell-laptop"
+          "s22-cel"
+          "hp-laptop"
+          "thinkpad"
+        ];
         versioning = {
           type = "simple";
           params = { keep = "10"; };
         };
       };
-
-      # "blog" = {
-      #   id = "hufdp-52p2n";
-      #   path = "/home/andre/blog";
-      #   devices =
-      #     [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
-      #   versioning = {
-      #     type = "simple";
-      #     params = { keep = "10"; };
-      #   };
-      # } ;
 
       ".ssh" = {
         id = "vworj-qlkdr";
         path = "/home/andre/.ssh";
-        devices =
-          [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
+        devices = [
+          "home-desktop"
+          "usp-desktop"
+          "dell-laptop"
+          "s22-cel"
+          "hp-laptop"
+          "thinkpad"
+        ];
         versioning = {
           type = "simple";
           params = { keep = "10"; };
         };
       };
-
-      # "roam-notes" = {
-      #   id = "rqlad-kzr24";
-      #   path = "/home/andre/roam-notes";
-      #   devices =
-      #     [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
-      #   versioning = {
-      #     type = "simple";
-      #     params = { keep = "10"; };
-      #   };
-      # };
-
-      # ".dotfiles" = {
-      #   id = "kcjj3-wpgry";
-      #   path = "/home/andre/.dotfiles";
-      #   devices =
-      #     [ "home-desktop" "usp-desktop" "dell-laptop" "s22-cel" "hp-laptop" ];
-      #   versioning = {
-      #     type = "simple";
-      #     params = { keep = "10"; };
-      #   };
-      # };
 
     };
 
