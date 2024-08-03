@@ -25,7 +25,7 @@
         autoAcceptFolders = true;
       };
       "dell-laptop" = {
-        id = "RQAGBOY-2LMUEDW-3X7OFNR-7J6AFFX-NXTZUWY-63C3GJZ-6HG7GU4-H3E6TQ6";
+        id = "GUW2JMZ-TKHWHP2-S6F7IGP-3UKUXIA-CUWCGTV-Z42ACS7-5WWHKRS-5KEXIQP";
         autoAcceptFolders = true;
       };
       "hp-laptop" = {
