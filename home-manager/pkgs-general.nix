@@ -20,6 +20,7 @@
     fontforge-gtk
     fzf
     gh
+    ghostscript
     gucharmap
     gnumake
     gnupg

@@ -5,6 +5,7 @@
   imports = [ # Include the results of the hardware scan.
     ./syncthing.nix
     ./polkit.nix
+./emacs-overlay.nix
     inputs.sops-nix.nixosModules.sops
   ];
 
@@ -92,7 +93,9 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [ home-manager ])
+  environment.systemPackages = (with pkgs; [ home-manager 
+emacs
+])
     ++ (with pkgs-stable; [ mu ]);
 
   # Enable the OpenSSH daemon.

@@ -1,6 +1,8 @@
-{ config, lib, pkgs, pkgs-stable, ... }:
+{ config, lib,callPackage, pkgs, pkgs-stable, ... }:
 
 {
+
+
   home = {
     sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
     sessionVariables = {
@@ -9,7 +11,8 @@
     };
 
     packages = (with pkgs; [ isync msmtp ]) ++ (with pkgs-stable; [
-      emacs29-pgtk
+#      emacs29-pgtk
+#emacs
       emacsPackages.nerd-icons
       emacsPackages.pdf-tools
       emacsPackages.vterm
