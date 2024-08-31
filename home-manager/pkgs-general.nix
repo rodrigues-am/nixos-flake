@@ -59,6 +59,7 @@
     zoom-us
     zotero
     zoxide
+    vscode
   ]) ++ (with pkgs-stable; [
     gnomeExtensions.forge
     gimp-with-plugins
