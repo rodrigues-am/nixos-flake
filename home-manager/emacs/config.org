@@ -42,13 +42,6 @@ Some personal information.
 (setq dired-dwim-target t)
 #+end_src
 
-#+begin_src emacs-lisp
-
-(use-package casual-dired
-  :ensure nil
-  :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
-
-#+end_src
 * Grammarly
 
 #+begin_src emacs-lisp
@@ -69,7 +62,6 @@ Some personal information.
 #+begin_src emacs-lisp
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 #+end_src
-
 #+begin_src emacs-lisp
 (use-package flyspell
   :defer t
@@ -102,7 +94,18 @@ Some personal information.
 #+RESULTS:
 : my-flyspell-toggle
 
+* TODO Writeroom
 
+#+begin_src emacs-lisp :tangle no
+(use-package writeroom-mode
+  :defer t
+  :config
+  (setq writeroom-maximize-window nil
+        writeroom-mode-line t
+        writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
+        writeroom-extra-line-spacing 3)
+  (setq writeroom-width visual-fill-column-width))
+#+end_src
 
 * Social network
 
@@ -183,6 +186,8 @@ Some personal information.
 Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a coluna; desliga autocomplete - company.
 
 #+begin_src emacs-lisp
+
+
 (use-package org-modern
   :ensure t
   :hook
@@ -242,13 +247,39 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 * Visual
 
-
+#+begin_
 #+begin_src emacs-lisp
 (use-package golden-ratio
   :ensure t)
 #+end_src
 
+** Nano
+
+#+begin_src emacs-lisp :tangle no
+(use-package nano-emacs
+  :ensure t)
+#+end_src
+
+** Themes Lambda
+
+#+begin_src emacs-lisp
+(use-package lambda-themes
+  :defer t
+  :custom
+  (lambda-themes-set-italic-comments t)
+  (lambda-themes-set-italic-keywords t)
+  (lambda-themes-set-variable-pitch t)
+  :config
+  ;; load preferred theme
+  (load-theme 'lambda-dark-faded))
+#+end_src
+
 ** Olivetti-mode
+
+#+begin_src emacs-lisp :tangle no
+(use-package olivetti
+  :defer t)
+#+end_src
 
 
 #+begin_src emacs-lisp
@@ -481,6 +512,43 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                 :scheduled past
                 :order 2
                 :face 'error)
+
+         ;; (:name "Personal "
+         ;;        :and(:file-path "Personal.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Family "
+         ;;        :and(:file-path "Family.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Teaching "
+         ;;        :and(:file-path "Teaching.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Gamedev "
+         ;;        :and(:file-path "Gamedev.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Youtube "
+         ;;        :and(:file-path "Producer.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Music "
+         ;;        :and(:file-path "Bard.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Storywriting "
+         ;;        :and(:file-path "Stories.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Writing "
+         ;;        :and(:file-path "Author.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Learning "
+         ;;        :and(:file-path "Knowledge.p" :not (:tag "event"))
+         ;;        :order 3)
+
           (:name " Today "  ; Optionally specify section name
                 :time-grid t
                 :date today
@@ -497,6 +565,28 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (use-package org-ql
   :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
             :files (:defaults (:exclude "helm-org-ql.el"))))
+#+end_src
+
+** NO Org-agenda-export
+
+Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views.html][Org-export-agenda-view]]
+
+#+begin_src emacs-lisp :tangle no
+
+(setq org-agenda-custom-commands
+   '(("X" agenda "" nil ("~/org-agenda/agenda.html" "~/org-agenda/agenda.ps"))
+        ("z" todo ""
+         (
+          ;;(org-columns-default-format "%25ITEM %TODO %3PRIORITY %TAGS")
+          (org-agenda-overriding-header "Lista TODO")
+          (org-agenda-with-colors true)
+          (org-agenda-remove-tags t)
+          (ps-number-of-column 2)
+          (ps-landscape-mode t)
+          )
+         ("~/org-agenda/todo.html" "~/org-agenda/todo.txt" "~/org-agenda/todo.ps"))
+        ))
+
 #+end_src
 
 * Elfeed
@@ -565,10 +655,12 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ** Zotxt
 
 #+begin_src emacs-lisp
+
 (use-package zotxt
   :defer t
   :custom
   (setq zotxt-default-bibiliography-style "apa"))
+
 #+end_src
 
 #+RESULTS:
@@ -596,34 +688,34 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 #+begin_src emacs-lisp
 
 (with-eval-after-load "ox-latex"
- ;;  (add-to-list 'org-latex-classes
-;;                '("tuftebook"
-;;                  "\\documentclass{tufte-book}\n
-;; \\usepackage{color}
-;; \\usepackage{amssymb}
-;; \\usepackage{gensymb}
-;; \\usepackage{nicefrac}
-;; \\usepackage{units}"
-;;                  ("\\section{%s}" . "\\section*{%s}")
-;;                  ("\\subsection{%s}" . "\\subsection*{%s}")
-;;                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;;                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("tuftebook"
+                 "\\documentclass{tufte-book}\n
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-;;   ;; tufte-handout class for writing classy handouts and papers
-;;   ;;(require 'org-latex)
-;;   (add-to-list 'org-latex-classes
-;;                '("tuftehandout"
-;;                  "\\documentclass{tufte-handout}
-;; \\usepackage{color}
-;; \\usepackage{amssymb}
-;; \\usepackage{amsmath}
-;; \\usepackage{gensymb}
-;; \\usepackage{nicefrac}
-;; \\usepackage{units}"
-;;                  ("\\section{%s}" . "\\section*{%s}")
-;;                  ("\\subsection{%s}" . "\\subsection*{%s}")
-;;                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;;                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; tufte-handout class for writing classy handouts and papers
+  ;;(require 'org-latex)
+  (add-to-list 'org-latex-classes
+               '("tuftehandout"
+                 "\\documentclass{tufte-handout}
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   ;; Plain text
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
@@ -635,48 +727,24 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  '("papel_timbrado"
+                    "\\documentclass\{scrlttr2\}
+     \\usepackage[english]{babel}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
 
 #+end_src
 
 #+RESULTS:
-| pocketmod | \documentclass[fontsize=24pt,a4paper]{scrartcl} |
-\usepackage[showmarks]{pocketmod}
-\usepackage[default]{lato}
-\usepackage[T1]{fontenc}
-\pagenumbering{gobble}
-\usepackage{color}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{gensymb}
-\usepackage{nicefrac}
-\usepackage{units} |(\section{%s} . \section*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |(\pagebreak . \pagebreak) |
-| org-plain-latex | \documentclass{article} |
-     [NO-DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA] |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\subsubsection{%s} . \subsubsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| tuftehandout | \documentclass{tufte-handout} |
-\usepackage{color}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{gensymb}
-\usepackage{nicefrac}
-\usepackage{units} |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| tuftebook | \documentclass{tufte-book} |
-
-\usepackage{color}
-\usepackage{amssymb}
-\usepackage{gensymb}
-\usepackage{nicefrac}
-\usepackage{units} |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| beamer  | \documentclass[presentation]{beamer} | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |                                      |                                            |
-| article | \documentclass[11pt]{article}        | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) | (\paragraph{%s} . \paragraph*{%s})   | (\subparagraph{%s} . \subparagraph*{%s})   |
-| report  | \documentclass[11pt]{report}         | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
-| book    | \documentclass[11pt]{book}           | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
+| papel_timbrado | \documentclass{article} |
 
 **** PocketMod
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 
 (add-to-list 'org-latex-classes
                '("pocketmod"
@@ -828,9 +896,6 @@ Recomendação feita por Doom Doctor
 
 #+end_src
 
-#+RESULTS:
-: amr-insert-course-ifusp
-
 ** Latex to svg
 
 #+begin_src emacs-lisp :tangle no
@@ -852,7 +917,7 @@ Recomendação feita por Doom Doctor
 | amr-org-latex-filter-plantuml |
 * ESS R
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle t
 (add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
 (defun amr-ess-keybindings ()
   (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))

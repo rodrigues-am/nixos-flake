@@ -98,7 +98,7 @@
 
 ;;(package! nano-emacs
 ;;  :recipe (:host github :repo "rougier/nano-emacs"))
-(package! casual-dired)
+
 (package! lambda-themes
   :recipe (:host github :repo "lambda-emacs/lambda-themes" :branch "main"))
 

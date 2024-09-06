@@ -16,10 +16,6 @@
 
 (setq dired-dwim-target t)
 
-(use-package casual-dired
-  :ensure nil
-  :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
-
 (use-package lsp-grammarly
   :ensure t
   ;; :hook ((text-mode org-mode) . (lambda ()
@@ -126,6 +122,16 @@
 
 (use-package golden-ratio
   :ensure t)
+
+(use-package lambda-themes
+  :defer t
+  :custom
+  (lambda-themes-set-italic-comments t)
+  (lambda-themes-set-italic-keywords t)
+  (lambda-themes-set-variable-pitch t)
+  :config
+  ;; load preferred theme
+  (load-theme 'lambda-dark-faded))
 
 (use-package olivetti
   :ensure
@@ -317,6 +323,43 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                 :scheduled past
                 :order 2
                 :face 'error)
+
+         ;; (:name "Personal "
+         ;;        :and(:file-path "Personal.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Family "
+         ;;        :and(:file-path "Family.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Teaching "
+         ;;        :and(:file-path "Teaching.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Gamedev "
+         ;;        :and(:file-path "Gamedev.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Youtube "
+         ;;        :and(:file-path "Producer.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Music "
+         ;;        :and(:file-path "Bard.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Storywriting "
+         ;;        :and(:file-path "Stories.s" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Writing "
+         ;;        :and(:file-path "Author.p" :not (:tag "event"))
+         ;;        :order 3)
+
+         ;; (:name "Learning "
+         ;;        :and(:file-path "Knowledge.p" :not (:tag "event"))
+         ;;        :order 3)
+
           (:name " Today "  ; Optionally specify section name
                 :time-grid t
                 :date today
@@ -377,34 +420,34 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :init (ivy-rich-mode 1))
 
 (with-eval-after-load "ox-latex"
- ;;  (add-to-list 'org-latex-classes
-;;                '("tuftebook"
-;;                  "\\documentclass{tufte-book}\n
-;; \\usepackage{color}
-;; \\usepackage{amssymb}
-;; \\usepackage{gensymb}
-;; \\usepackage{nicefrac}
-;; \\usepackage{units}"
-;;                  ("\\section{%s}" . "\\section*{%s}")
-;;                  ("\\subsection{%s}" . "\\subsection*{%s}")
-;;                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;;                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("tuftebook"
+                 "\\documentclass{tufte-book}\n
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-;;   ;; tufte-handout class for writing classy handouts and papers
-;;   ;;(require 'org-latex)
-;;   (add-to-list 'org-latex-classes
-;;                '("tuftehandout"
-;;                  "\\documentclass{tufte-handout}
-;; \\usepackage{color}
-;; \\usepackage{amssymb}
-;; \\usepackage{amsmath}
-;; \\usepackage{gensymb}
-;; \\usepackage{nicefrac}
-;; \\usepackage{units}"
-;;                  ("\\section{%s}" . "\\section*{%s}")
-;;                  ("\\subsection{%s}" . "\\subsection*{%s}")
-;;                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;;                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; tufte-handout class for writing classy handouts and papers
+  ;;(require 'org-latex)
+  (add-to-list 'org-latex-classes
+               '("tuftehandout"
+                 "\\documentclass{tufte-handout}
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   ;; Plain text
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
@@ -416,7 +459,33 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  '("papel_timbrado"
+                    "\\documentclass\{scrlttr2\}
+     \\usepackage[english]{babel}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
+
+(add-to-list 'org-latex-classes
+               '("pocketmod"
+                 "\\documentclass[fontsize=24pt,a4paper]{scrartcl}
+\\usepackage[showmarks]{pocketmod}
+\\usepackage[default]{lato}
+\\usepackage[T1]{fontenc}
+\\pagenumbering{gobble}
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+                 ("\\pagebreak" . "\\pagebreak")))
 
 (setq org-publish-project-alist
       '(
@@ -479,8 +548,3 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 ;; Bind the function to "C-j c"
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
-
-(add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
-(defun amr-ess-keybindings ()
-  (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))
-(add-hook 'ess-mode-hook 'amr-ess-keybindings)
