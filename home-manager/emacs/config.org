@@ -62,6 +62,7 @@ Some personal information.
 #+begin_src emacs-lisp
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 #+end_src
+
 #+begin_src emacs-lisp
 (use-package flyspell
   :defer t
@@ -186,8 +187,6 @@ Some personal information.
 Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a coluna; desliga autocomplete - company.
 
 #+begin_src emacs-lisp
-
-
 (use-package org-modern
   :ensure t
   :hook
@@ -247,7 +246,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 * Visual
 
-#+begin_
 #+begin_src emacs-lisp
 (use-package golden-ratio
   :ensure t)
@@ -262,7 +260,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 ** Themes Lambda
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package lambda-themes
   :defer t
   :custom
@@ -393,7 +391,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :ensure t
  :init
  (setq org-roam-v2-ack t)
- (setq org-roam-mode-section-functions
+ (setq org-roam-mode-sections
        (list #'org-roam-backlinks-section
              #'org-roam-reflinks-section
               #'org-roam-unlinked-references-section ))
@@ -404,7 +402,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                 (window-width . 0.33)
                 (window-height . fit-window-to-buffer)))
  :custom
- (org-roam-directory "~/roam-notes")
+ (org-roam-directory "~/notas/roam-notes")
  (org-roam-complete-everywhere t)
  (org-roam-capture-templates
   '(("d" "default" plain "%?"
@@ -412,22 +410,22 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                         "#+title: ${title}\n")
      :unnarrowed t))
     ("m" "main" plain
-     (file "~/roam-notes/templates/main.org")
+     (file "~/notas/roam-notes/templates/main.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
     ("n" "novo pensamento" plain
-     (file "~/roam-notes/templates/pensa.org")
+     (file "~/notas/roam-notes/templates/pensa.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
     ("b" "bibliografia" plain
-     (file "~/roam-notes/templates/bib.org")
+     (file "~/notas/roam-notes/templates/bib.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
     ("p" "project" plain
-     (file "~/roam-notes/templates/project.org")
+     (file "~/notas/roam-notes/templates/project.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t))
@@ -437,7 +435,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
         :map org-mode-map
         ("C-M-i" . completion-at-point))
  :config
-  (org-roam-setup))
+  (org-roam-db-autosync-enable))
 #+end_src
 
 * Agenda
@@ -512,43 +510,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                 :scheduled past
                 :order 2
                 :face 'error)
-
-         ;; (:name "Personal "
-         ;;        :and(:file-path "Personal.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Family "
-         ;;        :and(:file-path "Family.s" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Teaching "
-         ;;        :and(:file-path "Teaching.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Gamedev "
-         ;;        :and(:file-path "Gamedev.s" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Youtube "
-         ;;        :and(:file-path "Producer.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Music "
-         ;;        :and(:file-path "Bard.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Storywriting "
-         ;;        :and(:file-path "Stories.s" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Writing "
-         ;;        :and(:file-path "Author.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Learning "
-         ;;        :and(:file-path "Knowledge.p" :not (:tag "event"))
-         ;;        :order 3)
-
           (:name " Today "  ; Optionally specify section name
                 :time-grid t
                 :date today
@@ -567,28 +528,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
             :files (:defaults (:exclude "helm-org-ql.el"))))
 #+end_src
 
-** NO Org-agenda-export
-
-Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views.html][Org-export-agenda-view]]
-
-#+begin_src emacs-lisp :tangle no
-
-(setq org-agenda-custom-commands
-   '(("X" agenda "" nil ("~/org-agenda/agenda.html" "~/org-agenda/agenda.ps"))
-        ("z" todo ""
-         (
-          ;;(org-columns-default-format "%25ITEM %TODO %3PRIORITY %TAGS")
-          (org-agenda-overriding-header "Lista TODO")
-          (org-agenda-with-colors true)
-          (org-agenda-remove-tags t)
-          (ps-number-of-column 2)
-          (ps-landscape-mode t)
-          )
-         ("~/org-agenda/todo.html" "~/org-agenda/todo.txt" "~/org-agenda/todo.ps"))
-        ))
-
-#+end_src
-
 * Elfeed
 
 #+begin_src emacs-lisp
@@ -599,7 +538,6 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
 (use-package elfeed-goodies
-  :ensure t
   :custom
   (elfeed-goodies/feed-source-column-width 36)
   (elfeed-goodies/tag-column-width 25))
@@ -619,7 +557,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 #+begin_src emacs-lisp
 (add-to-list 'org-capture-templates
       '(("b" "blog post" entry
-         (file+headline "~/blog/blog.org" "NO New ideas")
+         (file+headline "~/notas/blog/blog.org" "NO New ideas")
          (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
 #+end_src
 
@@ -688,34 +626,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 #+begin_src emacs-lisp
 
 (with-eval-after-load "ox-latex"
-  (add-to-list 'org-latex-classes
-               '("tuftebook"
-                 "\\documentclass{tufte-book}\n
-\\usepackage{color}
-\\usepackage{amssymb}
-\\usepackage{gensymb}
-\\usepackage{nicefrac}
-\\usepackage{units}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-  ;; tufte-handout class for writing classy handouts and papers
-  ;;(require 'org-latex)
-  (add-to-list 'org-latex-classes
-               '("tuftehandout"
-                 "\\documentclass{tufte-handout}
-\\usepackage{color}
-\\usepackage{amssymb}
-\\usepackage{amsmath}
-\\usepackage{gensymb}
-\\usepackage{nicefrac}
-\\usepackage{units}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   ;; Plain text
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
@@ -727,24 +638,24 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-  '("papel_timbrado"
-                    "\\documentclass\{scrlttr2\}
-     \\usepackage[english]{babel}
-     \\setkomavar{frombank}{(1234)\\,567\\,890}
-     \[DEFAULT-PACKAGES]
-     \[PACKAGES]
-     \[EXTRA]"))
 
 #+end_src
 
 #+RESULTS:
-| papel_timbrado | \documentclass{article} |
+| org-plain-latex | \documentclass{article} |
+     [NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA] |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\subsubsection{%s} . \subsubsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
+| beamer  | \documentclass[presentation]{beamer} | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |                                      |                                            |
+| article | \documentclass[11pt]{article}        | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) | (\paragraph{%s} . \paragraph*{%s})   | (\subparagraph{%s} . \subparagraph*{%s})   |
+| report  | \documentclass[11pt]{report}         | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
+| book    | \documentclass[11pt]{book}           | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
 
 **** PocketMod
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
 (add-to-list 'org-latex-classes
                '("pocketmod"
@@ -780,7 +691,7 @@ Verificar configuiração em [[https://orgmode.org/manual/Exporting-Agenda-Views
 
 ** Export
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
 (setq org-publish-project-alist
       '(

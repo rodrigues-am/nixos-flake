@@ -1,5 +1,5 @@
 { config, lib, pkgs, pkgs-stable, inputs, ... }:
-with pkgs;
+with pkgs-stable;
 let
   pacotesR = with rPackages; [
     # geral
@@ -16,6 +16,7 @@ let
     knitr
     standardize
     latex2exp
+    stringr
 
     # organização e limpeza
     dplyr
@@ -63,6 +64,8 @@ let
     GGally
     ggnetwork
     netCoin
+    lattice
+    latticeExtra
 
     # topic NLP
     NLP
@@ -93,12 +96,6 @@ let
 in {
 
   home.packages = (with pkgs; [
-    # programing
-    RStudio-with-my-packages
-    # R
-    R-with-my-packages
-    #rstudioWrapper
-
     # database
     sqlite
     # surrealdb
@@ -140,6 +137,11 @@ in {
     yaml-language-server
 
   ]) ++ (with pkgs-stable; [
+    # programing
+    RStudio-with-my-packages
+    # R
+    R-with-my-packages
+    #rstudioWrapper
 
     #nodejs
     nodejs_22

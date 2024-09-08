@@ -123,16 +123,6 @@
 (use-package golden-ratio
   :ensure t)
 
-(use-package lambda-themes
-  :defer t
-  :custom
-  (lambda-themes-set-italic-comments t)
-  (lambda-themes-set-italic-keywords t)
-  (lambda-themes-set-variable-pitch t)
-  :config
-  ;; load preferred theme
-  (load-theme 'lambda-dark-faded))
-
 (use-package olivetti
   :ensure
   :defer
@@ -232,7 +222,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :ensure t
  :init
  (setq org-roam-v2-ack t)
- (setq org-roam-mode-section-functions
+ (setq org-roam-mode-sections
        (list #'org-roam-backlinks-section
              #'org-roam-reflinks-section
               #'org-roam-unlinked-references-section ))
@@ -243,7 +233,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                 (window-width . 0.33)
                 (window-height . fit-window-to-buffer)))
  :custom
- (org-roam-directory "~/roam-notes")
+ (org-roam-directory "~/notas/roam-notes")
  (org-roam-complete-everywhere t)
  (org-roam-capture-templates
   '(("d" "default" plain "%?"
@@ -251,22 +241,22 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                         "#+title: ${title}\n")
      :unnarrowed t))
     ("m" "main" plain
-     (file "~/roam-notes/templates/main.org")
+     (file "~/notas/roam-notes/templates/main.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
     ("n" "novo pensamento" plain
-     (file "~/roam-notes/templates/pensa.org")
+     (file "~/notas/roam-notes/templates/pensa.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
     ("b" "bibliografia" plain
-     (file "~/roam-notes/templates/bib.org")
+     (file "~/notas/roam-notes/templates/bib.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
     ("p" "project" plain
-     (file "~/roam-notes/templates/project.org")
+     (file "~/notas/roam-notes/templates/project.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t))
@@ -276,7 +266,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
         :map org-mode-map
         ("C-M-i" . completion-at-point))
  :config
-  (org-roam-setup))
+  (org-roam-db-autosync-enable))
 
 (setq org-agenda-span 1
       org-agenda-start-day "+0d"
@@ -323,43 +313,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                 :scheduled past
                 :order 2
                 :face 'error)
-
-         ;; (:name "Personal "
-         ;;        :and(:file-path "Personal.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Family "
-         ;;        :and(:file-path "Family.s" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Teaching "
-         ;;        :and(:file-path "Teaching.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Gamedev "
-         ;;        :and(:file-path "Gamedev.s" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Youtube "
-         ;;        :and(:file-path "Producer.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Music "
-         ;;        :and(:file-path "Bard.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Storywriting "
-         ;;        :and(:file-path "Stories.s" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Writing "
-         ;;        :and(:file-path "Author.p" :not (:tag "event"))
-         ;;        :order 3)
-
-         ;; (:name "Learning "
-         ;;        :and(:file-path "Knowledge.p" :not (:tag "event"))
-         ;;        :order 3)
-
           (:name " Today "  ; Optionally specify section name
                 :time-grid t
                 :date today
@@ -376,7 +329,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
 (use-package elfeed-goodies
-  :ensure t
   :custom
   (elfeed-goodies/feed-source-column-width 36)
   (elfeed-goodies/tag-column-width 25))
@@ -386,7 +338,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (add-to-list 'org-capture-templates
       '(("b" "blog post" entry
-         (file+headline "~/blog/blog.org" "NO New ideas")
+         (file+headline "~/notas/blog/blog.org" "NO New ideas")
          (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
 
 (use-package yasnippet
@@ -420,34 +372,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :init (ivy-rich-mode 1))
 
 (with-eval-after-load "ox-latex"
-  (add-to-list 'org-latex-classes
-               '("tuftebook"
-                 "\\documentclass{tufte-book}\n
-\\usepackage{color}
-\\usepackage{amssymb}
-\\usepackage{gensymb}
-\\usepackage{nicefrac}
-\\usepackage{units}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-  ;; tufte-handout class for writing classy handouts and papers
-  ;;(require 'org-latex)
-  (add-to-list 'org-latex-classes
-               '("tuftehandout"
-                 "\\documentclass{tufte-handout}
-\\usepackage{color}
-\\usepackage{amssymb}
-\\usepackage{amsmath}
-\\usepackage{gensymb}
-\\usepackage{nicefrac}
-\\usepackage{units}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   ;; Plain text
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
@@ -459,46 +384,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-  '("papel_timbrado"
-                    "\\documentclass\{scrlttr2\}
-     \\usepackage[english]{babel}
-     \\setkomavar{frombank}{(1234)\\,567\\,890}
-     \[DEFAULT-PACKAGES]
-     \[PACKAGES]
-     \[EXTRA]"))
-
-(add-to-list 'org-latex-classes
-               '("pocketmod"
-                 "\\documentclass[fontsize=24pt,a4paper]{scrartcl}
-\\usepackage[showmarks]{pocketmod}
-\\usepackage[default]{lato}
-\\usepackage[T1]{fontenc}
-\\pagenumbering{gobble}
-\\usepackage{color}
-\\usepackage{amssymb}
-\\usepackage{amsmath}
-\\usepackage{gensymb}
-\\usepackage{nicefrac}
-\\usepackage{units}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
-                 ("\\pagebreak" . "\\pagebreak")))
-
-(setq org-publish-project-alist
-      '(
-        ("notes"
-         :base-directory "~/notes/"
-         :base-extension "org"
-         :publishing-directory "~/notes/export/"
-         :publishing-function org-publish-org-to-latex
-         :select-tags     ("@NOTES")
-         :title "Notes"
-         :include ("academic.org")
-         :exclude "\\.org$"
-         )))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 (after! projectile
           (setq projectile-project-root-files-bottom-up

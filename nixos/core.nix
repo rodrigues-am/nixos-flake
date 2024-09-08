@@ -5,11 +5,11 @@
   imports = [ # Include the results of the hardware scan.
     ./syncthing.nix
     ./polkit.nix
-./emacs-overlay.nix
+    ./emacs-overlay.nix
     inputs.sops-nix.nixosModules.sops
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_10;
   programs.hyprland.enable = true;
 
   nix = {
@@ -93,9 +93,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [ home-manager 
-emacs
-])
+  environment.systemPackages = (with pkgs; [ home-manager emacs ])
     ++ (with pkgs-stable; [ mu ]);
 
   # Enable the OpenSSH daemon.
