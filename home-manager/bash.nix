@@ -23,15 +23,15 @@
       amr-nixos-home-desktop =
         "sudo nixos-rebuild switch --flake ~/nixos-flake#home-desktop";
       amr-nixos-hp-laptop =
-        "sudo nixos-rebuild switch --flake ~/nixos-flake#hp-laptop";
+        "sudo nixos-rebuild switch --flake ~/nixos-flake#hp-laptop --impure";
       amr-nixos-usp-desktop =
-        "sudo nixos-rebuild switch --flake ~/nixos-flake#usp-desktop";
+        "sudo nixos-rebuild switch --flake ~/nixos-flake#usp-desktop --impure";
       amr-nixos-dell-laptop =
-        "sudo nixos-rebuild switch --flake ~/nixos-flake#dell-laptop";
+        "sudo nixos-rebuild switch --flake ~/nixos-flake#dell-laptop --impure";
       amr-nixos-cleanup =
         "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
       amr-nixos-thinkpad =
-        "sudo nixos-rebuild switch --flake ~/nixos-flake#thinkpad";
+        "sudo nixos-rebuild switch --flake ~/nixos-flake#thinkpad --impure";
 
     };
 

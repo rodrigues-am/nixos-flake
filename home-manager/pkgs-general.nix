@@ -65,6 +65,7 @@
     ffmpeg_6-full
     darktable
     imagemagick
+    ntfs3g
     nyxt # web browser
   ]);
 

@@ -28,6 +28,9 @@ let
     glue
     readr
     gtools
+    ggtext
+
+    showtext
 
     # tables
     gtable
@@ -102,7 +105,8 @@ in {
     postgresql
 
     # general
-    # postman
+    postman
+    surrealdb
 
     # sh
     shellcheck
@@ -145,12 +149,10 @@ in {
 
     #nodejs
     nodejs_22
-    #    nodePackages.grammarly-languageserver
 
+    #    nodePackages.grammarly-languageserver
     #Cliente DB para o IFUSP
     dbeaver-bin
   ]);
-
-  # services.postgresql.enable = true;
 
 }

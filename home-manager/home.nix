@@ -14,7 +14,7 @@
     ./espanso.nix
     ./alacritty.nix
     #./thunderbird.nix
-    ./email.nix
+    #./email.nix
 
     # pkgs
     ./pkgs-program.nix

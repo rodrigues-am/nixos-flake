@@ -98,6 +98,8 @@
 
   # Enable the OpenSSH daemon.
 
+  services.postgresql.enable = true;
+
   services.openssh.enable = true;
   networking.firewall = {
     enable = true;
@@ -132,5 +134,6 @@
       options = "--delete-older-than 7d";
     };
   };
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }
