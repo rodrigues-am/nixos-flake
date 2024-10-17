@@ -106,7 +106,7 @@ in {
 
     # general
     postman
-    surrealdb
+    #surrealdb
 
     # sh
     shellcheck
@@ -120,12 +120,12 @@ in {
     python3Full
 
     # rust
-    rustc
+    #rustc
 
     # rustup
-    rustfmt
-    rust-analyzer
-    cargo
+    #rustfmt
+    #rust-analyzer
+    #cargo
 
     #Web
     html-tidy
@@ -149,6 +149,7 @@ in {
 
     #nodejs
     nodejs_22
+    yarn
 
     #    nodePackages.grammarly-languageserver
     #Cliente DB para o IFUSP

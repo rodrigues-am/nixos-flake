@@ -55,6 +55,7 @@
     xclip
     xournal # pdf edit
     zathura # pdf viwer
+    zellij
     zip
     zoom-us
     zotero

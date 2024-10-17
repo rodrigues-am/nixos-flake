@@ -50,6 +50,7 @@
     LC_PAPER = "${userSettings.locale}";
     LC_TELEPHONE = "${userSettings.locale}";
     LC_TIME = "${userSettings.locale}";
+    LC_ALL = "${userSettings.locale}";
   };
 
   # Enable the X11 windowing system.
