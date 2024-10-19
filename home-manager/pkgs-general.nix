@@ -10,7 +10,7 @@
     auctex # text
     audacity
     bat
-    calibre
+    #calibre
     cmake
     curl
     element-desktop
@@ -63,11 +63,13 @@
   ]) ++ (with pkgs-stable; [
     gnomeExtensions.forge
     gimp-with-plugins
+    calibre
     ffmpeg_6-full
     darktable
     imagemagick
     ntfs3g
     nyxt # web browser
+    tesseract4
   ]);
 
 }

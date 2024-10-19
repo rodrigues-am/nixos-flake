@@ -117,7 +117,6 @@ in {
     rlwrap
 
     # python
-    python3Full
 
     # rust
     #rustc
@@ -142,6 +141,7 @@ in {
 
   ]) ++ (with pkgs-stable; [
     # programing
+    python3Full
     RStudio-with-my-packages
     # R
     R-with-my-packages
