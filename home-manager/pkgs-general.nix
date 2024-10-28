@@ -61,6 +61,7 @@
     zotero
     zoxide
   ]) ++ (with pkgs-stable; [
+    jre8
     gnomeExtensions.forge
     gimp-with-plugins
     calibre

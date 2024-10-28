@@ -9,11 +9,11 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_10;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
   programs.hyprland.enable = true;
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
