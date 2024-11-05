@@ -19,6 +19,8 @@ Some personal information.
 
 (use-package use-package-quelpa
   :defer t)
+
+(setq doom-theme 'doom-gruvbox)
 #+end_src
 
 * Pass

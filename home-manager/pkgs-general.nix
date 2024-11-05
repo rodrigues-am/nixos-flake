@@ -25,6 +25,11 @@
     gnumake
     gnupg
     gnuplot
+    gnome-themes-extra
+    gnome-tweaks
+    gnomeExtensions.user-themes
+    sassc
+    gtk-engine-murrine
     graphviz # build diagrams declaratively
     htop
     hugo # blog and static sities

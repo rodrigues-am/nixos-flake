@@ -7,6 +7,8 @@
 (use-package use-package-quelpa
   :defer t)
 
+(setq doom-theme 'doom-gruvbox)
+
 (use-package auth-source
   :ensure t
   :custom

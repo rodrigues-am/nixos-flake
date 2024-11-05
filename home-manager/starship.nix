@@ -5,7 +5,7 @@
     enable = true;
     package = pkgs.starship;
     settings = {
-      format = "[]( #${config.colorScheme.palette.base0D})  $directory()";
+      format = "[]( #${config.colorScheme.palette.base09})  $directory()";
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style) ";
         read_only = " ";

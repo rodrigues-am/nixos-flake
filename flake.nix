@@ -42,7 +42,7 @@
         locale = "pt_BR.UTF-8";
         gitUser = "rodrigues-am";
         wallpaperDir = "/home/andre/sync/pessoal/pic/wallpapers";
-        theme = "nord";
+        theme = "gruvbox-dark-pale";
       };
 
       pkgs = import nixpkgs {

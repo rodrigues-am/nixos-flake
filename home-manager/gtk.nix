@@ -9,13 +9,17 @@
       size = 12;
     };
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = "Gruvbox-Plus-Icons";
+      #      name = "Papirus-Dark";
+      #      package = pkgs.papirus-icon-theme;
+      package = pkgs.gruvbox-plus-icons;
     };
     theme = {
-      name = "Nordic";
+      #      name = "Nordic";
+      name = "Gruvbox GTK Themes";
       #name = "Catppuccin-Mocha-Standard-Mauve-Dark";
-      package = pkgs.nordic;
+      package = pkgs.gruvbox-gtk-theme;
+      #      package = pkgs.nordic;
       #  pkgs.catppuccin-gtk.override {
       #   accents = [ "mauve" ];
       #   variant = "mocha";

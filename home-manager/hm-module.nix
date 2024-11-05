@@ -12,6 +12,7 @@
     useGlobalPkgs = true;
     users.${userSettings.name} = ./home.nix;
 
+    backupFileExtension = ".bck";
   };
 
 }
