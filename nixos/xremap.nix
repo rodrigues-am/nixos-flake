@@ -1,9 +1,12 @@
 { config, pkgs, lib, ... }: {
-  ervices.xremap = {
+
+  services.xremap = {
     withGnome = true;
-    services.xremap.config.keymap = [{
+
+    config.keymap = [{
       name = "Apps";
-      remap = { C-return = [ "lauch" "Alacritty" ]; };
+      remap = { alt-f = { launch = [ "${lib.getExe pkgs.firefox}" ]; }; };
     }];
+
   };
 }
