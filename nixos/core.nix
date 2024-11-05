@@ -7,6 +7,8 @@
     ./polkit.nix
     ./emacs-overlay.nix
     inputs.sops-nix.nixosModules.sops
+    inputs.xremap-flake.nixosModules.default
+    ./xremap.nix
   ];
 
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
