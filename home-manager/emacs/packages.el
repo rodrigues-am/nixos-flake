@@ -59,10 +59,13 @@
 (package! citeproc-org)
 
 ;; Icons
-(package! all-the-icons)
-(package! all-the-icons-dired)
-(package! all-the-icons-ivy-rich)
-(package! ivy-rich)
+;;(package! all-the-icons)
+;;(package! all-the-icons-dired)
+;;(package! all-the-icons-ivy-rich)
+;;(package! ivy-rich)
+
+;; mini-buffer
+(package! orderless)
 
 ;; Agenda
 (package! org-super-agenda)

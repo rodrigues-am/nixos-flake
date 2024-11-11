@@ -119,12 +119,12 @@ in {
     # python
 
     # rust
-    #rustc
+    rustc
 
     # rustup
-    #rustfmt
-    #rust-analyzer
-    #cargo
+    rustfmt
+    rust-analyzer
+    cargo
 
     #Web
     html-tidy
@@ -135,9 +135,11 @@ in {
 
     #Nix
     nixfmt-classic
+    nixd
 
     #Yaml
     yaml-language-server
+    yamlfmt
 
   ]) ++ (with pkgs-stable; [
     # programing

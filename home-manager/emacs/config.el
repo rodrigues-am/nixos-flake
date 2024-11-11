@@ -7,6 +7,9 @@
 (use-package use-package-quelpa
   :defer t)
 
+(define-key evil-normal-state-map (kbd "C-u") 'universal-argument)
+
+(define-key evil-motion-state-map (kbd "C-u") 'universal-argument)
 (setq doom-theme 'doom-gruvbox)
 
 (use-package auth-source
@@ -64,14 +67,18 @@
   (setq mastodon-instance-url "https://mastodon.social"
   mastodon-active-user "rodrigues_am"))
 
-(use-package shell-maker
-  :ensure t)
-
-(use-package chatgpt-shell
-  :requires shell-maker
-  :ensure t)
-
 (use-package gptel
+  :custom
+ (gptel-model  "gpt-4-1106-preview")
+  (gptel-default-mode 'org-mode)
+  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
+  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
+                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
+
+:config
+  (global-set-key (kbd "M-p g") #'gptel-menu)
   :ensure t)
 
 (use-package org
@@ -360,19 +367,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :custom
   (setq zotxt-default-bibiliography-style "apa"))
 
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-
-(use-package all-the-icons-ivy-rich
-  :ensure t
-  :init (all-the-icons-ivy-rich-mode 1))
-
-(use-package ivy-rich
-  :ensure t
-  :init (ivy-rich-mode 1))
-
 (with-eval-after-load "ox-latex"
 
   ;; Plain text
@@ -421,7 +415,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (defun amr-insert--alist-item (alist)
   "Prompt the user to select an item from the given alist using ivy-read."
-  (let ((selected-item (ivy-read "Select item: " (mapcar 'car alist))))
+  (let ((selected-item (completing-read "Select item: " (mapcar 'car alist))))
     (when selected-item
       (insert selected-item))))
 

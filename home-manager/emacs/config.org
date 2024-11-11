@@ -20,8 +20,14 @@ Some personal information.
 (use-package use-package-quelpa
   :defer t)
 
+(define-key evil-normal-state-map (kbd "C-u") 'universal-argument)
+
+(define-key evil-motion-state-map (kbd "C-u") 'universal-argument)
 (setq doom-theme 'doom-gruvbox)
 #+end_src
+
+#+RESULTS:
+: doom-gruvbox
 
 * Pass
 
@@ -42,6 +48,22 @@ Some personal information.
 
 #+begin_src emacs-lisp
 (setq dired-dwim-target t)
+#+end_src
+
+* Ordeless
+
+#+begin_src emacs-lisp :tangle t
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
 #+end_src
 
 * Grammarly
@@ -143,21 +165,29 @@ Some personal information.
 
 * ChatGPT
 
-
-** Chatgpt-shell
-#+begin_src emacs-lisp
-(use-package shell-maker
-  :ensure t)
-
-(use-package chatgpt-shell
-  :requires shell-maker
-  :ensure t)
-#+end_src
+** Gptel
 
 #+begin_src emacs-lisp
 (use-package gptel
+  :custom
+ (gptel-model  "gpt-4-1106-preview")
+  (gptel-default-mode 'org-mode)
+  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
+  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
+                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
+
+:config
+  (global-set-key (kbd "M-p g") #'gptel-menu)
   :ensure t)
 #+end_src
+
+#+RESULTS:
+: t
+
+#+RESULTS:
+: amr-gptel-translate-replace
 
 * Org-mode
 
@@ -607,7 +637,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 * Icons
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle nil
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 (use-package all-the-icons
@@ -709,6 +739,9 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
          )))
 #+end_src
 
+#+RESULTS:
+| notes | :base-directory | ~/notes/ | :base-extension | org | :publishing-directory | ~/notes/export/ | :publishing-function | org-publish-org-to-latex | :select-tags | (@NOTES) | :title | Notes | :include | (academic.org) | :exclude | \.org$ |
+
 * Projectile
 
 Recomendação feita por Doom Doctor
@@ -791,7 +824,7 @@ Recomendação feita por Doom Doctor
 
 (defun amr-insert--alist-item (alist)
   "Prompt the user to select an item from the given alist using ivy-read."
-  (let ((selected-item (ivy-read "Select item: " (mapcar 'car alist))))
+  (let ((selected-item (completing-read "Select item: " (mapcar 'car alist))))
     (when selected-item
       (insert selected-item))))
 
@@ -808,6 +841,9 @@ Recomendação feita por Doom Doctor
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
 
 #+end_src
+
+#+RESULTS:
+: amr-insert-course-ifusp
 
 ** Latex to svg
 
