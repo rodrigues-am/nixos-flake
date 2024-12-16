@@ -2,6 +2,7 @@
 , ... }:
 
 {
+
   imports = [
     ./bash.nix
     ./git.nix
@@ -27,7 +28,6 @@
     #./bin/wallsetter.nix
     #./bin/themechange.nix
     #./bin/theme-selector.nix
-
     inputs.sops-nix.homeManagerModule
     nix-colors.homeManagerModules.default
     nix-doom-emacs.hmModule

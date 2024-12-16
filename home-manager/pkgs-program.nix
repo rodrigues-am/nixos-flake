@@ -18,6 +18,12 @@ let
     latex2exp
     stringr
 
+    #API
+    openalexR
+    coro
+    covr
+    bibliometrix
+
     # organização e limpeza
     dplyr
     tidyr
