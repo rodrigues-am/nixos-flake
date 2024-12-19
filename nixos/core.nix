@@ -1,7 +1,5 @@
 { config, lib, pkgs-stable, inputs, userSettings, nix-colors, pkgs, ... }:
 
-#let via-aruba = import ./via-aruba.nix { inherit pkgs; };
-#in
 {
 
   imports = [ # Include the results of the hardware scan.
@@ -98,11 +96,8 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [
-    home-manager
-    emacs
-    #(import ./via-aruba.nix { inherit pkgs; })
-  ]) ++ (with pkgs-stable; [ mu ]);
+  environment.systemPackages = (with pkgs; [ home-manager emacs ])
+    ++ (with pkgs-stable; [ mu ]);
 
   # Enable the OpenSSH daemon.
 
@@ -142,6 +137,5 @@
       options = "--delete-older-than 7d";
     };
   };
-
   system.stateVersion = "24.11"; # Did you read the comment?
 }

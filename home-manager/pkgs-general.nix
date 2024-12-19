@@ -17,7 +17,7 @@
     element-desktop
     eza
     fd
-    firefox # web browser
+    #firefox # web browser
     fontforge-gtk
     fzf
     gh
@@ -70,16 +70,18 @@
     zotero
     zoxide
   ]) ++ (with pkgs-stable; [
-    jre8
-    gnomeExtensions.forge
-    gimp-with-plugins
     calibre
-    ffmpeg_6-full
     darktable
+    ffmpeg_6-full
+    gimp-with-plugins
+    gnomeExtensions.forge
     imagemagick
+    krita
     ntfs3g
     nyxt # web browser
     tesseract4
+    wkhtmltopdf
+    jre8
   ]);
 
 }

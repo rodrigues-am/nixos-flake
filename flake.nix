@@ -65,10 +65,7 @@
 
         home-desktop = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs;
-            inherit userSettings;
-            inherit pkgs-stable;
-            inherit pkgs;
+            inherit inputs system userSettings pkgs-stable pkgs;
           };
 
           modules = [
@@ -143,8 +140,7 @@
 
         dell-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs;
-            inherit userSettings;
+            inherit inputs userSettings;
             inherit pkgs-stable;
           };
 

@@ -154,7 +154,7 @@ in {
     # R
     R-with-my-packages
     #rstudioWrapper
-
+    igraph
     #nodejs
     nodejs_22
     yarn
