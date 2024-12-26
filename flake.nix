@@ -76,6 +76,7 @@
             ./nixos/home-desktop/game.nix
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
+
             home-manager.nixosModules.home-manager
             { imports = [ ./home-manager/hm-module.nix ]; }
           ];

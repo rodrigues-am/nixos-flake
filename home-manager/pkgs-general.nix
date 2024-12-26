@@ -80,7 +80,7 @@
     ntfs3g
     nyxt # web browser
     tesseract4
-    wkhtmltopdf
+    #wkhtmltopdf
     jre8
   ]);
 

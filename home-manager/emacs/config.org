@@ -704,8 +704,65 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 #+end_src
 
+#+begin_src emacs-lisp
+
+(with-eval-after-load "ox-latex"
+  (add-to-list 'org-latex-classes
+               '("tuftebook"
+                 "\\documentclass{tufte-book}\n
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  ;; tufte-handout class for writing classy handouts and papers
+  ;;(require 'org-latex)
+  (add-to-list 'org-latex-classes
+               '("tuftehandout"
+                 "\\documentclass{tufte-handout}
+\\usepackage{color}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage{gensymb}
+\\usepackage{nicefrac}
+\\usepackage{units}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+  ;; Plain text
+ #+end_src
+
+
+
 #+RESULTS:
+| tuftehandout | \documentclass{tufte-handout} |
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{nicefrac}
+\usepackage{units} |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
+| tuftebook | \documentclass{tufte-book} |
+
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{nicefrac}
+\usepackage{units} |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
 | org-plain-latex | \documentclass{article} |
+     [NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA] |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\subsubsection{%s} . \subsubsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
+| beamer  | \documentclass[presentation]{beamer} | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |                                      |                                            |
+| article | \documentclass[11pt]{article}        | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) | (\paragraph{%s} . \paragraph*{%s})   | (\subparagraph{%s} . \subparagraph*{%s})   |
+| report  | \documentclass[11pt]{report}         | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
+| book    | \documentclass[11pt]{book}           | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
      [NO-DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA] |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\subsubsection{%s} . \subsubsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |

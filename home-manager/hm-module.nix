@@ -13,6 +13,7 @@
     users.${userSettings.name} = ./home.nix;
 
     backupFileExtension = "bck";
+
   };
 
 }
