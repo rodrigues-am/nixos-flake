@@ -8,12 +8,12 @@
       package = null;
       size = 12;
     };
-    iconTheme = {
-      name = "Gruvbox-Plus-Icons";
-      #      name = "Papirus-Dark";
-      #      package = pkgs.papirus-icon-theme;
-      package = pkgs.gruvbox-plus-icons;
-    };
+    #iconTheme = {
+    # name = "Gruvbox-Plus-Icons";
+    #      name = "Papirus-Dark";
+    #      package = pkgs.papirus-icon-theme;
+    #package = pkgs.gruvbox-plus-icons;
+    #};
     theme = {
       #      name = "Nordic";
       name = "Gruvbox GTK Themes";

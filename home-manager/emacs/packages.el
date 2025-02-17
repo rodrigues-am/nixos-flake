@@ -81,8 +81,8 @@
 
 (package! nov)
 (package! org-web-tools)
-(package! telega)
-(package! mastodon)
+;;(package! telega)
+;;(package! mastodon)
 (package! elfeed-goodies)
 (package! esxml)
 (package! psgml)
@@ -104,4 +104,6 @@
 (package! org-noter
   :recipe (:host github :repo "dmitrym0/org-noter-plus" :branch "main"))
 
+(package! visual-fill-column
+  :recipe (:host github :repo "joostkremers/visual-fill-column"))
 ;; ends here
