@@ -232,6 +232,18 @@ Some personal information.
 
 #+end_src
 
+** Org-Card
+
+#+begin_src emacs-lisp
+(use-package! org-headline-card
+  :after org
+  :custom
+  (org-headline-card-directory "~/notas/general/card"))
+
+#+end_src
+
+#+RESULTS:
+: org-headline-card
 
 ** Org-noter
 

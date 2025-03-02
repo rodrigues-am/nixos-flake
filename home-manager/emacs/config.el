@@ -90,6 +90,11 @@
   (setq org-agenda-files '("~/notas/general"))
   (setq fill-column 100))
 
+(use-package! org-headline-card
+  :after org
+  :custom
+  (org-headline-card-directory "~/notas/general/card/"))
+
 (use-package org-noter
   :defer t
   :custom

@@ -9,7 +9,7 @@
     font-awesome
     comic-relief
     google-fonts
-
+    #roboto
     (nerdfonts.override {
       fonts = [ "JetBrainsMono" "FiraCode" "Iosevka" "Noto" ];
     })

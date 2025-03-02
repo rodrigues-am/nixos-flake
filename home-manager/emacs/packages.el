@@ -106,4 +106,7 @@
 
 (package! visual-fill-column
   :recipe (:host github :repo "joostkremers/visual-fill-column"))
+
+(package! org-headline-card
+  :recipe (:host github :repo "yibie/org-headline-card"))
 ;; ends here
