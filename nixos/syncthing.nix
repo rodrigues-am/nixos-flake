@@ -9,7 +9,7 @@
     group = "users";
     guiAddress = "127.0.0.1:8384";
     overrideDevices = true;
-    overrideFolders = true;
+    # overrideFolders = true;
 
     settings.devices = {
       "home-desktop" = {

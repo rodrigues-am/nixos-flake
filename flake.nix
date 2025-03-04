@@ -64,6 +64,10 @@
         ################
 
         home-desktop = nixpkgs.lib.nixosSystem {
+          imports = [
+            nixpkgs.nixosModules.readOnlyPkgs
+          ]; # Adiciona o módulo recomendado
+
           specialArgs = {
             inherit inputs system userSettings pkgs-stable pkgs;
           };
@@ -87,6 +91,10 @@
         ###############
 
         usp-desktop = nixpkgs.lib.nixosSystem {
+          imports = [
+            nixpkgs.nixosModules.readOnlyPkgs
+          ]; # Adiciona o módulo recomendado
+
           specialArgs = {
             inherit inputs;
             inherit userSettings;
@@ -113,6 +121,10 @@
         #############
 
         hp-laptop = nixpkgs.lib.nixosSystem {
+          imports = [
+            nixpkgs.nixosModules.readOnlyPkgs
+          ]; # Adiciona o módulo recomendado
+
           specialArgs = {
             inherit inputs;
             inherit userSettings;
@@ -140,6 +152,10 @@
         ################
 
         dell-laptop = nixpkgs.lib.nixosSystem {
+          imports = [
+            nixpkgs.nixosModules.readOnlyPkgs
+          ]; # Adiciona o módulo recomendado
+
           specialArgs = {
             inherit inputs userSettings;
             inherit pkgs-stable;
@@ -161,6 +177,10 @@
         ################
 
         thinkpad = nixpkgs.lib.nixosSystem {
+          imports = [
+            nixpkgs.nixosModules.readOnlyPkgs
+          ]; # Adiciona o módulo recomendado
+
           specialArgs = {
             inherit inputs;
             inherit userSettings;
