@@ -64,12 +64,10 @@
         ################
 
         home-desktop = nixpkgs.lib.nixosSystem {
-          imports = [
-            nixpkgs.nixosModules.readOnlyPkgs
-          ]; # Adiciona o módulo recomendado
 
           specialArgs = {
-            inherit inputs system userSettings pkgs-stable pkgs;
+            inherit inputs system userSettings pkgs-stable;
+            nixpkgs = { inherit pkgs; };
           };
 
           modules = [
@@ -91,14 +89,12 @@
         ###############
 
         usp-desktop = nixpkgs.lib.nixosSystem {
-          imports = [
-            nixpkgs.nixosModules.readOnlyPkgs
-          ]; # Adiciona o módulo recomendado
 
           specialArgs = {
-            inherit inputs;
-            inherit userSettings;
-            inherit pkgs-stable;
+
+            inherit inputs system userSettings pkgs-stable;
+            nixpkgs = { inherit pkgs; };
+
           };
           modules = [
 
@@ -121,14 +117,10 @@
         #############
 
         hp-laptop = nixpkgs.lib.nixosSystem {
-          imports = [
-            nixpkgs.nixosModules.readOnlyPkgs
-          ]; # Adiciona o módulo recomendado
 
           specialArgs = {
-            inherit inputs;
-            inherit userSettings;
-            inherit pkgs-stable;
+            inherit inputs system userSettings pkgs-stable;
+            nixpkgs = { inherit pkgs; };
           };
 
           modules = [
@@ -152,13 +144,11 @@
         ################
 
         dell-laptop = nixpkgs.lib.nixosSystem {
-          imports = [
-            nixpkgs.nixosModules.readOnlyPkgs
-          ]; # Adiciona o módulo recomendado
 
           specialArgs = {
-            inherit inputs userSettings;
-            inherit pkgs-stable;
+
+            inherit inputs system userSettings pkgs-stable;
+            nixpkgs = { inherit pkgs; };
           };
 
           modules = [
@@ -177,14 +167,9 @@
         ################
 
         thinkpad = nixpkgs.lib.nixosSystem {
-          imports = [
-            nixpkgs.nixosModules.readOnlyPkgs
-          ]; # Adiciona o módulo recomendado
-
           specialArgs = {
-            inherit inputs;
-            inherit userSettings;
-            inherit pkgs-stable;
+            inherit inputs system userSettings pkgs-stable;
+            nixpkgs = { inherit pkgs; };
           };
 
           modules = [
