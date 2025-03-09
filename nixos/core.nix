@@ -11,7 +11,7 @@
     ./xremap.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
   programs.hyprland.enable = true;
 
   nix = {
