@@ -25,11 +25,27 @@
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Do not disable this unless your GPU is unsupported or if you have a good reason to.
-    open = true;
+
+    #open = true;
+    open = false;
 
     nvidiaSettings = true;
 
-    package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  # hardware.opengl.driSupport = true;
+  # hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.extraPackages = with pkgs; [
+  #   nvidia-vaapi-driver
+  #   libvdpau
+  #   libvulkan
+  #   vulkan-loader
+  #   vulkan-validation-layers
+  # ];
+  # hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [
+  #   libvulkan
+  #   vulkan-loader
+  # ];
 
 }

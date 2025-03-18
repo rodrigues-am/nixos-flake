@@ -11,7 +11,8 @@
     ./xremap.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
+  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   programs.hyprland.enable = true;
 
   nix = {
@@ -101,7 +102,7 @@
 
   # Enable the OpenSSH daemon.
 
-  services.postgresql.enable = true;
+  # services.postgresql.enable = true;
 
   services.openssh.enable = true;
   networking.firewall = {

@@ -67,7 +67,6 @@
     zellij
     zip
     zoom-us
-    zotero
     zoxide
   ]) ++ (with pkgs-stable; [
     calibre
@@ -81,7 +80,9 @@
     nyxt # web browser
     tesseract4
     #wkhtmltopdf
+    vulkan-tools
     jre8
+    zotero
   ]);
 
 }
