@@ -68,6 +68,7 @@
     zip
     zoom-us
     zoxide
+    zotero
   ]) ++ (with pkgs-stable; [
     calibre
     darktable
@@ -82,7 +83,6 @@
     #wkhtmltopdf
     vulkan-tools
     jre8
-    zotero
   ]);
 
 }

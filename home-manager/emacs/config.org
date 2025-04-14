@@ -247,10 +247,20 @@ Some personal information.
 
 ** Org-noter
 
+
+
 #+begin_src emacs-lisp
+
+(use-package pdf-tools
+:config
+(pdf-tools-install)
+  (setq pdf-view-use-scaling t))
+
 (use-package org-noter
   :defer t
+  :after pdf-tools
   :custom
+  (org-noter-enable-org-roam-integration)
   (org-noter-highlight-selected-text t)
   (org-noter-max-short-selected-text-length 5))
 #+end_src
@@ -511,6 +521,16 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (org-roam-db-autosync-enable))
 #+end_src
 
+#+begin_src emacs-lisp
+
+(use-package ivy-bibtex)
+(use-package org-roam-bibtex
+  :after org-roam
+  :config
+  (require 'org-ref))
+
+#+end_src
+
 * Agenda
 
 ** Org-agenda
@@ -656,9 +676,21 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 #+begin_src emacs-lisp
 (require 'oc-csl)
-(setq org-cite-global-bibliography '("~/bib.bib"))
+(setq org-cite-global-bibliography '("~/notas/bib/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 #+end_src
+
+
+#+begin_src emacs-lisp :tangle t
+
+(use-package citar
+  :custom
+  (citar-bibliography '("~/notas/bib/bib.bib")))
+(use-package citar-org-roam)
+
+#+end_src
+
+
 
 #+RESULTS:
 : ~/Zotero/styles

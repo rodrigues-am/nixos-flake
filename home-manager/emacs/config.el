@@ -93,11 +93,18 @@
 (use-package! org-headline-card
   :after org
   :custom
-  (org-headline-card-directory "~/notas/general/card/"))
+  (org-headline-card-directory "~/notas/general/card"))
 
-(use-package org-noter
+(use-package pdf-tools
+:config
+(pdf-tools-install)
+  (setq pdf-view-use-scaling t))
+
+        (use-package org-noter
   :defer t
+  :after pdf-tools
   :custom
+  (org-noter-enable-org-roam-integration)
   (org-noter-highlight-selected-text t)
   (org-noter-max-short-selected-text-length 5))
 
@@ -282,6 +289,12 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :config
   (org-roam-db-autosync-enable))
 
+(use-package ivy-bibtex)
+(use-package org-roam-bibtex
+  :after org-roam
+  :config
+  (require 'org-ref))
+
 (setq org-agenda-span 1
       org-agenda-start-day "+0d"
       org-agenda-skip-timestamp-if-done t
@@ -364,7 +377,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (require 'org-tempo)
 
 (require 'oc-csl)
-(setq org-cite-global-bibliography '("~/bib.bib"))
+(setq org-cite-global-bibliography '("~/notas/bib/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
 (use-package zotxt

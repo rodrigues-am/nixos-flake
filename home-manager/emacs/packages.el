@@ -57,6 +57,10 @@
 ;; References
 (package! zotxt)
 (package! citeproc-org)
+(package! ivy-bibtex)
+;; (package! org-roam-bibtex)
+;; (package! citar)
+;; (package! citar-org-roam)
 
 ;; Icons
 ;;(package! all-the-icons)
@@ -109,4 +113,13 @@
 
 (package! org-headline-card
   :recipe (:host github :repo "yibie/org-headline-card"))
+
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+
+;; When using org-roam via the `+roam` flag
+(unpin! org-roam)
+
+;; When using bibtex-completion via the `biblio` module
+(unpin! bibtex-completion helm-bibtex ivy-bibtex)
 ;; ends here
