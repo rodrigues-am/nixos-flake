@@ -17,7 +17,7 @@
     element-desktop
     eza
     fd
-    #firefox # web browser
+    firefox # web browser
     fontforge-gtk
     fzf
     gh
@@ -70,6 +70,7 @@
     zoxide
     zotero
   ]) ++ (with pkgs-stable; [
+    brave
     calibre
     darktable
     ffmpeg_6-full

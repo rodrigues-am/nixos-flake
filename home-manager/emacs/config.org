@@ -529,6 +529,8 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :config
   (require 'org-ref))
 
+
+
 #+end_src
 
 * Agenda
@@ -690,7 +692,13 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 #+end_src
 
+#+begin_src emacs-lisp
 
+(use-package org-ref
+  :custom
+  (setq bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
+
+#+end_src
 
 #+RESULTS:
 : ~/Zotero/styles

@@ -1,12 +1,8 @@
-{ config, lib, pkgs, ... }:
-
-{
+{ ... }: {
   services.xserver.xkb = {
     layout = "us";
-    variant = "intl., with dead keys";
+    variant = "intl";
   };
-
   # Configure console keymap
   console.keyMap = "us-acentos";
-
 }

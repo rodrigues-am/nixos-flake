@@ -100,7 +100,7 @@
 (pdf-tools-install)
   (setq pdf-view-use-scaling t))
 
-        (use-package org-noter
+(use-package org-noter
   :defer t
   :after pdf-tools
   :custom
@@ -379,6 +379,10 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (require 'oc-csl)
 (setq org-cite-global-bibliography '("~/notas/bib/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
+
+(use-package org-ref
+  :custom
+  (setq bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
 
 (use-package zotxt
   :defer t
