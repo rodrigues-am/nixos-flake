@@ -502,11 +502,11 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
-    ("b" "bibliografia" plain
-     (file "~/notas/roam-notes/templates/bib.org")
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-     :unnarrowed t)
+    ("r" "bibliography reference" plain
+         (file "~/notas/roam-notes/templates/bib.org")
+         :target
+         (file+head "references/${citekey}.org" "#+title: ${title}\n")
+         :unnarrowed t)
     ("p" "project" plain
      (file "~/notas/roam-notes/templates/project.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -687,8 +687,19 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (use-package citar
   :custom
-  (citar-bibliography '("~/notas/bib/bib.bib")))
-(use-package citar-org-roam)
+  (citar-bibliography '("~/notas/bib/bib.bib"))
+  :hook
+  (LaTeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup))
+
+(use-package citar-embark
+  :after citar embark
+  :no-require
+  :config (citar-embark-mode))
+
+(use-package citar-org-roam
+  :after (citar org-roam)
+  :config (citar-org-roam-mode))
 
 #+end_src
 
@@ -696,7 +707,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (use-package org-ref
   :custom
-  (setq bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
+  (bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
 
 #+end_src
 

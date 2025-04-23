@@ -59,8 +59,10 @@
 (package! citeproc-org)
 (package! ivy-bibtex)
 ;; (package! org-roam-bibtex)
-;; (package! citar)
-;; (package! citar-org-roam)
+(package! citar)
+(package! citar-embark)
+(package! citar-org-roam)
+
 
 ;; Icons
 ;;(package! all-the-icons)

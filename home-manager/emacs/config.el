@@ -271,11 +271,11 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         "#+title: ${title}\n")
      :unnarrowed t)
-    ("b" "bibliografia" plain
-     (file "~/notas/roam-notes/templates/bib.org")
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-     :unnarrowed t)
+    ("r" "bibliography reference" plain
+         (file "~/notas/roam-notes/templates/bib.org")
+         :target
+         (file+head "references/${citekey}.org" "#+title: ${title}\n")
+         :unnarrowed t)
     ("p" "project" plain
      (file "~/notas/roam-notes/templates/project.org")
      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -382,7 +382,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (use-package org-ref
   :custom
-  (setq bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
+  (bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
 
 (use-package zotxt
   :defer t
