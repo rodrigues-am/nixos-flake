@@ -687,10 +687,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (use-package citar
   :custom
-  (citar-bibliography '("~/notas/bib/bib.bib"))
-  :hook
-  (LaTeX-mode . citar-capf-setup)
-  (org-mode . citar-capf-setup))
+  (setq citar-bibliography '("~/notas/bib/bib.bib")))
 
 (use-package citar-embark
   :after citar embark
@@ -705,9 +702,9 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 #+begin_src emacs-lisp
 
-(use-package org-ref
+(use-package helm-bibtex
   :custom
-  (bibtex-completion-bibliography '("~/notas/bib/bib.bib"))
+  (bibtex-completion-bibliography '("~/notas/bib/bib.bib")))
 
 #+end_src
 
