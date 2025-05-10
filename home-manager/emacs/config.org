@@ -683,11 +683,11 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 #+end_src
 
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 (use-package citar
   :custom
-  (setq citar-bibliography '("~/notas/bib/bib.bib")))
+  (citar-bibliography '("~/notas/bib/bib.bib")))
 
 (use-package citar-embark
   :after citar embark

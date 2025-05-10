@@ -380,6 +380,19 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (setq org-cite-global-bibliography '("~/notas/bib/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
+(use-package citar
+  :custom
+  (citar-bibliography '("~/notas/bib/bib.bib")))
+
+(use-package citar-embark
+  :after citar embark
+  :no-require
+  :config (citar-embark-mode))
+
+(use-package citar-org-roam
+  :after (citar org-roam)
+  :config (citar-org-roam-mode))
+
 (use-package helm-bibtex
   :custom
   (bibtex-completion-bibliography '("~/notas/bib/bib.bib")))
