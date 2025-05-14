@@ -4,7 +4,7 @@
 
   home.packages = with pkgs;
     [
-      espanso
+      #espanso
       #espanso-wayland
     ];
 
