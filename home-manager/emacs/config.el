@@ -21,16 +21,6 @@
 
 (setq dired-dwim-target t)
 
-(use-package lsp-grammarly
-  :ensure t
-  ;; :hook ((text-mode org-mode) . (lambda ()
-  ;;                       (require 'lsp-grammarly)
-  ;;                       (lsp)))
-  ) ; or lsp-deferred
-
-(use-package grammarly
-  :ensure t)
-
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
 (use-package flyspell
@@ -57,15 +47,6 @@
       (flyspell-mode -1)
     (flyspell-mode 1)
     (flyspell-buffer)))
-
-(use-package telega
-  :defer t)
-
-(use-package mastodon
-  :defer t
-  :config
-  (setq mastodon-instance-url "https://mastodon.social"
-  mastodon-active-user "rodrigues_am"))
 
 (use-package gptel
   :custom
@@ -131,8 +112,7 @@
         ("DONE"  . "#CCCCCC")
         ("KILL"  . "#FF0000")))
 
-(use-package burly
-  :ensure t)
+(use-package burly)
 
 (setq abbrev-file-name
         "~/sync/pessoal/emacs/abbrev/.abbrev_defs.el")

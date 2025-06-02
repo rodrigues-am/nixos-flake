@@ -78,8 +78,9 @@
 (package! org-ql)
 
 ;; Gramarlly
-(package! lsp-grammarly)
-(package! grammarly)
+;; (package! lsp-grammarly)
+;; (package! grammarly)
+
 (package! org-modern)
 
 ;; Write

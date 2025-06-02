@@ -3,7 +3,8 @@
 {
 
   home.packages = (with pkgs; [
-    age # encryption
+    #calibre
+    age # encryptionc
     aspell
     aspellDicts.en
     aspellDicts.pt_BR
@@ -11,7 +12,6 @@
     audacity
     bat
     binutils
-    #calibre
     cmake
     curl
     element-desktop
@@ -20,19 +20,19 @@
     firefox # web browser
     fontforge-gtk
     fzf
+    gcc
     gh
     ghostscript
-    gucharmap
+    gnome-themes-extra
+    gnome-tweaks
+    gnomeExtensions.user-themes
     gnumake
     gnupg
     gnuplot
     gnutar
-    gnome-themes-extra
-    gnome-tweaks
-    gnomeExtensions.user-themes
-    sassc
-    gtk-engine-murrine
     graphviz # build diagrams declaratively
+    gtk-engine-murrine
+    gucharmap
     htop
     hugo # blog and static sities
     hunspell
@@ -40,19 +40,23 @@
     hunspellDicts.pt_BR
     inkscape-with-extensions
     libreoffice
+    libtool
+    libvterm
     libxml2
     maim # command-line screenshot utility to emacs
     mpv # media player
     neofetch
     neovim
     pandoc
-    patchelf
     pass
+    patchelf
     pdftk
+    pkg-config
     plantuml # build diagrams declaratively
     poppler_utils
     ranger # file manager
     ripgrep
+    sassc
     shotwell
     sops
     stow
@@ -67,8 +71,8 @@
     zellij
     zip
     zoom-us
-    zoxide
     zotero
+    zoxide
   ]) ++ (with pkgs-stable; [
     brave
     calibre

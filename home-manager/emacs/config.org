@@ -68,7 +68,7 @@ Some personal information.
 
 * Grammarly
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package lsp-grammarly
   :ensure t
   ;; :hook ((text-mode org-mode) . (lambda ()
@@ -77,7 +77,7 @@ Some personal information.
   ) ; or lsp-deferred
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package grammarly
   :ensure t)
 #+end_src
@@ -165,7 +165,7 @@ Some personal information.
 
 ** Telegram Client
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package telega
   :defer t)
 #+end_src
@@ -179,7 +179,7 @@ Some personal information.
 
 ** Matodon
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package mastodon
   :defer t
   :config
@@ -306,8 +306,7 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 ** Burly
 
 #+begin_src emacs-lisp
-(use-package burly
-  :ensure t)
+(use-package burly)
 #+end_src
 
 ** Abbrev
@@ -522,15 +521,11 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 #+end_src
 
 #+begin_src emacs-lisp
-
 (use-package ivy-bibtex)
 (use-package org-roam-bibtex
   :after org-roam
   :config
   (require 'org-ref))
-
-
-
 #+end_src
 
 * Agenda
@@ -684,7 +679,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 
 #+begin_src emacs-lisp
-
 (use-package citar
   :custom
   (citar-bibliography '("~/notas/bib/bib.bib")))
@@ -697,15 +691,12 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (use-package citar-org-roam
   :after (citar org-roam)
   :config (citar-org-roam-mode))
-
 #+end_src
 
 #+begin_src emacs-lisp
-
 (use-package helm-bibtex
   :custom
   (bibtex-completion-bibliography '("~/notas/bib/bib.bib")))
-
 #+end_src
 
 #+RESULTS:
@@ -714,12 +705,10 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ** Zotxt
 
 #+begin_src emacs-lisp
-
 (use-package zotxt
   :defer t
   :custom
   (setq zotxt-default-bibiliography-style "apa"))
-
 #+end_src
 
 #+RESULTS:
@@ -745,7 +734,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 ** Documents
 #+begin_src emacs-lisp
-
 (with-eval-after-load "ox-latex"
 
   ;; Plain text
@@ -760,7 +748,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-
 
 #+end_src
 
