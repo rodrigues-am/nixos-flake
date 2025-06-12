@@ -77,6 +77,7 @@
 (package! org-super-agenda)
 (package! org-ql)
 
+(package! sops)
 ;; Gramarlly
 ;; (package! lsp-grammarly)
 ;; (package! grammarly)

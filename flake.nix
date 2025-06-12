@@ -34,6 +34,8 @@
     let
       system = "x86_64-linux";
 
+      via-pkg = pkgs.callPackage ./home-manager/via-vpn/via.nix { };
+
       userSettings = rec {
         name = "andre";
         email = "rodrigues.am@usp.br";
@@ -71,10 +73,15 @@
           };
 
           modules = [
+            {
+              environment.systemPackages = [ via-pkg ];
+            }
+            #{ home.packages = config.lib.mkIf config.home.enable [ via-pkg ]; }
 
             ./nixos/home-desktop/hardware-configuration.nix
             ./nixos/core.nix
             ./nixos/home-desktop/nvidia.nix
+            ./nixos/home-desktop/webdav.nix
             ./nixos/home-desktop/game.nix
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix

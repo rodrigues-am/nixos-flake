@@ -26,12 +26,8 @@
     defaultSopsFile = ../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
-
+    secrets."webdav_key" = { owner = "nginx"; };
   };
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -111,7 +107,7 @@
     allowedUDPPortRanges = [
       {
         from = 4000;
-        to = 4007;
+        to = 4010;
       }
       {
         from = 8000;

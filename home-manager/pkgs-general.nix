@@ -14,6 +14,7 @@
     binutils
     cmake
     curl
+    dig
     element-desktop
     eza
     fd
@@ -43,6 +44,7 @@
     libtool
     libvterm
     libxml2
+    lsof
     maim # command-line screenshot utility to emacs
     mpv # media player
     neofetch

@@ -38,6 +38,14 @@ Some personal information.
   (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
 #+end_src
 
+#+begin_src emacs-lisp
+
+(use-package! sops-mode
+  :mode ("\\.sops\\.ya?ml\\'" . sops-mode)
+  :hook ((sops-mode . (lambda () (read-only-mode -1)))))
+
+#+end_src
+
 * Bookmarks
 
 #+begin_src emacs-lisp

@@ -17,6 +17,10 @@
   :custom
   (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
 
+(use-package! sops-mode
+  :mode ("\\.sops\\.ya?ml\\'" . sops-mode)
+  :hook ((sops-mode . (lambda () (read-only-mode -1)))))
+
 (setq bookmark-save-flag 1)
 
 (setq dired-dwim-target t)
