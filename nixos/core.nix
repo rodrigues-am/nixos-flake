@@ -26,7 +26,6 @@
     defaultSopsFile = ../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
-    secrets."webdav_key" = { owner = "nginx"; };
   };
 
   # Enable networking

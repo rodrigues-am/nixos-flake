@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   username = "andre";
-  password = "${config.sops.secrets.webdav_key.path}";
   htpasswdFile = "/srv/webdav/.htpasswd";
 in {
   services.nginx = {
@@ -27,15 +26,18 @@ in {
     };
   };
 
-    # Cria .htpasswd no destino final
+  sops.secrets."webdav_key" = { owner = "nginx"; };
+
+  # Cria .htpasswd no destino final
   system.activationScripts.htpasswd = ''
 
- HTPASSWD="${pkgs.apacheHttpd}/bin/htpasswd"
-  mkdir -p $(dirname ${htpasswdFile})
-  $HTPASSWD -bc ${htpasswdFile} "${username}" "$(cat ${config.sops.secrets.webdav_key.path})"
-  chown nginx:nginx ${htpasswdFile}
-  chmod 640 ${htpasswdFile}
-'';
+        HTPASSWD="${pkgs.apacheHttpd}/bin/htpasswd"
+    echo "Pass: $(cat ${config.sops.secrets.webdav_key.path})  Dir: ${htpasswdFile}  Date: $(date)" > /home/andre/webdav-senha-usada.txt
+         mkdir -p $(dirname ${htpasswdFile})
+         $HTPASSWD -bc ${htpasswdFile} "${username}" "$(cat ${config.sops.secrets.webdav_key.path})"
+         chown nginx:nginx ${htpasswdFile}
+         chmod 640 ${htpasswdFile}
+  '';
 
   systemd.tmpfiles.rules = [
     "d /srv/webdav/${username}/zotero 0755 nginx nginx - -"
