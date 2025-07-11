@@ -15,7 +15,7 @@
     ./espanso.nix
     ./alacritty.nix
     #./thunderbird.nix
-    #./email.nix
+    ./mbsync.nix
 
     # pkgs
     ./pkgs-program.nix
@@ -42,6 +42,7 @@
       gmail_key = { };
       ifusp_key = { };
     };
+
   };
 
   home = {

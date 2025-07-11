@@ -71,8 +71,8 @@
   :mode (("\\.org$" . org-mode))
   :ensure org-plus-contrib
   :config
-  (setq org-directory "~/notas/general")
-  (setq org-agenda-files '("~/notas/general"))
+  (setq org-directory "~/notas/general/")
+  (setq org-agenda-files '("~/notas/general/"))
   (setq fill-column 100))
 
 (use-package! org-headline-card

@@ -35,3 +35,33 @@
 (defun amr-ess-keybindings ()
   (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))
 (add-hook 'ess-mode-hook 'amr-ess-keybindings)
+
+(use-package mu4e
+  :ensure nil  ;; mu4e já vem com o pacote mu, não precisa instalar via straight
+  :config
+  (setq mu4e-maildir "~/Mail/gmail"
+        mu4e-sent-folder "/gmail/Sent"
+        mu4e-drafts-folder "/gmail/Drafts"
+        mu4e-trash-folder "/gmail/Trash"
+        mu4e-refile-folder "/gmail/Archive"
+
+        user-mail-address "rodrigues.am83@gmail.com"
+        user-full-name "André Machado Rodrigues"
+
+        mu4e-compose-signature
+        (concat
+         "--\n"
+         "Prof. Dr. André Machado Rodrigues\n"
+         "Departamento de Física Aplicada\n"
+         "Instituto de Física - Universidade de São Paulo\n"
+         "Telefone: +55 (11) 3091-7108\n"
+         "Sala: 3016 - Prédio Ala II\n")
+
+        message-send-mail-function 'message-send-mail-with-msmtp
+        sendmail-program "/run/current-system/sw/bin/msmtp"
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        mail-specify-envelope-from t
+        mail-envelope-from 'header))
+
+(use-package ement
+  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))

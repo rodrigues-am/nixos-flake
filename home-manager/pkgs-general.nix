@@ -12,6 +12,7 @@
     audacity
     bat
     binutils
+    blender
     cmake
     curl
     dig
@@ -46,7 +47,9 @@
     libxml2
     lsof
     maim # command-line screenshot utility to emacs
+    mautrix-whatsapp
     mpv # media player
+    #mu
     neofetch
     neovim
     pandoc

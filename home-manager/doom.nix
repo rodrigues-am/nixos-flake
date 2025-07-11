@@ -9,11 +9,12 @@
       DOOMLOCALDIR = "${config.xdg.configHome}/doom-local";
     };
 
-    packages = (with pkgs; [ isync msmtp ]) ++ (with pkgs-stable; [
-      emacsPackages.nerd-icons
-      emacsPackages.pdf-tools
-      emacsPackages.vterm
-    ]);
+    # packages = (with pkgs; [ isync msmtp ]) ++ (with pkgs-stable; [
+    #   emacs.pkgs.withPackages.nerd-icons
+    #   emacs.pkgs.withPackages.pdf-tools
+    #   emacs.pkgs.withPackages.vterm
+    #   emacs.pkgs.withPackages.mu4e
+    # ]);
 
   };
 
@@ -32,6 +33,6 @@
   #     frequency = "*:0/5";
   #   };
 
-  services.emacs.enable = true;
+  #services.emacs.enable = true;
 
 }
