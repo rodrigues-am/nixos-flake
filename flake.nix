@@ -87,7 +87,11 @@
             ./nixos/boot-desktop.nix
 
             home-manager.nixosModules.home-manager
-            { imports = [ ./home-manager/hm-module.nix ]; }
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              imports = [ ./home-manager/hm-module.nix ];
+            }
           ];
         };
 

@@ -1037,21 +1037,23 @@ Recomendação feita por Doom Doctor
 
         mu4e-compose-signature
         (concat
-         "--\n"
-         "Prof. Dr. André Machado Rodrigues\n"
-         "Departamento de Física Aplicada\n"
-         "Instituto de Física - Universidade de São Paulo\n"
-         "Telefone: +55 (11) 3091-7108\n"
-         "Sala: 3016 - Prédio Ala II\n")
+         "--\n\n"
+         "Prof. Dr. André Machado Rodrigues\n\n"
+         "Departamento de Física Aplicada\n\n"
+         "Instituto de Física - Universidade de São Paulo\n\n"
+         "Telefone: +55 (11) 3091-7108\n\n"
+         "Sala: 3016 - Prédio Ala II\n\n")
 
-        message-send-mail-function 'message-send-mail-with-msmtp
-        sendmail-program "/run/current-system/sw/bin/msmtp"
-        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function 'message-send-mail-with-sendmail
+        sendmail-program "/etc/profiles/per-user/andre/bin/msmtp"
+
         mail-specify-envelope-from t
         mail-envelope-from 'header))
 
-
 #+end_src
+
+#+RESULTS:
+: t
 
 * Ement
 #+begin_src emacs-lisp :tangle t

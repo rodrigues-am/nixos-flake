@@ -9,8 +9,6 @@
     inputs.sops-nix.nixosModules.sops
     inputs.xremap-flake.nixosModules.default
     ./xremap.nix
-    ./email.nix
-    #    ./mu4e-overlay.nix
   ];
 
   nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ]; # para
