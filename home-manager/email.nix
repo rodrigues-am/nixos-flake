@@ -2,10 +2,35 @@
 
 let
   mailDir = "${config.home.homeDirectory}/Mail";
-  account = "gmail";
-  email = "rodrigues.am83@gmail.com";
+  gmailEmail = "rodrigues.am83@gmail.com";
+  uspmailEmail = "rodrigues.am@usp.br";
+
+  clientIdFile = config.sops.secrets.uspmail-client-id.path;
+  clientSecretFile = config.sops.secrets.uspmail-client-secret.path;
+  refreshTokenFile = config.sops.secrets.uspmail-refresh-token.path;
+
+  oauth2-token-script = import ./bin/oauth2-token.nix {
+    inherit pkgs clientIdFile clientSecretFile refreshTokenFile;
+  };
+  oauth2-token = "${oauth2-token-script.oauth2-token}/bin/oauth2-token";
+
 in {
-  home.packages = with pkgs; [ msmtp mu isync ];
+  home.packages = with pkgs; [ msmtp mu isync oauth2ms ];
+
+  sops.secrets.uspmail-client-id = {
+    sopsFile = ../secrets/secrets.yaml;
+    key = "usp_client_id";
+  };
+
+  sops.secrets.uspmail-client-secret = {
+    sopsFile = ../secrets/secrets.yaml;
+    key = "usp_client_secret";
+  };
+
+  sops.secrets.uspmail-refresh-token = {
+    sopsFile = ../secrets/secrets.yaml;
+    key = "usp_refresh_token";
+  };
 
   sops.secrets.gmail-password = {
     sopsFile = ../secrets/secrets.yaml;
@@ -24,36 +49,75 @@ in {
       account gmail
       host smtp.gmail.com
       port 587
-      from ${email}
-      user ${email}
+      from ${gmailEmail}
+      user ${gmailEmail}
       passwordeval cat ${config.sops.secrets.gmail-password.path}
 
-      account default : gmail
+      account uspmail
+      auth oauthbearer
+      host smtp.gmail.com
+      port 587
+      from ${uspmailEmail}
+      user ${uspmailEmail}
+      passwordeval "${oauth2-token}"
+
+      account default : uspmail
     '';
   };
 
   home.file.".mbsyncrc".text = ''
-    IMAPAccount gmail
-    Host imap.gmail.com
-    Port 993
-    User rodrigues.am83@gmail.com
-    PassCmd "cat ${config.sops.secrets.gmail-password.path}"
-    TLSType IMAPS
 
-    IMAPStore gmail-remote
-    Account gmail
+        ##################
+        ## Conta pessoal
+        ##################
+        IMAPAccount gmail
+        Host imap.gmail.com
+        Port 993
+        User rodrigues.am83@gmail.com
+        PassCmd "cat ${config.sops.secrets.gmail-password.path}"
+        TLSType IMAPS
 
-    MaildirStore gmail-local
-    Path ~/Mail/gmail/
-    Inbox ~/Mail/gmail/Inbox
+        IMAPStore gmail-remote
+        Account gmail
 
-    Channel gmail-inbox
-    Far :gmail-remote:
-    Near :gmail-local:
-    Patterns "INBOX"
-    Create Both
-    Expunge Both
-    SyncState *
+        MaildirStore gmail-local
+        Path ~/Mail/gmail/
+        Inbox ~/Mail/gmail/Inbox
+
+        Channel gmail-inbox
+        Far :gmail-remote:
+        Near :gmail-local:
+        Patterns "INBOX"
+        Create Both
+        Expunge Both
+        SyncState *
+    IMAPAccount uspmail
+        Host imap.gmail.com
+        Port 993
+        User ${uspmailEmail}
+        AuthMechs XOAUTH2
+        PassCmd "${oauth2-token}"
+        SSLType IMAPS
+        CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+
+     ##################
+        ## Conta USPmail
+        ##################
+        IMAPStore uspmail-remote
+        Account uspmail
+
+        MaildirStore uspmail-local
+        Path ${mailDir}/uspmail/
+        Inbox ${mailDir}/uspmail/Inbox
+
+        Channel uspmail-inbox
+        Far :uspmail-remote:
+        Near :uspmail-local:
+        Patterns "INBOX"
+        Create Both
+        Expunge Both
+        SyncState *
   '';
 
   systemd.user.services.mbsync-gmail = {
@@ -74,8 +138,30 @@ in {
     Install = { WantedBy = [ "timers.target" ]; };
   };
 
+  systemd.user.services.mbsync-uspmail = {
+    Unit = { Description = "mbsync USPmail Service"; };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.isync}/bin/mbsync uspmail-inbox";
+    };
+  };
+
+  systemd.user.timers.mbsync-uspmail-timer = {
+    Unit = { Description = "Run mbsync USPmail every 3 minutes"; };
+    Timer = {
+      OnBootSec = "1min";
+      OnUnitActiveSec = "3min";
+      Persistent = true;
+    };
+    Install = { WantedBy = [ "timers.target" ]; };
+  };
+
+  # Criação de diretórios Maildir
   home.activation.createMaildir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p ${mailDir}/${account}/Inbox
-    chmod 700 ${mailDir}/${account}/Inbox
+    mkdir -p ${mailDir}/gmail/Inbox
+    chmod 700 ${mailDir}/gmail/Inbox
+
+    mkdir -p ${mailDir}/uspmail/Inbox
+    chmod 700 ${mailDir}/uspmail/Inbox
   '';
 }

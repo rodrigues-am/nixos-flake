@@ -1,5 +1,4 @@
-{ config, lib, pkgs, inputs, userSettings, nix-doom-emacs, sops-nix, nix-colors
-, ... }:
+{ config, pkgs, inputs, userSettings, nix-doom-emacs, nix-colors, ... }:
 
 {
 
@@ -25,7 +24,7 @@
 
     # scripts
     ./bin/doomcapture.nix
-    ./bin/emopicker.nix
+    ./bin/emopicker.nix.nix
     #./bin/wallsetter.nix
     #./bin/themechange.nix
     #./bin/theme-selector.nix
@@ -38,11 +37,6 @@
     defaultSopsFile = ../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
-
-    secrets = {
-      gmail_key = { };
-      ifusp_key = { };
-    };
 
   };
 

@@ -3,6 +3,7 @@
 {
 
   home.packages = (with pkgs; [
+    #oauth2ms
     #calibre
     age # encryptionc
     aspell
