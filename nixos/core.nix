@@ -6,6 +6,7 @@
     ./syncthing.nix
     ./polkit.nix
     ./emacs-overlay.nix
+    ./isync-overlay.nix
     inputs.sops-nix.nixosModules.sops
     inputs.xremap-flake.nixosModules.default
     ./xremap.nix

@@ -29,8 +29,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nix-colors, sops-nix
-    , hyprland, nix-doom-emacs, hyprland-plugins, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
 
@@ -51,6 +50,7 @@
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
+
       };
 
       pkgs-stable = import nixpkgs-stable {
@@ -59,6 +59,7 @@
       };
 
     in {
+
       nixosConfigurations = {
 
         ################
@@ -66,17 +67,12 @@
         ################
 
         home-desktop = nixpkgs.lib.nixosSystem {
-
+          system = system;
           specialArgs = {
             inherit inputs system userSettings pkgs-stable;
             nixpkgs = { inherit pkgs; };
           };
-
           modules = [
-            {
-              environment.systemPackages = [ via-pkg ];
-            }
-            #{ home.packages = config.lib.mkIf config.home.enable [ via-pkg ]; }
 
             ./nixos/home-desktop/hardware-configuration.nix
             ./nixos/core.nix
@@ -116,6 +112,8 @@
 
             home-manager.nixosModules.home-manager
             {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
               imports = [ ./home-manager/hm-module.nix ];
 
             }
@@ -143,6 +141,9 @@
             home-manager.nixosModules.home-manager
             {
 
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
               imports = [ ./home-manager/hm-module.nix ];
 
             }
@@ -169,7 +170,12 @@
             ./nixos/dell-laptop/boot-dell-laptop.nix
 
             home-manager.nixosModules.home-manager
-            { imports = [ ./home-manager/hm-module.nix ]; }
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              imports = [ ./home-manager/hm-module.nix ];
+            }
 
           ];
         };
@@ -189,7 +195,12 @@
             ./nixos/thinkpad/keymap-thinkpad.nix
             ./nixos/boot-desktop.nix
             home-manager.nixosModules.home-manager
-            { imports = [ ./home-manager/hm-module.nix ]; }
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              imports = [ ./home-manager/hm-module.nix ];
+            }
 
           ];
         };

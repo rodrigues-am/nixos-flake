@@ -14,7 +14,7 @@
     ./espanso.nix
     ./alacritty.nix
     #./thunderbird.nix
-    ./mbsync.nix
+    # ./mbsync.nix
     ./email.nix
 
     # pkgs
@@ -24,7 +24,7 @@
 
     # scripts
     ./bin/doomcapture.nix
-    ./bin/emopicker.nix.nix
+    ./bin/emopicker.nix
     #./bin/wallsetter.nix
     #./bin/themechange.nix
     #./bin/theme-selector.nix

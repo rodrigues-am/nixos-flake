@@ -10,7 +10,6 @@
     aspellDicts.en
     aspellDicts.pt_BR
     auctex # text
-    audacity
     bat
     binutils
     blender
@@ -80,6 +79,8 @@
     zotero
     zoxide
   ]) ++ (with pkgs-stable; [
+
+    audacity
     brave
     calibre
     darktable

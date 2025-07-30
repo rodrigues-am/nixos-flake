@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 
 let
-  mailDir = "${config.home.homeDirectory}/Mail";
+
+  mailDir = "${config.home.homeDirectory}/.mail";
   gmailEmail = "rodrigues.am83@gmail.com";
   uspmailEmail = "rodrigues.am@usp.br";
 
@@ -15,7 +16,7 @@ let
   oauth2-token = "${oauth2-token-script.oauth2-token}/bin/oauth2-token";
 
 in {
-  home.packages = with pkgs; [ msmtp mu isync oauth2ms ];
+  home.packages = with pkgs; [ msmtp mu oauth2ms isync ];
 
   sops.secrets.uspmail-client-id = {
     sopsFile = ../secrets/secrets.yaml;
@@ -66,58 +67,60 @@ in {
   };
 
   home.file.".mbsyncrc".text = ''
+            ##################
+               ## Conta pessoal
+               ##################
 
-        ##################
-        ## Conta pessoal
-        ##################
-        IMAPAccount gmail
-        Host imap.gmail.com
-        Port 993
-        User rodrigues.am83@gmail.com
-        PassCmd "cat ${config.sops.secrets.gmail-password.path}"
-        TLSType IMAPS
-
-        IMAPStore gmail-remote
-        Account gmail
-
-        MaildirStore gmail-local
-        Path ~/Mail/gmail/
-        Inbox ~/Mail/gmail/Inbox
-
-        Channel gmail-inbox
-        Far :gmail-remote:
-        Near :gmail-local:
-        Patterns "INBOX"
-        Create Both
-        Expunge Both
-        SyncState *
-    IMAPAccount uspmail
-        Host imap.gmail.com
-        Port 993
-        User ${uspmailEmail}
-        AuthMechs XOAUTH2
-        PassCmd "${oauth2-token}"
-        SSLType IMAPS
+               IMAPAccount gmail
+               Host imap.gmail.com
+               Port 993
+               User rodrigues.am83@gmail.com
+               PassCmd "cat ${config.sops.secrets.gmail-password.path}"
+    AuthMechs PLAIN LOGIN
+               TLSType IMAPS
         CertificateFile /etc/ssl/certs/ca-certificates.crt
 
+               IMAPStore gmail-remote
+               Account gmail
 
-     ##################
-        ## Conta USPmail
-        ##################
-        IMAPStore uspmail-remote
-        Account uspmail
+               MaildirStore gmail-local
+               Path  ${mailDir}/gmail/
+               Inbox  ${mailDir}/gmail/Inbox
 
-        MaildirStore uspmail-local
-        Path ${mailDir}/uspmail/
-        Inbox ${mailDir}/uspmail/Inbox
+                Channel gmail-inbox
+                Far :gmail-remote:
+                Near :gmail-local:
+               Patterns "INBOX" "[Gmail]/All Mail" "[Gmail]/Sent Mail" "[Gmail]/Drafts"
+                Create Both
+                Expunge Both
+                SyncState *
 
-        Channel uspmail-inbox
-        Far :uspmail-remote:
-        Near :uspmail-local:
-        Patterns "INBOX"
-        Create Both
-        Expunge Both
-        SyncState *
+               ##################
+               ## Conta USPmail
+               ##################
+               IMAPAccount uspmail
+               Host imap.gmail.com
+               Port 993
+               User ${uspmailEmail}
+               AuthMechs XOAUTH2
+               PassCmd "${oauth2-token}"
+               TLSType IMAPS
+               CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+               IMAPStore uspmail-remote
+               Account uspmail
+
+               MaildirStore uspmail-local
+               Path ${mailDir}/uspmail/
+               Inbox ${mailDir}/uspmail/Inbox
+
+               Channel uspmail-inbox
+               Far :uspmail-remote:
+               Near :uspmail-local:
+               Patterns "INBOX" "[Gmail]/All Mail" "[Gmail]/Sent Mail" "[Gmail]/Drafts"
+               Create Both
+               Expunge Both
+               SyncState *
   '';
 
   systemd.user.services.mbsync-gmail = {
