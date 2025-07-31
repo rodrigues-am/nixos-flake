@@ -11,10 +11,10 @@
 
 (define-key evil-motion-state-map (kbd "C-u") 'universal-argument)
 
-(setq doom-font (font-spec :family "Iosevka" :size 14)
-      doom-big-font (font-spec :family "Iosevka" :size 20)
-      ;; Opcional: fonte variável para textos
-      doom-variable-pitch-font (font-spec :family "Iosevka" :size 16))
+;; (setq doom-font (font-spec :family "Iosevka" :size 14)
+;;       doom-big-font (font-spec :family "Iosevka" :size 20)
+;;       ;; Opcional: fonte variável para textos
+;;       doom-variable-pitch-font (font-spec :family "Iosevka" :size 16))
 
 (setq doom-theme 'doom-gruvbox)
 

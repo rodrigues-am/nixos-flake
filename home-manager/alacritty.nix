@@ -18,19 +18,19 @@
       font = {
         size = 12;
         normal = {
-          family = "Iosevka";
+          family = "Fira Code";
           style = "Regular";
         };
         bold = {
-          family = "Iosevka";
+          family = "Fira Code";
           style = "Bold";
         };
         italic = {
-          family = "Iosevka";
+          family = "Fira Code";
           style = "Italic";
         };
         bold_italic = {
-          family = "Iosevka";
+          family = "Fira Code";
           style = "Bold Italic";
         };
       };
