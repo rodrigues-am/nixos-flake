@@ -34,18 +34,4 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  # hardware.opengl.driSupport = true;
-  # hardware.opengl.driSupport32Bit = true;
-  # hardware.opengl.extraPackages = with pkgs; [
-  #   nvidia-vaapi-driver
-  #   libvdpau
-  #   libvulkan
-  #   vulkan-loader
-  #   vulkan-validation-layers
-  # ];
-  # hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [
-  #   libvulkan
-  #   vulkan-loader
-  # ];
-
 }

@@ -108,7 +108,7 @@ in {
     # database
     sqlite
     # surrealdb
-    postgresql
+    #postgresql
 
     # general
     postman
@@ -119,18 +119,18 @@ in {
     shfmt
 
     # common-lisp
-    sbcl
-    rlwrap
+    #sbcl
+    #rlwrap
 
     # python
 
     # rust
-    rustc
+    #rustc
 
     # rustup
-    rustfmt
-    rust-analyzer
-    cargo
+    #rustfmt
+    #rust-analyzer
+    #cargo
 
     #Web
     html-tidy
@@ -161,7 +161,7 @@ in {
 
     #    nodePackages.grammarly-languageserver
     #Cliente DB para o IFUSP
-    dbeaver-bin
+    #dbeaver-bin
   ]);
 
 }

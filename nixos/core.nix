@@ -12,7 +12,8 @@
     ./xremap.nix
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ]; # para
+  nixpkgs.config.permittedInsecurePackages =
+    [ "olm-3.2.16" ]; # para instalação de matrix e pontes
   #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   programs.hyprland.enable = true;
@@ -80,7 +81,7 @@
   users.users.${userSettings.name} = {
     isNormalUser = true;
     description = "${userSettings.name}";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "uinput" ];
     packages = with pkgs; [ ];
   };
 

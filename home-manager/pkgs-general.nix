@@ -3,16 +3,17 @@
 {
 
   home.packages = (with pkgs; [
+    (aspellWithDicts (d: with d; [ en pt_BR ]))
     #oauth2ms
     #calibre
     age # encryptionc
-    aspell
-    aspellDicts.en
-    aspellDicts.pt_BR
+    #aspell
+    #aspellDicts.en
+    #aspellDicts.pt_BR
     auctex # text
     bat
     binutils
-    blender
+    # blender
     cmake
     curl
     dig
@@ -20,7 +21,7 @@
     eza
     fd
     firefox # web browser
-    fontforge-gtk
+    # fontforge-gtk
     fzf
     gcc
     gh

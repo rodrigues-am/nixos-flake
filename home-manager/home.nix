@@ -16,7 +16,7 @@
     #./thunderbird.nix
     # ./mbsync.nix
     ./email.nix
-
+    ./aspell.nix
     # pkgs
     ./pkgs-program.nix
     ./pkgs-fonts.nix
