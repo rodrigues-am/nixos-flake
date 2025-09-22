@@ -76,7 +76,7 @@
     zathura # pdf viwer
     zellij
     zip
-    zoom-us
+    #zoom-us
     zotero
     zoxide
   ]) ++ (with pkgs-stable; [

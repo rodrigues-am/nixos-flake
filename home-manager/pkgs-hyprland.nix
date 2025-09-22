@@ -25,5 +25,4 @@
     ".config/rofi/rofi.jpg".source = ./resources/rofi.jpg;
 
   };
-
 }

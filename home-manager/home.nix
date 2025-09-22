@@ -24,7 +24,7 @@
 
     # scripts
     ./bin/doomcapture.nix
-    ./bin/emopicker.nix
+    # ./bin/emopicker.nix
     #./bin/wallsetter.nix
     #./bin/themechange.nix
     #./bin/theme-selector.nix

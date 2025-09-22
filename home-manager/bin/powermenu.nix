@@ -13,7 +13,7 @@ let
         # Variable passed to rofi
         options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 
-        chosen="$(echo -e "$options" | ${pkgs.rofi-wayland}/bin/rofi -dmenu -selected-row 0)"
+        chosen="$(echo -e "$options" | ${pkgs.rofi}/bin/rofi -dmenu -selected-row 0)"
         case $chosen in
             $shutdown)
     # close all client windows

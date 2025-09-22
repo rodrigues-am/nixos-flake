@@ -2,7 +2,7 @@
 
 {
   home = {
-    packages = with pkgs; [ rofi-wayland ];
+    packages = with pkgs; [ rofi ];
     file = {
       ".config/rofi/config.rasi".text = ''
             @theme "/dev/null"
