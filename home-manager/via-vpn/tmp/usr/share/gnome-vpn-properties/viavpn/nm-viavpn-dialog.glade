@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<glade-interface>
+  <widget class="GtkWindow" id="ViaVpn-widget">
+    <child>
+      <widget class="GtkVBox" id="ViaVpn-vbox">
+        <property name="visible">True</property>
+        <property name="border_width">10</property>
+        <property name="spacing">10</property>
+        <child>
+          <widget class="GtkLabel" id="label1">
+            <property name="label">&lt;b&gt;VIA connection must not be created or edited directly.&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="xalign">0</property>
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="label2">
+            <property name="label">&lt;b&gt;Use via-ui instead.&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="xalign">0</property>
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>

@@ -53,6 +53,7 @@
     #mu
     neofetch
     neovim
+    ocrmypdf
     pandoc
     pass
     patchelf

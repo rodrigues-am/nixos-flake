@@ -1,0 +1,122 @@
+#!/bin/sh
+
+via_cli_completion()
+{
+
+    COMPREPLY=()
+    current="${COMP_WORDS[COMP_CWORD]}"
+
+
+    cmd_groups_list="session profile cert logs vpn config"
+
+
+    commands_session="start stop info"
+    commands_profile="load side-load print clear"
+    commands_cert="list import remove request"
+    commands_logs="archive send"
+    commands_vpn="setup status connect disconnect"
+    commands_config="load"
+
+    cmd_words_list="help ${commands_session} ${commands_profile} ${commands_cert} ${commands_logs} ${commands_vpn} ${commands_config}"
+
+
+    options_common="--version --help --timeout --loglevel --keypass --keypassfile"
+    options_session="--force"
+    options_profile="--gateway --username --userpass --userpassfile --cert --authprofile --authprofile-index --nocertwarn --proxy"
+    options_cert="--cert --certpass --CA --client --user --machine --token --requested --subject"
+    options_cert_remove="all --cert --certpass --CA --client --user --machine --token --requested --subject"
+    options_cert_request="--gateway --username --userpass --userpassfile --RSA --ECDSA --MD5 --SHA1 --SHA256 --SHA384 --SHA512 --SHA224 --keylength --subject --http --scep --save --template --challenge"
+    options_logs="--directory"
+    options_vpn="--username --userpass --userpassfile --cert --profile --controller --proxy"
+    options_config=" "
+
+
+
+    # parse present arguments
+    cmd_group=""
+    cmd_word=""
+    for word in ${COMP_WORDS[@]}; do
+        if [[ -z "${cmd_group}" ]]; then
+            for c_group in ${cmd_groups_list}; do
+                if [[ "${word}" == "${c_group}" ]]; then
+                    cmd_group=${word}
+                fi
+            done
+        fi
+        if [[ -z "${cmd_word}" ]]; then
+            for c_cmd in ${cmd_words_list}; do
+                if [[ "${word}" == "${c_cmd}" ]]; then
+                    cmd_word=${word}
+                fi
+            done
+        fi
+    done
+
+
+    # suggest commands
+    suggestion=""
+    if [[ -z "${cmd_group}" ]]; then
+        suggestion="help ${cmd_groups_list}"
+    elif [[ -z "${cmd_word}" ]]; then
+        case ${cmd_group} in
+            "session")
+                suggestion="${commands_session}"
+                ;;
+            "profile")
+                suggestion="${commands_profile}"
+                ;;
+            "cert")
+                suggestion="${commands_cert}"
+                ;;            
+            "logs")
+                suggestion="${commands_logs}"
+                ;;
+            "vpn")
+                suggestion="${commands_vpn}"
+                ;;
+            "config")
+                suggestion="${commands_config}"
+                ;;
+        esac
+    fi
+
+    # suggest options
+    if [[ -n "${current}" || -n "${cmd_group}" && -n "${cmd_word}" ]]; then
+        suggested_options=""
+        if [[ -n "${cmd_group}" ]]; then
+            case $cmd_group in
+                "session")
+                    suggested_options="${options_session}"
+                    ;;
+                "profile")
+                    suggested_options="${options_profile}"
+                    ;;
+                "cert")
+                    if [[ "${cmd_word}" == "request" ]]; then
+                        suggested_options="${options_cert} ${options_cert_request}"
+                    elif [[ "${cmd_word}" == "remove" ]]; then
+                        suggested_options="${options_cert_remove}"
+                    else
+                        suggested_options="${options_cert}"
+                    fi
+                    ;;
+                "logs")
+                    suggested_options="${options_logs}"
+                    ;;
+                "vpn")
+                    suggested_options="${options_vpn}"
+                    ;;
+                "config")
+                    suggested_options="${options_config}"
+                    ;;
+            esac
+        fi
+        suggestion="${suggestion} ${options_common} ${suggested_options}"
+    fi
+
+
+    COMPREPLY=( $(compgen -W "${suggestion}" -- ${current}) )
+
+}
+
+complete -F via_cli_completion via-cli

@@ -1,0 +1,98 @@
+#!/bin/bash
+#
+# chkconfig: 2345 98 02
+# description:  Start stop vpn service
+# processname: via-vpn-srv
+
+### BEGIN INIT INFO
+# Provides:          via_vpn
+# Required-Start:    $network $remote_fs
+# Required-Stop:     $network $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: VPN service
+# Description:       VPN service is used in conjunction with via-ui application
+### END INIT INFO
+
+
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+NAME=via-vpn-srv
+DAEMON=/usr/bin/$NAME
+DAEMON_ARGS=""
+DESC="VIA VPN service"
+PIDFILE=/var/run/via_vpn.pid
+
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+. /lib/lsb/init-functions
+
+VERBOSE=yes
+
+
+do_start()
+{
+DAEMON_COREFILE_LIMIT="unlimited"
+    # Return
+    #   0 if daemon has been started
+    #   1 if daemon was already running
+    #   2 if daemon could not be started
+    start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test \
+        || return 1
+    start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON -- \
+        $DAEMON_ARGS \
+        || return 2
+}
+
+do_stop()
+{
+    # Return
+    #   0 if daemon has been stopped
+    #   1 if daemon was already stopped
+    #   2 if daemon could not be stopped
+    #   other if a failure occurred
+    start-stop-daemon --stop --quiet --retry=TERM/5/KILL/5 --name $NAME
+    RETVAL=$?
+    [ "$RETVAL" = 2 ] && return 2
+    # Many daemons don't delete their pidfiles when they exit.
+    rm -f $PIDFILE
+    return $RETVAL
+}
+
+
+case "$1" in
+    start)
+        [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC"
+        do_start
+        case "$?" in
+            0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+            2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+        esac
+        ;;
+
+    stop)
+        [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC"
+        do_stop
+        case "$?" in
+            0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+            2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+        esac
+        ;;
+
+    status)
+        status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+        ;;
+
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|status}" >&2
+        exit 3
+        ;;
+esac
+
+:

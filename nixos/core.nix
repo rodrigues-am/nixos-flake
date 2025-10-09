@@ -6,8 +6,8 @@
     ./syncthing.nix
     ./polkit.nix
     ./emacs-overlay.nix
-    ./isync-overlay.nix
-    inputs.sops-nix.nixosModules.sops
+    ./isync-overlay.nix    
+inputs.sops-nix.nixosModules.sops
     inputs.xremap-flake.nixosModules.default
     ./xremap.nix
   ];
@@ -136,5 +136,6 @@
       options = "--delete-older-than 7d";
     };
   };
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }

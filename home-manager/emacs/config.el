@@ -58,19 +58,36 @@
     (flyspell-mode 1)
     (flyspell-buffer)))
 
-(use-package gptel
-  :custom
- (gptel-model  "gpt-4-1106-preview")
-  (gptel-default-mode 'org-mode)
-  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
-  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
-                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
-                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
-                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
+;; Definir o dicionário padrão
+(setq ispell-dictionary "pt_BR")
 
-:config
-  (global-set-key (kbd "M-p g") #'gptel-menu)
-  :ensure t)
+;; Informar onde o aspell está e como deve usar os dicionários
+(setq ispell-program-name "aspell")
+(setq ispell-extra-args '("--sug-mode=ultra"))
+
+;; Alternar rapidamente entre idiomas
+(defun amr/set-english-dictionary ()
+  "Switch ispell to English."
+  (interactive)
+  (ispell-change-dictionary "en"))
+
+(defun amr/set-portuguese-dictionary ()
+  "Switch ispell to Brazilian Portuguese."
+  (interactive)
+  (ispell-change-dictionary "pt_BR"))
+
+(map! :leader
+      (:prefix ("M-p d" . "toggle")
+       :desc "English Dictionary" "e" #'amr/set-english-dictionary
+       :desc "Portuguese Dictionary" "p" #'amr/set-portuguese-dictionary))
+
+;; padrão em português
+;; (setq ispell-dictionary "pt_BR")
+
+;; ;; opcional: mapeamento explícito
+;; (setq ispell-dictionary-alist
+;;       '(("pt_BR" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "pt_BR") nil utf-8)
+;;         ("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
 
 (use-package org
   :defer t
@@ -486,3 +503,33 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 ;; Bind the function to "C-j c"
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
+
+(use-package gptel
+  :custom
+ (gptel-model "gpt-4")
+  (gptel-default-mode 'org-mode)
+  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
+  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
+                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
+:config
+  (global-set-key (kbd "M-p g") #'gptel-menu)
+  :ensure t)
+
+(gptel-make-ollama "Ollama"             ;Any name of your choosing
+  :host "localhost:11434"               ;Where it's running
+  :stream t                             ;Stream responses
+  :models '(deepseek-r1:1.5b
+            llama3-groq-tool-use:8b
+;;            deepseek-r1-coder-tools:1.5b
+      rns96/deepseek-R1-ablated:f16_Q4KM
+      qwen2.5-coder:7b
+            ))          ;List of models
+
+
+(after! gptel
+  (let ((gptel-tools-dir (expand-file-name "~/sync/pessoal/emacs/gptel/")))
+    (when (file-directory-p gptel-tools-dir)
+      (add-to-list 'load-path gptel-tools-dir)
+      (mapc #'load (directory-files gptel-tools-dir t "\\.el$")))))

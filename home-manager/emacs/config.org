@@ -180,7 +180,7 @@ Some personal information.
   (ispell-change-dictionary "pt_BR"))
 
 (map! :leader
-      (:prefix ("M-p" . "toggle")
+      (:prefix ("M-p d" . "toggle")
        :desc "English Dictionary" "e" #'amr/set-english-dictionary
        :desc "Portuguese Dictionary" "p" #'amr/set-portuguese-dictionary))
 
@@ -249,32 +249,6 @@ Some personal information.
   :ensure t)
 #+end_src
 
-* ChatGPT
-
-** Gptel
-
-#+begin_src emacs-lisp
-(use-package gptel
-  :custom
- (gptel-model  "gpt-4-1106-preview")
-  (gptel-default-mode 'org-mode)
-  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
-  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
-                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
-                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
-                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
-
-:config
-  (global-set-key (kbd "M-p g") #'gptel-menu)
-  :ensure t)
-#+end_src
-
-#+RESULTS:
-: t
-
-#+RESULTS:
-: amr-gptel-translate-replace
-
 * Org-mode
 
 #+begin_src emacs-lisp
@@ -288,9 +262,6 @@ Some personal information.
   (setq fill-column 100))
 
 #+end_src
-
-#+RESULTS:
-: ((\.[pP][dD][fF]\' . pdf-view-mode) (\.org$ . org-mode) (\.sops\.ya?ml\' . sops-mode) (Procfile\' . yaml-mode) (templates/.+\.php\' . web-mode) (wp-content/themes/.+/.+\.php\' . web-mode) (\.eco\' . web-mode) (\.jinja2?\' . web-mode) (\.twig\' . web-mode) (\.svelte\' . web-mode) (\.mustache\' . web-mode) (\.hbs\' . web-mode) (\.ejs\' . web-mode) (\.as[cp]x\' . web-mode) (\.jsp\' . web-mode) (\.[lh]?eex\' . web-mode) (\.erb\' . web-mode) (\.\(?:tpl\|blade\)\(?:\.php\)?\' . web-mode) (\.[px]?html?\' . web-mode) (/bspwmrc\' . sh-mode) (\.\(?:zunit\|env\)\' . sh-mode) (\.bats\' . sh-mode) (\.rs\' . rustic-mode) (\.rs\' . rust-mode) (/Pipfile\' . conf-mode) ([./]flake8\' . conf-mode) (/flake\.lock\' . json-mode) (/README\(?:\.md\)?\' . gfm-mode) (\.tsx\' . typescript-tsx-mode) (\.pac\' . rjsx-mode) (\.es6\' . rjsx-mode) (\.[mc]?js\' . rjsx-mode) (\.js\(?:on\|[hl]int\(?:rc\)?\)\' . json-mode) (\.[qQ][mM][dD] . poly-quarto-mode) (\.[jJ][lL]\' . ess-julia-mode) (\.h\' . +cc-c-c++-objc-mode) (\.mm\' . objc-mode) (\.pdf\' . pdf-view-mode) (/\.doomrc\' . emacs-lisp-mode) (/\.doom\(?:project\|module\|profile\)?\' . lisp-data-mode) (/LICENSE\' . text-mode) (\.tsv\' . tsv-mode) (\.[Cc][Ss][Vv]\' . csv-mode) (\.nw\' . poly-noweb-mode) (\.md\' . poly-markdown-mode) (\.\(?:xsl\|fo\)$ . xsl-mode) (\.\(e?ya?\|ra\)ml\' . yaml-mode) (\.styl\' . stylus-mode) (\.sass\' . sass-mode) (\.slim\' . slim-mode) (\.\(?:jade\|pug\)\' . pug-mode) (\.haml\' . haml-mode) (requirements\.in . pip-requirements-mode) (requirements[^z-a]*\.txt\' . pip-requirements-mode) (\.pip\' . pip-requirements-mode) (\.\(plantuml\|pum\|plu\)\' . plantuml-mode) (\.gp\' . gnuplot-mode) (\.gnuplot\' . gnuplot-mode) (\.nix\' . nix-mode) (\flake.lock\' . js-mode) (^/nix/store/.+\.drv\' . nix-drv-mode) (\.\(?:md\|markdown\|mkd\|mdown\|mkdn\|mdwn\)\' . markdown-mode) (\.hva\' . LaTeX-mode) (\.tsx?\' . typescript-mode) (\.jsx\' . rjsx-mode) (\(?:\(?:\.\(?:b\(?:\(?:abel\|ower\)rc\)\|json\(?:ld\)?\)\|composer\.lock\)\'\) . json-mode) (\.qmd\' . poly-quarto-mode) (\.cpp[rR]\' . poly-c++r-mode) (\.[Rr]cpp\' . poly-r+c++-mode) (\.[rR]brew\' . poly-brew+r-mode) (\.[rR]html\' . poly-html+r-mode) (\.rapport\' . poly-rapport-mode) (\.[rR]md\' . poly-markdown+r-mode) (\.[rR]nw\' . poly-noweb+r-mode) (\.Snw\' . poly-noweb+r-mode) (\.[Ss][Aa][Ss]\' . SAS-mode) (\.Sout\' . S-transcript-mode) (\.[Ss]t\' . S-transcript-mode) (\.Rd\' . Rd-mode) (DESCRIPTION\' . conf-colon-mode) (/Makevars\(\.win\)?\' . makefile-mode) (\.[Rr]out\' . ess-r-transcript-mode) (CITATION\' . ess-r-mode) (NAMESPACE\' . ess-r-mode) (\.[rR]profile\' . ess-r-mode) (\.[rR]\' . ess-r-mode) (/R/.*\.q\' . ess-r-mode) (\.[Jj][Aa][Gg]\' . ess-jags-mode) (\.[Bb][Mm][Dd]\' . ess-bugs-mode) (\.[Bb][Oo][Gg]\' . ess-bugs-mode) (\.[Bb][Uu][Gg]\' . ess-bugs-mode) (\.glsl\' . glsl-mode) (\.rmiss\' . glsl-mode) (\.rcall\' . glsl-mode) (\.rahit\' . glsl-mode) (\.rchit\' . glsl-mode) (\.rint\' . glsl-mode) (\.rgen\' . glsl-mode) (\.comp\' . glsl-mode) (\.task\' . glsl-mode) (\.mesh\' . glsl-mode) (\.tese\' . glsl-mode) (\.tesc\' . glsl-mode) (\.geom\' . glsl-mode) (\.frag\' . glsl-mode) (\.vert\' . glsl-mode) (\.opencl\' . opencl-c-mode) (\.clc\' . opencl-c-mode) (\.cl\' . opencl-c-mode) (\.cu[h]?\' . cuda-mode) (\.cmake\' . cmake-mode) (CMakeLists\.txt\' . cmake-mode) (/git-rebase-todo\' . git-rebase-mode) (/git/ignore\' . gitignore-mode) (/info/exclude\' . gitignore-mode) (/\.gitignore\' . gitignore-mode) (/etc/gitconfig\' . gitconfig-mode) (/\.gitmodules\' . gitconfig-mode) (/git/config\' . gitconfig-mode) (/modules/.*/config\' . gitconfig-mode) (/\.git/config\' . gitconfig-mode) (/\.gitconfig\' . gitconfig-mode) (/git/attributes\' . gitattributes-mode) (/info/attributes\' . gitattributes-mode) (/\.gitattributes\' . gitattributes-mode) (\.gpg\(~\|\.~[0-9]+~\)?\' nil epa-file) (\.elc\' . elisp-byte-code-mode) (\.zst\' nil jka-compr) (\.dz\' nil jka-compr) (\.xz\' nil jka-compr) (\.lzma\' nil jka-compr) (\.lz\' nil jka-compr) (\.g?z\' nil jka-compr) (\.bz2\' nil jka-compr) (\.Z\' nil jka-compr) (\.vr[hi]?\' . vera-mode) (\(?:\.\(?:rbw?\|ru\|rake\|thor\|axlsx\|jbuilder\|rabl\|gemspec\|podspec\)\|/\(?:Gem\|Rake\|Cap\|Thor\|Puppet\|Berks\|Brew\|Fast\|Vagrant\|Guard\|Pod\)file\)\' . ruby-mode) (\.re?st\' . rst-mode) (/\(?:Pipfile\|\.?flake8\)\' . conf-mode) (\.py[iw]?\' . python-mode) (\.m\' . octave-maybe-mode) (\.less\' . less-css-mode) (\.editorconfig\' . editorconfig-conf-mode) (\.scss\' . scss-mode) (\.cs\' . csharp-mode) (\.awk\' . awk-mode) (\.\(u?lpc\|pike\|pmod\(\.in\)?\)\' . pike-mode) (\.idl\' . idl-mode) (\.java\' . java-mode) (\.m\' . objc-mode) (\.ii\' . c++-mode) (\.i\' . c-mode) (\.lex\' . c-mode) (\.y\(acc\)?\' . c-mode) (\.h\' . c-or-c++-mode) (\.c\' . c-mode) (\.\(CC?\|HH?\)\' . c++-mode) (\.[ch]\(pp\|xx\|\+\+\)\' . c++-mode) (\.\(cc\|hh\)\' . c++-mode) (\.\(bat\|cmd\)\' . bat-mode) (\.[sx]?html?\(\.[a-zA-Z_]+\)?\' . mhtml-mode) (\.svgz?\' . image-mode) (\.svgz?\' . xml-mode) (\.x[bp]m\' . image-mode) (\.x[bp]m\' . c-mode) (\.p[bpgn]m\' . image-mode) (\.tiff?\' . image-mode) (\.gif\' . image-mode) (\.png\' . image-mode) (\.jpe?g\' . image-mode) (\.webp\' . image-mode) (\.te?xt\' . text-mode) (\.[tT]e[xX]\' . tex-mode) (\.ins\' . tex-mode) (\.ltx\' . latex-mode) (\.dtx\' . doctex-mode) (\.org\' . org-mode) (\.dir-locals\(?:-2\)?\.el\' . lisp-data-mode) (\.eld\' . lisp-data-mode) (eww-bookmarks\' . lisp-data-mode) (tramp\' . lisp-data-mode) (/archive-contents\' . lisp-data-mode) (places\' . lisp-data-mode) (\.emacs-places\' . lisp-data-mode) (\.el\' . emacs-lisp-mode) (Project\.ede\' . emacs-lisp-mode) (\(?:\.\(?:scm\|sls\|sld\|stk\|ss\|sch\)\|/\.guile\)\' . scheme-mode) (\.l\' . lisp-mode) (\.li?sp\' . lisp-mode) (\.[fF]\' . fortran-mode) (\.for\' . fortran-mode) (\.p\' . pascal-mode) (\.pas\' . pascal-mode) (\.\(dpr\|DPR\)\' . delphi-mode) (\.\([pP]\([Llm]\|erl\|od\)\|al\)\' . perl-mode) (Imakefile\' . makefile-imake-mode) (Makeppfile\(?:\.mk\)?\' . makefile-makepp-mode) (\.makepp\' . makefile-makepp-mode) (\.mk\' . makefile-gmake-mode) (\.make\' . makefile-gmake-mode) ([Mm]akefile\' . makefile-gmake-mode) (\.am\' . makefile-automake-mode) (\.texinfo\' . texinfo-mode) (\.te?xi\' . texinfo-mode) (\.[sS]\' . asm-mode) (\.asm\' . asm-mode) (\.css\' . css-mode) (\.mixal\' . mixal-mode) (\.gcov\' . compilation-mode) (/\.[a-z0-9-]*gdbinit . gdb-script-mode) (-gdb\.gdb . gdb-script-mode) ([cC]hange\.?[lL]og?\' . change-log-mode) ([cC]hange[lL]og[-.][0-9]+\' . change-log-mode) (\$CHANGE_LOG\$\.TXT . change-log-mode) (\.scm\.[0-9]*\' . scheme-mode) (\.[ckz]?sh\'\|\.shar\'\|/\.z?profile\' . sh-mode) (\.bash\' . sh-mode) (/PKGBUILD\' . sh-mode) (\(/\|\`\)\.\(bash_\(profile\|history\|log\(in\|out\)\)\|z?log\(in\|out\)\)\' . sh-mode) (\(/\|\`\)\.\(shrc\|zshrc\|m?kshrc\|bashrc\|t?cshrc\|esrc\)\' . sh-mode) (\(/\|\`\)\.\([kz]shenv\|xinitrc\|startxrc\|xsession\)\' . sh-mode) (\.m?spec\' . sh-mode) (\.m[mes]\' . nroff-mode) (\.man\' . nroff-mode) (\.sty\' . latex-mode) (\.cl[so]\' . latex-mode) (\.bbl\' . latex-mode) (\.bib\' . bibtex-mode) (\.bst\' . bibtex-style-mode) (\.sql\' . sql-mode) (\(acinclude\|aclocal\|acsite\)\.m4\' . autoconf-mode) (\.m[4c]\' . m4-mode) (\.mf\' . metafont-mode) (\.mp\' . metapost-mode) (\.vhdl?\' . vhdl-mode) (\.article\' . text-mode) (\.letter\' . text-mode) (\.i?tcl\' . tcl-mode) (\.exp\' . tcl-mode) (\.itk\' . tcl-mode) (\.icn\' . icon-mode) (\.sim\' . simula-mode) (\.mss\' . scribe-mode) (\.f9[05]\' . f90-mode) (\.f0[38]\' . f90-mode) (\.indent\.pro\' . fundamental-mode) (\.\(pro\|PRO\)\' . idlwave-mode) (\.srt\' . srecode-template-mode) (\.prolog\' . prolog-mode) (\.tar\' . tar-mode) (\.\(arc\|zip\|lzh\|lha\|zoo\|[jew]ar\|xpi\|rar\|cbr\|7z\|squashfs\|ARC\|ZIP\|LZH\|LHA\|ZOO\|[JEW]AR\|XPI\|RAR\|CBR\|7Z\|SQUASHFS\)\' . archive-mode) (\.oxt\' . archive-mode) (\.\(deb\|[oi]pk\)\' . archive-mode) (\`/tmp/Re . text-mode) (/Message[0-9]*\' . text-mode) (\`/tmp/fol/ . text-mode) (\.oak\' . scheme-mode) (\.sgml?\' . sgml-mode) (\.x[ms]l\' . xml-mode) (\.dbk\' . xml-mode) (\.dtd\' . sgml-mode) (\.ds\(ss\)?l\' . dsssl-mode) (\.js[mx]?\' . javascript-mode) (\.har\' . javascript-mode) (\.json\' . js-json-mode) (\.[ds]?va?h?\' . verilog-mode) (\.by\' . bovine-grammar-mode) (\.wy\' . wisent-grammar-mode) (\.erts\' . erts-mode) ([:/\]\..*\(emacs\|gnus\|viper\)\' . emacs-lisp-mode) (\`\..*emacs\' . emacs-lisp-mode) ([:/]_emacs\' . emacs-lisp-mode) (/crontab\.X*[0-9]+\' . shell-script-mode) (\.ml\' . lisp-mode) (\.ld[si]?\' . ld-script-mode) (ld\.?script\' . ld-script-mode) (\.xs\' . c-mode) (\.x[abdsru]?[cnw]?\' . ld-script-mode) (\.zone\' . dns-mode) (\.soa\' . dns-mode) (\.asd\' . lisp-mode) (\.\(asn\|mib\|smi\)\' . snmp-mode) (\.\(as\|mi\|sm\)2\' . snmpv2-mode) (\.\(diffs?\|patch\|rej\)\' . diff-mode) (\.\(dif\|pat\)\' . diff-mode) (\.[eE]?[pP][sS]\' . ps-mode) (\.\(?:PDF\|EPUB\|CBZ\|FB2\|O?XPS\|DVI\|OD[FGPST]\|DOCX\|XLSX?\|PPTX?\|pdf\|epub\|cbz\|fb2\|o?xps\|djvu\|dvi\|od[fgpst]\|docx\|xlsx?\|pptx?\)\' . doc-view-mode-maybe) (configure\.\(ac\|in\)\' . autoconf-mode) (\.s\(v\|iv\|ieve\)\' . sieve-mode) (BROWSE\' . ebrowse-tree-mode) (\.ebrowse\' . ebrowse-tree-mode) (#\*mail\* . mail-mode) (\.g\' . antlr-mode) (\.mod\' . m2-mode) (\.ses\' . ses-mode) (\.docbook\' . sgml-mode) (\.com\' . dcl-mode) (/config\.\(?:bat\|log\)\' . fundamental-mode) (/\.?\(authinfo\|netrc\)\' . authinfo-mode) (\.\(?:[iI][nN][iI]\|[lL][sS][tT]\|[rR][eE][gG]\|[sS][yY][sS]\)\' . conf-mode) (\.la\' . conf-unix-mode) (\.ppd\' . conf-ppd-mode) (java.+\.conf\' . conf-javaprop-mode) (\.properties\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-javaprop-mode) (\.toml\' . conf-toml-mode) (\.desktop\' . conf-desktop-mode) (/\.redshift\.conf\' . conf-windows-mode) (\`/etc/\(?:DIR_COLORS\|ethers\|.?fstab\|.*hosts\|lesskey\|login\.?de\(?:fs\|vperm\)\|magic\|mtab\|pam\.d/.*\|permissions\(?:\.d/.+\)?\|protocols\|rpc\|services\)\' . conf-space-mode) (\`/etc/\(?:acpid?/.+\|aliases\(?:\.d/.+\)?\|default/.+\|group-?\|hosts\..+\|inittab\|ksysguarddrc\|opera6rc\|passwd-?\|shadow-?\|sysconfig/.+\)\' . conf-mode) ([cC]hange[lL]og[-.][-0-9a-z]+\' . change-log-mode) (/\.?\(?:gitconfig\|gnokiirc\|hgrc\|kde.*rc\|mime\.types\|wgetrc\)\' . conf-mode) (/\.mailmap\' . conf-unix-mode) (/\.\(?:asound\|enigma\|fetchmail\|gltron\|gtk\|hxplayer\|mairix\|mbsync\|msmtp\|net\|neverball\|nvidia-settings-\|offlineimap\|qt/.+\|realplayer\|reportbug\|rtorrent\.\|screen\|scummvm\|sversion\|sylpheed/.+\|xmp\)rc\' . conf-mode) (/\.\(?:gdbtkinit\|grip\|mpdconf\|notmuch-config\|orbital/.+txt\|rhosts\|tuxracer/options\)\' . conf-mode) (/\.?X\(?:default\|resource\|re\)s\> . conf-xdefaults-mode) (/X11.+app-defaults/\|\.ad\' . conf-xdefaults-mode) (/X11.+locale/.+/Compose\' . conf-colon-mode) (/X11.+locale/compose\.dir\' . conf-javaprop-mode) (\.~?[0-9]+\.[0-9][-.0-9]*~?\' nil t) (\.\(?:orig\|in\|[bB][aA][kK]\)\' nil t) ([/.]c\(?:on\)?f\(?:i?g\)?\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-mode-maybe) (\.[1-9]\' . nroff-mode) (\.art\' . image-mode) (\.avs\' . image-mode) (\.bmp\' . image-mode) (\.cmyk\' . image-mode) (\.cmyka\' . image-mode) (\.crw\' . image-mode) (\.dcr\' . image-mode) (\.dcx\' . image-mode) (\.dng\' . image-mode) (\.dpx\' . image-mode) (\.fax\' . image-mode) (\.heic\' . image-mode) (\.hrz\' . image-mode) (\.icb\' . image-mode) (\.icc\' . image-mode) (\.icm\' . image-mode) (\.ico\' . image-mode) (\.icon\' . image-mode) (\.jbg\' . image-mode) (\.jbig\' . image-mode) (\.jng\' . image-mode) (\.jnx\' . image-mode) (\.miff\' . image-mode) (\.mng\' . image-mode) (\.mvg\' . image-mode) (\.otb\' . image-mode) (\.p7\' . image-mode) (\.pcx\' . image-mode) (\.pdb\' . image-mode) (\.pfa\' . image-mode) (\.pfb\' . image-mode) (\.picon\' . image-mode) (\.pict\' . image-mode) (\.rgb\' . image-mode) (\.rgba\' . image-mode) (\.tga\' . image-mode) (\.wbmp\' . image-mode) (\.webp\' . image-mode) (\.wmf\' . image-mode) (\.wpg\' . image-mode) (\.xcf\' . image-mode) (\.xmp\' . image-mode) (\.xwd\' . image-mode) (\.yuv\' . image-mode) (\.tgz\' . tar-mode) (\.tbz2?\' . tar-mode) (\.txz\' . tar-mode) (\.tzst\' . tar-mode) (\.drv\' . LaTeX-mode) (rc\' . conf-mode) (\.vue\' . web-mode))
 
 ** Org-Card
 
@@ -844,41 +815,8 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
   ;; Plain text
  #+end_src
-
-
-
-#+RESULTS:
-| tuftehandout | \documentclass{tufte-handout} |
-\usepackage{color}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{gensymb}
-\usepackage{nicefrac}
-\usepackage{units} |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| tuftebook | \documentclass{tufte-book} |
-
-\usepackage{color}
-\usepackage{amssymb}
-\usepackage{gensymb}
-\usepackage{nicefrac}
-\usepackage{units} |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| org-plain-latex | \documentclass{article} |
-     [NO-DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA] |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\subsubsection{%s} . \subsubsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| beamer  | \documentclass[presentation]{beamer} | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |                                      |                                            |
-| article | \documentclass[11pt]{article}        | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) | (\paragraph{%s} . \paragraph*{%s})   | (\subparagraph{%s} . \subparagraph*{%s})   |
-| report  | \documentclass[11pt]{report}         | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
-| book    | \documentclass[11pt]{book}           | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
-     [NO-DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA] |(\section{%s} . \section*{%s}) |(\subsection{%s} . \subsection*{%s}) |(\subsubsection{%s} . \subsubsection*{%s}) |(\paragraph{%s} . \paragraph*{%s}) |(\subparagraph{%s} . \subparagraph*{%s}) |
-| beamer  | \documentclass[presentation]{beamer} | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |                                      |                                            |
-| article | \documentclass[11pt]{article}        | (\section{%s} . \section*{%s}) | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) | (\paragraph{%s} . \paragraph*{%s})   | (\subparagraph{%s} . \subparagraph*{%s})   |
-| report  | \documentclass[11pt]{report}         | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
-| book    | \documentclass[11pt]{book}           | (\part{%s} . \part*{%s})       | (\chapter{%s} . \chapter*{%s})       | (\section{%s} . \section*{%s})             | (\subsection{%s} . \subsection*{%s}) | (\subsubsection{%s} . \subsubsection*{%s}) |
-
 **** PocketMod
+
 
 #+begin_src emacs-lisp :tangle no
 
@@ -931,9 +869,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
          :exclude "\\.org$"
          )))
 #+end_src
-
-#+RESULTS:
-| notes | :base-directory | ~/notes/ | :base-extension | org | :publishing-directory | ~/notes/export/ | :publishing-function | org-publish-org-to-latex | :select-tags | (@NOTES) | :title | Notes | :include | (academic.org) | :exclude | \.org$ |
 
 * Projectile
 
@@ -1166,3 +1101,47 @@ Recomendação feita por Doom Doctor
   :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
 
 #+end_src
+
+
+* ChatGPT
+
+** Gptel
+
+#+begin_src emacs-lisp
+(use-package gptel
+  :custom
+ (gptel-model "gpt-4")
+  (gptel-default-mode 'org-mode)
+  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
+  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
+                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
+:config
+  (global-set-key (kbd "M-p g") #'gptel-menu)
+  :ensure t)
+
+(gptel-make-ollama "Ollama"             ;Any name of your choosing
+  :host "localhost:11434"               ;Where it's running
+  :stream t                             ;Stream responses
+  :models '(deepseek-r1:1.5b
+            llama3-groq-tool-use:8b
+;;            deepseek-r1-coder-tools:1.5b
+      rns96/deepseek-R1-ablated:f16_Q4KM
+      qwen2.5-coder:7b
+            ))          ;List of models
+
+(after! gptel
+  (let ((gptel-tools-dir (expand-file-name "~/sync/pessoal/emacs/gptel/")))
+    (when (file-directory-p gptel-tools-dir)
+      (add-to-list 'load-path gptel-tools-dir)
+      (mapc #'load (directory-files gptel-tools-dir t "\\.el$")))))
+
+
+#+end_src
+
+#+RESULTS:
+: t
+
+#+RESULTS:
+: amr-gptel-translate-replace

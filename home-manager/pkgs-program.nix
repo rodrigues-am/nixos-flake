@@ -17,6 +17,7 @@ let
     standardize
     latex2exp
     stringr
+    arrow
 
     #API
     openalexR

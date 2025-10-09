@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=VIA
+Comment=The Virtual Intranet Access™ (VIA) client
+Exec=via-ui
+Terminal=false
+Type=Application
+Icon=via
+StartupNotify=true
+Categories=Network;System;
+

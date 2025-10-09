@@ -1,0 +1,12 @@
+<via_config_profile>
+    <gateway></gateway>
+    <auth_profile></auth_profile>
+    <get_config></get_config>
+    <user></user>
+    <password></password>
+    <no_cert_warn></no_cert_warn>
+    <tdb_file_name_path></tdb_file_name_path>
+    <send_logs_command></send_logs_command>
+    <use_keyring></use_keyring>
+    <cryptoki_lib_path>opensc-pkcs11.so</cryptoki_lib_path>
+</via_config_profile>

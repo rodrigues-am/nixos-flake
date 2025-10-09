@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=VIA
+Comment=The Virtual Intranet Access™ (VIA) client
+Exec=/usr/bin/via-ui-autostart
+Terminal=false
+Type=Application
+Icon=via
+Categories=Network;
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+X-KDE-autostart-after=panel
+X-Desktop-File-Install-Version=0.15

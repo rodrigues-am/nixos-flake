@@ -50,7 +50,9 @@
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
-
+#overlays = [
+#      (import ./nixos/cmake-overlay.nix)  # <-- AQUI (overlay)
+#    ];
       };
 
       pkgs-stable = import nixpkgs-stable {
@@ -81,6 +83,7 @@
             ./nixos/home-desktop/game.nix
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
+            ./nixos/ollama.nix
 
             home-manager.nixosModules.home-manager
             {
@@ -194,6 +197,8 @@
             ./nixos/core.nix
             ./nixos/thinkpad/keymap-thinkpad.nix
             ./nixos/boot-desktop.nix
+
+            # ./nixos/ollama.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

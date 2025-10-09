@@ -1,4 +1,4 @@
-{ config, lib, callPackage, pkgs, pkgs-stable, ... }:
+{ config, ... }:
 
 {
 
@@ -9,15 +9,7 @@
       DOOMLOCALDIR = "${config.xdg.configHome}/doom-local";
     };
 
-    # packages = (with pkgs; [ isync msmtp ]) ++ (with pkgs-stable; [
-    #   emacs.pkgs.withPackages.nerd-icons
-    #   emacs.pkgs.withPackages.pdf-tools
-    #   emacs.pkgs.withPackages.vterm
-    #   emacs.pkgs.withPackages.mu4e
-    # ]);
-
   };
-
   xdg = {
     enable = true;
     configFile = {
@@ -26,13 +18,5 @@
       "doom-config/packages.el".source = ./emacs/packages.el;
     };
   };
-
-  # services.mbsync = {
-  #     enable = true;
-  #     package = pkgs.isync;
-  #     frequency = "*:0/5";
-  #   };
-
-  #services.emacs.enable = true;
 
 }
