@@ -6,10 +6,11 @@
     ./syncthing.nix
     ./polkit.nix
     ./emacs-overlay.nix
-    ./isync-overlay.nix    
-inputs.sops-nix.nixosModules.sops
-    inputs.xremap-flake.nixosModules.default
-    ./xremap.nix
+    ./isync-overlay.nix
+
+    inputs.sops-nix.nixosModules.sops
+    #   inputs.xremap-flake.nixosModules.default
+    #    ./xremap.nix
   ];
 
   nixpkgs.config.permittedInsecurePackages =
@@ -53,7 +54,6 @@ inputs.sops-nix.nixosModules.sops
     LC_TIME = "${userSettings.locale}";
     LC_ALL = "${userSettings.locale}";
   };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 

@@ -1,4 +1,4 @@
-{ pkgs, config, pkgs-stable, ... }:
+{ config, pkgs-stable, ... }:
 
 {
   # Configure & Theme Waybar
@@ -15,8 +15,8 @@
         "pulseaudio"
         "cpu"
         "hyprland/workspaces"
-        "memory"
-        "disk"
+        # "memory"
+        # "disk"
         "clock"
       ];
       modules-right = [ "custom/themeselector" "custom/notification" "tray" ];
@@ -32,7 +32,20 @@
       };
       "clock" = {
         format = "{: %H:%M %p}";
-        tooltip = false;
+        tooltip-forma = "<tt><small>{calendar}</small></tt>";
+        calendar = {
+          "mode" = "month";
+          "mode-mon-col" = 3;
+          "weeks-pos" = "right";
+          "on-scroll" = 1;
+          "format" = {
+            "months" = "<span color='#ffead3'><b>{}</b></span>";
+            "days" = "<span color='#ecc6d9'><b>{}</b></span>";
+            "weeks" = "<span color='#99ffdd'><b>W{}</b></span>";
+            "weekdays" = "<span color='#ffcc66'><b>{}</b></span>";
+            "today" = "<span color='#ff6699'><b><u>{}</u></b></span>";
+          };
+        };
       };
       "hyprland/window" = {
         max-length = 60;

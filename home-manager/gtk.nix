@@ -25,8 +25,19 @@
       #   variant = "mocha";
       # };
     };
-    gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
-    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+
+    # gtk2.extraConfig = {
+    #  gtk-application-prefer-dark-theme = 1;
+    # gtk-im-module = "fcitx";
+    #};
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      #gtk-im-module = "fcitx";
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      #gtk-im-module = "fcitx";
+    };
   };
 
   # Theme QT -> GTK

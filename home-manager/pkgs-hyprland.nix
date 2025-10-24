@@ -13,6 +13,7 @@
     libnotify
     ydotool
     xorg.xhost
+    wev
     nautilus
   ]) ++ (with pkgs-stable; [ ]);
 

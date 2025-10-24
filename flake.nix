@@ -39,7 +39,7 @@
         name = "andre";
         email = "rodrigues.am@usp.br";
         term = "alacritty";
-        editor = "emacsclient -c -a emacs";
+        editor = "emacs";
         browser = "brave";
         locale = "pt_BR.UTF-8";
         gitUser = "rodrigues-am";
@@ -50,9 +50,9 @@
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
-#overlays = [
-#      (import ./nixos/cmake-overlay.nix)  # <-- AQUI (overlay)
-#    ];
+        #overlays = [
+        #      (import ./nixos/cmake-overlay.nix)  # <-- AQUI (overlay)
+        #    ];
       };
 
       pkgs-stable = import nixpkgs-stable {
@@ -84,7 +84,7 @@
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
             ./nixos/ollama.nix
-
+            #  ./nixos/homelab.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

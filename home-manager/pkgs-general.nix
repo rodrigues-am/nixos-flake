@@ -36,6 +36,10 @@
     graphviz # build diagrams declaratively
     gtk-engine-murrine
     gucharmap
+    # fcitx5
+    # fcitx5-gtk
+    # kdePackages.fcitx5-qt
+    fastfetch
     htop
     hugo # blog and static sities
     hunspell
@@ -51,7 +55,6 @@
     mautrix-whatsapp
     mpv # media player
     #mu
-    neofetch
     neovim
     ocrmypdf
     pandoc
