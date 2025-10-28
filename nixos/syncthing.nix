@@ -1,7 +1,8 @@
 { config, lib, pkgs, userSettings, ... }: {
-
+#systemd.services.syncthing-init.enable = false;
   services.syncthing = {
     enable = true;
+#declarative = false;
     dataDir = "/home/andre/.local/share/syncthing";
     openDefaultPorts = true;
     configDir = "/home/andre/.config/syncthing";
