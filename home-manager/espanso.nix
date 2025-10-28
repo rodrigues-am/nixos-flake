@@ -9,6 +9,7 @@
   #  systemd.user.services.espanso.Service.ExecStart = lib.mkForce "${pkgs.espanso-wayland}/bin/espanso launcher";
 
   services.espanso = {
+
     waylandSupport = true; # habilita Wayland
     x11Support = false; # opcional, desabilita X11
     package-wayland = pkgs.espanso-wayland; # use o pacote wayland
@@ -16,7 +17,8 @@
     enable = true;
     configs = {
       default = {
-        #  disable_x11_fast_inject = true;
+sync.enabled = false;       
+ #  disable_x11_fast_inject = true;
         backend = "auto"; # tenta Inject e cai p/ Clipboard se precisar
         keyboard_layout = {
           layout = "us";
