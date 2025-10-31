@@ -63,7 +63,7 @@
     pdftk
     pkg-config
     plantuml # build diagrams declaratively
-    poppler_utils
+    poppler-utils
     ranger # file manager
     ripgrep
     sassc

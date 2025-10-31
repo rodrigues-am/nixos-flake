@@ -8,7 +8,6 @@ in {
     package =
       pkgs.nginx.override { modules = with pkgs.nginxModules; [ dav ]; };
     virtualHosts."webdav.rodrigues-am.xyz" = {
-      enableSSL = false;
       root = "/srv/webdav";
       locations."/".extraConfig = ''
         error_log /var/log/nginx/webdav-error.log;

@@ -1,56 +1,79 @@
 { pkgs, ... }:
+
 let
-
   powermenu = pkgs.writeShellScriptBin "powermenu" ''
+    #!/bin/sh
+    set -euo pipefail
 
-            # Options
-            shutdown="Shutdown"
-            reboot="Restart"
-            lock="Lock"
-            suspend="Suspend"
-            logout="Logout"
+    # === CONFIGURAÇÕES ===
+    UPTIME=$(uptime -p | sed 's/up //')
+    HOST=$(hostname)
+    LOCK_CMD="${pkgs.hyprlock}/bin/hyprlock"  # Use hyprlock (recomendado)
+    # LOCK_CMD="${pkgs.swaylock-effects}/bin/swaylock -f --clock --indicator"  # Alternativa
 
-            # Variable passed to rofi
-            options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
+    # === OPÇÕES COM ÍCONES ===
+    shutdown=" Shutdown"
+    reboot=" Restart"
+    lock=" Lock"
+    suspend=" Suspend"
+    logout=" Logout"
 
-            chosen="$(echo -e "$options" | ${pkgs.rofi}/bin/rofi -dmenu -selected-row 0)"
-            case $chosen in
-                $shutdown)
-        # close all client windows
-        # required for graceful exit since many apps aren't good SIGNAL citizens
-        #HYPRCMDS=$(hyprctl -j clients | jq -j '.[] | "dispatch closewindow address:\(.address); "')
-        #hyprctl --batch "$HYPRCMDS" >> /tmp/hypr/hyprexitwithgrace.log 2>&1
+    options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 
-        systemctl poweroff
-                    ;;
-                $reboot)
-        # close all client windows
-        # required for graceful exit since many apps aren't good SIGNAL citizens
-        #HYPRCMDS=$(hyprctl -j clients | jq -j '.[] | "dispatch closewindow address:\(.address); "')
-        #hyprctl --batch "$HYPRCMDS" >> /tmp/hypr/hyprexitwithgrace.log 2>&1
+    # === ROFI THEME (melhor UX) ===
+    chosen="$(
+      printf '%b' "$options" | \
+      ${pkgs.rofi}/bin/rofi \
+        -dmenu \
+        -p "Uptime: $UPTIME" \
+        -theme-str 'window { width: 360px; }' \
+        -theme-str 'listview { lines: 5; }' \
+        -theme-str 'element { padding: 12px; }' \
+        -selected-row 2
+    )"
 
-         systemctl reboot
-                    ;;
-                $lock)
-        swaylock
-                    ;;
-                $suspend)
-         systemctl suspend
-                    ;;
-                $logout)
-               # 1) tenta sair “limpo” do Hyprland
-        if ! "$HYPRCTL" dispatch exit >>/tmp/hypr/logout.log 2>&1; then
-          echo "[rofi-power] hyprctl falhou; tentando loginctl..." >>/tmp/hypr/logout.log
+    # === FUNÇÃO DE CONFIRMAÇÃO ===
+    confirm() {
+      printf 'yes\nno' | \
+      ${pkgs.rofi}/bin/rofi \
+        -dmenu \
+        -p "Confirm $1?" \
+        -theme-str 'window { width: 300px; }' \
+        -selected-row 1 | grep -q '^yes'
+    }
+
+    # === AÇÃO ===
+    case "$chosen" in
+      "$shutdown")
+        confirm "Shutdown" && systemctl poweroff
+        ;;
+      "$reboot")
+        confirm "Restart" && systemctl reboot
+        ;;
+      "$lock")
+        $LOCK_CMD
+        ;;
+      "$suspend")
+        $LOCK_CMD & systemctl suspend
+        ;;
+      "$logout")
+        # Tenta sair limpo
+        if hyprctl dispatch exit > /tmp/hypr/logout.log 2>&1; then
+          exit 0
         fi
 
-        # 2) se ainda estiver vivo após 1s, termina a sessão do usuário (volta ao greeter)
-        sleep 1
-        if pgrep -x hyprland >/dev/null; then
-          loginctl terminate-user "$USER"
-          # fallback final (bruto), se ainda assim nada:
-          # pkill -KILL -u "$USER"
-        fi
-    ;;
-            esac
+        echo "[powermenu] hyprctl exit falhou. Tentando loginctl..." >> /tmp/hypr/logout.log
+
+        # Força término da sessão
+        loginctl terminate-session "$XDG_SESSION_ID" || loginctl terminate-user "$USER"
+
+        # Fallback bruto (só se necessário)
+        # sleep 2 && pkill -KILL -u "$USER" &
+        ;;
+    esac
   '';
-in { home.packages = [ powermenu ]; }
+in {
+  home.packages = [ powermenu ];
+
+  # Opcional: instale hyprlock
+}

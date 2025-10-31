@@ -18,6 +18,7 @@
         # "memory"
         # "disk"
         "clock"
+        "keybord-state"
       ];
       modules-right = [ "custom/themeselector" "custom/notification" "tray" ];
       "hyprland/workspaces" = {
@@ -31,22 +32,10 @@
         on-scroll-down = "hyprctl dispatch workspace e-1";
       };
       "clock" = {
-        format = "{: %H:%M %p}";
-        tooltip-forma = "<tt><small>{calendar}</small></tt>";
-        calendar = {
-          "mode" = "month";
-          "mode-mon-col" = 3;
-          "weeks-pos" = "right";
-          "on-scroll" = 1;
-          "format" = {
-            "months" = "<span color='#ffead3'><b>{}</b></span>";
-            "days" = "<span color='#ecc6d9'><b>{}</b></span>";
-            "weeks" = "<span color='#99ffdd'><b>W{}</b></span>";
-            "weekdays" = "<span color='#ffcc66'><b>{}</b></span>";
-            "today" = "<span color='#ff6699'><b><u>{}</u></b></span>";
-          };
-        };
+        format = "{:%H:%M}";
+
       };
+
       "hyprland/window" = {
         max-length = 60;
         separate-outputs = false;
@@ -123,6 +112,14 @@
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         on-click = "";
         tooltip = false;
+      };
+      "keyboard-state" = {
+
+        format = "{}";
+        format-en = "US";
+        format-br = "BR";
+        min-length = 4;
+
       };
     }];
     style = ''
