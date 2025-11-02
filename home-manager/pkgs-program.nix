@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-stable, inputs, ... }:
+{ pkgs, pkgs-stable, ... }:
 with pkgs-stable;
 let
   pacotesR = with rPackages; [
@@ -36,6 +36,7 @@ let
     readr
     gtools
     ggtext
+    ggalluvial
 
     showtext
 

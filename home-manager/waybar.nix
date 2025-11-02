@@ -18,7 +18,6 @@
         # "memory"
         # "disk"
         "clock"
-        "keybord-state"
       ];
       modules-right = [ "custom/themeselector" "custom/notification" "tray" ];
       "hyprland/workspaces" = {
@@ -112,14 +111,6 @@
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         on-click = "";
         tooltip = false;
-      };
-      "keyboard-state" = {
-
-        format = "{}";
-        format-en = "US";
-        format-br = "BR";
-        min-length = 4;
-
       };
     }];
     style = ''
