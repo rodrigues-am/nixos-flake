@@ -4,7 +4,6 @@
 
   home.packages = (with pkgs; [
     swaynotificationcenter
-    swaylock
     swww
     grim
     slurp
@@ -15,6 +14,7 @@
     xorg.xhost
     wev
     nautilus
+    hyprlock
   ]) ++ (with pkgs-stable; [ ]);
 
   home.file = {
@@ -23,7 +23,7 @@
     ".config/zaney-stinger.mov".source = ./resources/zaney-stinger.mov;
     ".base16-themes".source = ./resources/base16-themes;
     ".face".source = ./resources/face.jpg;
-    ".config/rofi/rofi.jpg".source = ./resources/rofi.jpg;
+    ".config/rofi/rofi.jpg".source = ./resources/rofi-gruvbox.jpg;
 
   };
 }

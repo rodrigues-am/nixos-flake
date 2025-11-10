@@ -19,7 +19,12 @@
         # "disk"
         "clock"
       ];
-      modules-right = [ "custom/themeselector" "custom/notification" "tray" ];
+      modules-right = [
+        "custom/keyboard"
+        "custom/themeselector"
+        "custom/notification"
+        "tray"
+      ];
       "hyprland/workspaces" = {
         format = "{icon}";
         format-icons = {
@@ -111,6 +116,14 @@
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         on-click = "";
         tooltip = false;
+      };
+      "custom/keyboard" = {
+        exec = "keyboard-layout-status-amr";
+        interval = 2; # Atualizar a cada 2 segundos
+        format = "{}";
+        tooltip = false;
+        on-click = "keyboard-toggle-amr";
+        on-click-right = "keyboard-toggle-amr";
       };
     }];
     style = ''
@@ -236,6 +249,17 @@
           		margin: 5px;
           		padding: 2px 20px;
       	}
+        #custom-keyboard {
+          color: #${config.colorScheme.palette.base0A};
+          background: #${config.colorScheme.palette.base00};
+          border-radius: 15px 50px 15px 50px;
+          margin: 5px;
+          padding: 2px 15px;
+          }
+
+          #custom-keyboard:hover {
+          background: #${config.colorScheme.palette.base01};
+          }
     '';
   };
 }

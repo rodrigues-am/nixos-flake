@@ -3,6 +3,7 @@
 {
 
   home.packages = (with pkgs; [
+    dpkg
     (aspellWithDicts (d: with d; [ en pt_BR ]))
     #oauth2ms
     #calibre
@@ -13,6 +14,7 @@
     auctex # text
     bat
     binutils
+    bottles # wine prefix manager
     # blender
     cmake
     curl
@@ -67,6 +69,7 @@
     ranger # file manager
     ripgrep
     sassc
+    searxng
     shotwell
     sops
     stow
@@ -77,6 +80,9 @@
     wget
     xclip
     xournalpp # pdf edit
+    #    wine
+    wine-wayland
+    winetricks
     zathura # pdf viwer
     zellij
     zip
@@ -97,7 +103,6 @@
     ntfs3g
     nyxt # web browser
     tesseract4
-    #wkhtmltopdf
     vulkan-tools
     jre8
   ]);

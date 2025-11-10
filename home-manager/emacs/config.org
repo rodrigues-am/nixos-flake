@@ -1,5 +1,4 @@
 #+TITLE: Config
-#+STARTUP: folded
 #+PROPERTY: header-args :tangle ./config.el
 
 * Personal info
@@ -355,7 +354,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
   'org-babel-load-languages
   '((plantuml . t)))
 #+end_src
-
 
 * Visual
 
@@ -1102,9 +1100,55 @@ Recomendação feita por Doom Doctor
 
 #+end_src
 
+* IA
+** Servers
 
-* ChatGPT
+#+begin_src elisp :tangle no
+(use-package mcp
+  :ensure t
+  :after gptel
+  :custom (mcp-hub-servers
+           `(("filesystem" . (:command "npx"
+                              :args ("-y" "@modelcontextprotocol/server-filesystem")
+                              :roots ("/home/andre/tmp/")))
+             ("fetch" . (:command "uvx" :args ("mcp-server-fetch"))))
+           :config (require 'mcp-hub)
+           :hook (after-init . mcp-hub-start-all-server)))
+#+end_src
 
+#+begin_src emacs-lisp
+
+(use-package mcp
+  :ensure t
+  :after gptel
+  :custom
+  (mcp-hub-servers
+   `(("filesystem" . (:command ,(executable-find "npx")
+                      :args ("-y" "@modelcontextprotocol/server-filesystem")
+                      :roots ("/home/andre/tmp/")))
+     ;;("fetch" . (:command ,(executable-find "uv")
+      ;;           :args ("run" "mcp-server-fetch")))
+
+      ("searxng" . (:command ,(executable-find "npx")
+                   :args ("-y" "mcp-searxng" "--network host")
+                   :env (:SEARXNG_URL "http://localhost:8888")))
+     ("nixos" . (:command "nix"  ; Ou use "nix" para executar diretamente via Nix
+                 :args ( "run" "github:utensils/mcp-nixos" "--")
+
+
+                 ;; :cwd "/diretorio/de/trabalho"  ; Opcional, se necessário
+                 ))))
+  :config
+  (require 'mcp-hub)
+
+  ;; Verifica se os comandos estão disponíveis
+
+  (add-hook 'after-init-hook #'check-mcp-dependencies)
+  (add-hook 'after-init-hook #'mcp-hub-start-all-server))
+#+end_src
+
+#+RESULTS:
+: t
 ** Gptel
 
 #+begin_src emacs-lisp

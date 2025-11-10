@@ -1,86 +1,58 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ config, pkgs, lib, ... }:
 
-# pkgs.stdenv.mkDerivation {
-#   name = "via-cli";
+let
+  # Caminho relativo: de nixos/ até home-manager/via-vpn/tmp
+  viaExtracted = builtins.path {
+    path = ../../home-manager/via-vpn/tmp;
+    name = "aruba-via-extracted";
+  };
 
-#   # O arquivo .deb precisa estar disponível no sistema
-#   src = ./via-aruba.deb; # Substitua pelo caminho correto
+  # Cria binários no PATH
+  viaBin = pkgs.writeShellScriptBin "via" ''
+    exec /opt/aruba/via/bin/via "$@"
+  '';
 
-#   nativeBuildInputs = [
-#     pkgs.patchelf
-#     pkgs.binutils
-#     pkgs.gnutar
-#     pkgs.zlib
-#     pkgs.libxml2
-#     pkgs.libproxy
-#     pkgs.dbus
-#     # pkgs.qt5.qtbase
-#   ];
-#   dontUnpack = true;
-#   dontBuild = true;
-#   dontWrapQtApps = true;
+  viaUiBin = pkgs.writeShellScriptBin "via-ui" ''
+    exec /opt/aruba/via/usr/bin/via-ui "$@"
+  '';
+in {
+  # Firewall
+  networking.firewall.allowedUDPPorts = [ 500 4500 ];
+  networking.firewall.allowPing = true;
 
-#   installPhase = ''
-#     echo "Instalando via-aruba e ajustando via-ui..."
+  # Script de ativação (só copia arquivos)
+  system.activationScripts.via-install = lib.stringAfter [ "users" ] ''
+    if [ ! -x /opt/aruba/via/bin/via ]; then
+      echo "Instalando Aruba VIA de ${viaExtracted}..."
+      mkdir -p /opt/aruba/via
+      cp -r ${viaExtracted}/* /opt/aruba/via/ || {
+        echo "ERRO: Falha ao copiar. Verifique se home-manager/via-vpn/tmp/ existe."
+        exit 1
+      }
+      chmod -R 755 /opt/aruba/via
+      chmod +x /opt/aruba/via/bin/via /opt/aruba/via/usr/bin/* 2>/dev/null || true
+      echo "Aruba VIA instalado em /opt/aruba/via"
+    fi
+  '';
+  # Adiciona binários ao PATH (agora fora da string!)
+  environment.systemPackages = [ viaBin viaUiBin ];
 
-#     # Diretório de saída
-#     mkdir -p $out/bin
+  # Serviço systemd (opcional)
+  systemd.services.aruba-via = {
+    description = "Aruba VIA VPN Client Daemon";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      Type = "forking";
+      ExecStart = "/opt/aruba/via/bin/via --daemon";
+      ExecStop = "/opt/aruba/via/bin/via --stop";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
 
-#     # Extrair o .deb usando ar e tar
-#     ar x $src
-#     tar -xvf data.tar.* -C $out
-
-#     # Ajustar o binário via-cli
-#     if [ -f $out/usr/bin/via-ui ]; then
-#       mv $out/usr/bin/via-cli $out/bin/via-cli
-#       patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 $out/bin/via-cli
-#       patchelf --set-rpath "${pkgs.glibc}/lib:${pkgs.zlib}/lib:${pkgs.libxml2}/lib:${pkgs.libproxy}/lib:${pkgs.dbus}/lib:${pkgs.qt5.qtbase}/lib:$out/lib:$out/usr/lib" $out/bin/via-cli
-
-#     else
-#       echo "Erro: via-cli não encontrado no pacote .deb"
-#       exit 1
-#     fi
-
-#     echo "Instalação e ajustes concluídos!"
-#   '';
-# }
-
-# installPhase = ''
-#     echo "Instalando via-aruba e ajustando via-ui..."
-
-#     # Diretório de saída
-#     mkdir -p $out/bin
-
-#     # Extrair o .deb usando ar e tar
-#     ar x $src
-#     tar -xvf data.tar.* -C $out
-
-#     # Ajustar o binário via-ui
-#     if [ -f $out/usr/bin/via-ui ]; then
-#       mv $out/usr/bin/via-ui $out/bin/via-ui
-#       patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 $out/bin/via-ui
-#       patchelf --set-rpath "${pkgs.glibc}/lib:${pkgs.zlib}/lib:${pkgs.libxml2}/lib:${pkgs.libproxy}/lib:${pkgs.dbus}/lib:${pkgs.qt5.qtbase}/lib:$out/lib:$out/usr/lib" $out/bin/via-ui
-
-#     else
-#       echo "Erro: via-ui não encontrado no pacote .deb"
-#       exit 1
-#     fi
-
-#     echo "Instalação e ajustes concluídos!"
-#   '';
-# }
-
-# pkgs.stdenv.mkDerivation {
-#   name = "via-aruba";
-#   src = ./via-aruba.deb;
-#   buildInputs = [ pkgs.binutils pkgs.gnutar ]; # Para o comando `ar`
-#   dontUnpack = true;
-#   dontBuild = true;
-#   installPhase = ''
-#     echo "Extraindo o arquivo via-aruba.deb..."
-#     mkdir -p $out
-#     ar x $src
-#     tar -xvf data.tar.* -C $out
-#   '';
-
-#}
+  # StrongSwan
+  services.strongswan.enable = true;
+  services.strongswan.enabledPlugins =
+    [ "attr-sql" "eap-mschapv2" "kernel-libipsec" ];
+}

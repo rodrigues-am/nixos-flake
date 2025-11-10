@@ -107,7 +107,7 @@ in with lib; {
                   contrast = 0.9
               }
             }
-
+           # exec-once = hyprctl dispatch dpms off 12000
             exec-once = $POLKIT_BIN
             exec-once = dbus-update-activation-environment --systemd --all
             exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
@@ -115,7 +115,7 @@ in with lib; {
             exec-once = swww img ${userSettings.wallpaperDir}/battery-gruvbox.png --transition-type wipe
             exec-once = waybar
             exec-once = swaync
-            exec-once = swayidle -w timeout 150 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+            exec-once = swayidle -w timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
       exec-once = bash -c 'source "${config.home.homeDirectory}/.nix-profile/etc/profile.d/hm-session-vars.sh" && emacs --daemon'
             # === LAYOUT ===
             dwindle {

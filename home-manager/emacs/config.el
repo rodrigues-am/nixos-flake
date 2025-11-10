@@ -504,6 +504,34 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ;; Bind the function to "C-j c"
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
 
+(use-package mcp
+  :ensure t
+  :after gptel
+  :custom
+  (mcp-hub-servers
+   `(("filesystem" . (:command ,(executable-find "npx")
+                      :args ("-y" "@modelcontextprotocol/server-filesystem")
+                      :roots ("/home/andre/tmp/")))
+     ;;("fetch" . (:command ,(executable-find "uv")
+      ;;           :args ("run" "mcp-server-fetch")))
+
+      ("searxng" . (:command ,(executable-find "npx")
+                   :args ("-y" "mcp-searxng")
+                   :env (:SEARXNG_URL "http://localhost:8888")))
+     ("nixos" . (:command "nix"  ; Ou use "nix" para executar diretamente via Nix
+                 :args ( "run" "github:utensils/mcp-nixos" "--")
+
+
+                 ;; :cwd "/diretorio/de/trabalho"  ; Opcional, se necessário
+                 ))))
+  :config
+  (require 'mcp-hub)
+
+  ;; Verifica se os comandos estão disponíveis
+
+  (add-hook 'after-init-hook #'check-mcp-dependencies)
+  (add-hook 'after-init-hook #'mcp-hub-start-all-server))
+
 (use-package gptel
   :custom
  (gptel-model "gpt-4")
@@ -526,7 +554,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
       rns96/deepseek-R1-ablated:f16_Q4KM
       qwen2.5-coder:7b
             ))          ;List of models
-
 
 (after! gptel
   (let ((gptel-tools-dir (expand-file-name "~/sync/pessoal/emacs/gptel/")))

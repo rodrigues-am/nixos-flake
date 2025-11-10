@@ -1,9 +1,9 @@
-{ config, lib, pkgs, inputs, userSettings, ... }: {
+{ userSettings, ... }: {
 
   programs.git = {
     enable = true;
-    userName = "${userSettings.gitUser}";
-    userEmail = "${userSettings.email}";
+    settings.user.name = "${userSettings.gitUser}";
+    settings.user.email = "${userSettings.email}";
 
   };
 

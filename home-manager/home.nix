@@ -1,6 +1,4 @@
-{ config, pkgs, inputs, userSettings, nix-doom-emacs, nix-colors, ... }:
-
-{
+{ pkgs, inputs, userSettings, nix-doom-emacs, nix-colors, ... }: {
 
   imports = [
     ./bash.nix
@@ -17,20 +15,26 @@
     # ./mbsync.nix
     #    ./email.nix
     ./aspell.nix
+
     # pkgs
     ./pkgs-program.nix
     ./pkgs-fonts.nix
     ./pkgs-general.nix
+    # ./via-aruba.nix
 
     # scripts
     ./bin/doomcapture.nix
     ./bin/emopicker.nix
     ./bin/wallsetter.nix
+    ./bin/keyboard-layout-status.nix
+    ./bin/keyboard-toggle.nix
+    ./bin/powermenu.nix
     #./bin/themechange.nix
     #./bin/theme-selector.nix
     inputs.sops-nix.homeManagerModule
     nix-colors.homeManagerModules.default
     nix-doom-emacs.hmModule
+
   ];
 
   sops = {
@@ -59,5 +63,4 @@
   colorScheme = nix-colors.colorSchemes."${userSettings.theme}";
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 }

@@ -152,6 +152,7 @@ in {
   ]) ++ (with pkgs-stable; [
     # programing
     python3Full
+    uv
     RStudio-with-my-packages
     # R
     R-with-my-packages
@@ -160,7 +161,7 @@ in {
     #nodejs
     nodejs_22
     yarn
-
+    nodePackages.np
     #    nodePackages.grammarly-languageserver
     #Cliente DB para o IFUSP
     #dbeaver-bin

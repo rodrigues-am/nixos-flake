@@ -1,4 +1,4 @@
-{ config, lib, pkgs-stable, inputs, userSettings, nix-colors, pkgs, ... }:
+{ pkgs-stable, inputs, userSettings, pkgs, ... }:
 
 {
 
@@ -7,15 +7,15 @@
     ./polkit.nix
     ./emacs-overlay.nix
     ./isync-overlay.nix
-./print.nix
-
+    ./print.nix
+    ./mcp.nix
     inputs.sops-nix.nixosModules.sops
     #   inputs.xremap-flake.nixosModules.default
     #    ./xremap.nix
   ];
 
   nixpkgs.config.permittedInsecurePackages =
-    [ "olm-3.2.16" ]; # para instalação de matrix e pontes
+    [ "olm-3.2.16" "openssl-1.1.1w" ]; # para instalação de matrix e pontes
   #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   programs.hyprland.enable = true;
@@ -89,6 +89,9 @@
   environment.variables = {
     POLKIT_BIN =
       "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+
+    # Força o Xwayland (Wayland puro quebra Wine GUI)
+    # GDK_BACKEND = "wayland,x11"; # Prioriza Wayland, mas permite fallback
   };
 
   # Allow unfree packages
