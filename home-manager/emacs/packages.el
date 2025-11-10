@@ -58,7 +58,8 @@
 (package! zotxt)
 (package! citeproc-org)
 (package! ivy-bibtex)
-;; (package! org-roam-bibtex)
+(package! org-roam-bibtex)
+
 (package! citar)
 (package! citar-embark)
 (package! citar-org-roam)
