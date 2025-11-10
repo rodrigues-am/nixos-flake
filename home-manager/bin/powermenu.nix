@@ -11,22 +11,22 @@ let
     # Exit if none chosen
     [ -z "$chosen" ] && exit
 
-    # Executar ação baseada na escolha
+    # Executar ação baseada na escolha usando pattern matching
     case "$chosen" in
-      " \tShutdown")
+      *"Shutdown"*)
         systemctl poweroff
         ;;
-      " \tRestart")
+      *"Restart"*)
         systemctl reboot
         ;;
-      " \tLock")
+      *"Lock"*)
         ${pkgs.hyprlock}/bin/hyprlock
         ;;
-      " \tSuspend")
+      *"Suspend"*)
         ${pkgs.hyprlock}/bin/hyprlock &
         systemctl suspend
         ;;
-      " \tLogout")
+      *"Logout"*)
         # Tentar sair do Hyprland primeiro
         if command -v hyprctl >/dev/null; then
           hyprctl dispatch exit
