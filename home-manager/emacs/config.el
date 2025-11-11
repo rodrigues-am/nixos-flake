@@ -296,12 +296,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :config
   (org-roam-db-autosync-enable))
 
-(use-package ivy-bibtex)
-(use-package org-roam-bibtex
-  :after org-roam
-  :config
-  (require 'org-ref))
-
 (setq org-agenda-span 1
       org-agenda-start-day "+0d"
       org-agenda-skip-timestamp-if-done t
@@ -516,7 +510,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
       ;;           :args ("run" "mcp-server-fetch")))
 
       ("searxng" . (:command ,(executable-find "npx")
-                   :args ("-y" "mcp-searxng")
+                   :args ("-y" "mcp-searxng" "--network host")
                    :env (:SEARXNG_URL "http://localhost:8888")))
      ("nixos" . (:command "nix"  ; Ou use "nix" para executar diretamente via Nix
                  :args ( "run" "github:utensils/mcp-nixos" "--")

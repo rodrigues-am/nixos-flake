@@ -14,8 +14,11 @@
     #    ./xremap.nix
   ];
 
-  nixpkgs.config.permittedInsecurePackages =
-    [ "olm-3.2.16" "openssl-1.1.1w" ]; # para instalação de matrix e pontes
+  nixpkgs.config.permittedInsecurePackages = [
+    "olm-3.2.16"
+    "openssl-1.1.1w"
+    "xpdf-4.05"
+  ]; # para instalação de matrix e pontes
   #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   programs.hyprland.enable = true;

@@ -62,7 +62,7 @@
 
 (package! citar)
 (package! citar-embark)
-(package! citar-org-roam)
+;;(package! citar-org-roam)
 
 
 ;; Icons

@@ -549,7 +549,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (org-roam-db-autosync-enable))
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package ivy-bibtex)
 (use-package org-roam-bibtex
   :after org-roam

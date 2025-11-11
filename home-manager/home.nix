@@ -15,7 +15,6 @@
     # ./mbsync.nix
     #    ./email.nix
     ./aspell.nix
-
     # pkgs
     ./pkgs-program.nix
     ./pkgs-fonts.nix
@@ -29,6 +28,7 @@
     ./bin/keyboard-layout-status.nix
     ./bin/keyboard-toggle.nix
     ./bin/powermenu.nix
+    ./bin/pdftotext.nix
     #./bin/themechange.nix
     #./bin/theme-selector.nix
     inputs.sops-nix.homeManagerModule
@@ -48,7 +48,6 @@
     username = "${userSettings.name}";
     homeDirectory = "/home/${userSettings.name}";
     stateVersion = "25.11"; # Please read the comment before changing.
-    packages = with pkgs; [ ];
     file = { };
     sessionVariables = {
       EDITOR = "${userSettings.editor}";
@@ -63,4 +62,5 @@
   colorScheme = nix-colors.colorSchemes."${userSettings.theme}";
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }
