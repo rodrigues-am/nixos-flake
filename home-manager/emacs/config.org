@@ -717,9 +717,15 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :no-require
   :config (citar-embark-mode))
 
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+
 (use-package citar-org-roam
   :after (citar org-roam)
   :config (citar-org-roam-mode))
+
+
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1102,20 +1108,6 @@ Recomendação feita por Doom Doctor
 
 * IA
 ** Servers
-
-#+begin_src elisp :tangle no
-(use-package mcp
-  :ensure t
-  :after gptel
-  :custom (mcp-hub-servers
-           `(("filesystem" . (:command "npx"
-                              :args ("-y" "@modelcontextprotocol/server-filesystem")
-                              :roots ("/home/andre/tmp/")))
-             ("fetch" . (:command "uvx" :args ("mcp-server-fetch"))))
-           :config (require 'mcp-hub)
-           :hook (after-init . mcp-hub-start-all-server)))
-#+end_src
-
 #+begin_src emacs-lisp
 
 (use-package mcp

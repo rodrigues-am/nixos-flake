@@ -390,10 +390,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :no-require
   :config (citar-embark-mode))
 
-(use-package citar-org-roam
-  :after (citar org-roam)
-  :config (citar-org-roam-mode))
-
 (use-package helm-bibtex
   :custom
   (bibtex-completion-bibliography '("~/notas/bib/bib.bib")))
