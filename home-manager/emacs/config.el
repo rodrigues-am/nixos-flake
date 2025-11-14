@@ -494,34 +494,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ;; Bind the function to "C-j c"
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
 
-(use-package mcp
-  :ensure t
-  :after gptel
-  :custom
-  (mcp-hub-servers
-   `(("filesystem" . (:command ,(executable-find "npx")
-                      :args ("-y" "@modelcontextprotocol/server-filesystem")
-                      :roots ("/home/andre/tmp/")))
-     ;;("fetch" . (:command ,(executable-find "uv")
-      ;;           :args ("run" "mcp-server-fetch")))
-
-      ("searxng" . (:command ,(executable-find "npx")
-                   :args ("-y" "mcp-searxng" "--network host")
-                   :env (:SEARXNG_URL "http://localhost:8888")))
-     ("nixos" . (:command "nix"  ; Ou use "nix" para executar diretamente via Nix
-                 :args ( "run" "github:utensils/mcp-nixos" "--")
-
-
-                 ;; :cwd "/diretorio/de/trabalho"  ; Opcional, se necessário
-                 ))))
-  :config
-  (require 'mcp-hub)
-
-  ;; Verifica se os comandos estão disponíveis
-
-  (add-hook 'after-init-hook #'check-mcp-dependencies)
-  (add-hook 'after-init-hook #'mcp-hub-start-all-server))
-
 (use-package gptel
   :custom
  (gptel-model "gpt-4")
@@ -534,19 +506,3 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 :config
   (global-set-key (kbd "M-p g") #'gptel-menu)
   :ensure t)
-
-(gptel-make-ollama "Ollama"             ;Any name of your choosing
-  :host "localhost:11434"               ;Where it's running
-  :stream t                             ;Stream responses
-  :models '(deepseek-r1:1.5b
-            llama3-groq-tool-use:8b
-;;            deepseek-r1-coder-tools:1.5b
-      rns96/deepseek-R1-ablated:f16_Q4KM
-      qwen2.5-coder:7b
-            ))          ;List of models
-
-(after! gptel
-  (let ((gptel-tools-dir (expand-file-name "~/sync/pessoal/emacs/gptel/")))
-    (when (file-directory-p gptel-tools-dir)
-      (add-to-list 'load-path gptel-tools-dir)
-      (mapc #'load (directory-files gptel-tools-dir t "\\.el$")))))

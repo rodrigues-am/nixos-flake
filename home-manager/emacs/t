@@ -31,6 +31,12 @@
 	(add-hook 'subed-mode-hook 'subed-enable-show-cps)
 	)
 
+(use-package ivy-bibtex)
+(use-package org-roam-bibtex
+  :after org-roam
+  :config
+  (require 'org-ref))
+
 (add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
 (defun amr-ess-keybindings ()
   (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))
@@ -121,3 +127,12 @@
 
 (use-package ement
   :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
+
+(gptel-make-ollama "Ollama"             ;Any name of your choosing
+  :host "localhost:11434"               ;Where it's running
+  :stream t                             ;Stream responses
+  :models '(deepseek-r1:1.5b
+            llama3-groq-tool-use:8b
+;;            deepseek-r1-coder-tools:1.5b
+      rns96/deepseek-R1-ablated:f16_Q4KM
+      qwen2.5-coder:7b ))          ;List of models
