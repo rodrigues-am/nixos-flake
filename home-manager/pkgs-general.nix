@@ -80,12 +80,16 @@
     #    wine
     wine-wayland
     winetricks
+    wlr-randr
     zathura # pdf viwer
     zellij
     zip
     #zoom-us
     zotero
     zoxide
+
+    libxcvt
+
   ]) ++ (with pkgs-stable; [
 
     audacity

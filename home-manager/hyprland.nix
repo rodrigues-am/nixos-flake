@@ -25,7 +25,8 @@ in with lib; {
     systemd.enable = true;
     extraConfig = let modifier = "SUPER";
     in concatStrings [''
-            monitor=,preferred,auto,1
+            #monitor=,preferred,auto,1
+	    monitor=HDMI-A-1,2569x1080@60,0x0,1
             general {
               gaps_in = 3
               gaps_out = 3
