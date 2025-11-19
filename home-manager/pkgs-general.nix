@@ -1,6 +1,4 @@
-{ config, lib, pkgs, pkgs-stable, inputs, ... }:
-
-{
+{ config, lib, pkgs, pkgs-stable, inputs, ... }: {
 
   home.packages = (with pkgs; [
     dpkg
@@ -90,6 +88,7 @@
 
     libxcvt
 
+    # Proton VPN com override para versão mais recente
   ]) ++ (with pkgs-stable; [
 
     audacity

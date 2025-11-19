@@ -14,6 +14,16 @@
     #    ./xremap.nix
   ];
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      python313Packages = prev.python313Packages.overrideScope
+        (pyFinal: pyPrev: {
+          proton-core = pyPrev.proton-core.overridePythonAttrs
+            (oldAttrs: { doCheck = false; });
+        });
+    })
+  ];
+
   nixpkgs.config.permittedInsecurePackages = [
     "olm-3.2.16"
     "openssl-1.1.1w"
@@ -86,7 +96,11 @@
     isNormalUser = true;
     description = "${userSettings.name}";
     extraGroups = [ "networkmanager" "wheel" "input" "uinput" ];
-    packages = with pkgs; [ ];
+    packages = with pkgs;
+      [
+
+        protonvpn-gui
+      ];
   };
 
   environment.variables = {
