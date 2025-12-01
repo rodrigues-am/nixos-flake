@@ -1,5 +1,11 @@
-{ config, lib, pkgs, ... }: {
+{ config, ... }: {
+
   # Enable OpenGL
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+    # Ajuste o nome do conector conforme passo 2:
+    "video=HDMI-A-1:2560x1080@60"
+  ];
 
   hardware.graphics.enable = true;
   #Enable OpenGL
