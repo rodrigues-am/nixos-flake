@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, ... }:
+{ pkgs, pkgs-stable, lib, ... }:
 with pkgs-stable;
 let
   pacotesR = with rPackages; [
@@ -144,6 +144,13 @@ in {
     #Nix
     nixfmt-classic
     nixd
+
+    #Guile Scheme
+    guile
+    guile-fibers
+    guile-lib
+
+    #(pkgs.guile.withPackages (p: [ p.fibers p.guile-lib ]))
 
     #Yaml
     yaml-language-server

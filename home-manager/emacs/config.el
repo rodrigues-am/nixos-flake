@@ -31,6 +31,9 @@
 
 (setq dired-dwim-target t)
 
+(after! geiser
+  (setq geiser-guile-binary "/etc/profiles/per-user/andre/bin/guile"))
+
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
 (use-package flyspell
@@ -448,6 +451,15 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (after! projectile
           (setq projectile-project-root-files-bottom-up
                 (remove ".git" projectile-project-root-files-bottom-up)))
+
+(after! projectile
+  ;; Nunca trate a home como projeto
+  (add-to-list 'projectile-ignored-projects "~/")
+
+  ;; (opcional) ignore também subdiretórios comuns da home
+  (add-to-list 'projectile-globally-ignored-directories "~/.cache")
+  (add-to-list 'projectile-globally-ignored-directories "~/.local")
+  (add-to-list 'projectile-globally-ignored-directories "~/.config"))
 
 (use-package company
   :defer t

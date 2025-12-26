@@ -18,10 +18,46 @@ in {
         dav_access user:rw group:rw all:r;
         client_max_body_size 300M;
         autoindex on;
+         disable_symlinks off;
 
         auth_basic "Restricted";
         auth_basic_user_file ${htpasswdFile};
       '';
+
+      # Add!
+      locations."/sync/" = {
+        extraConfig = ''
+          alias /home/andre/sync/; # O Nginx buscará os arquivos aqui
+
+          dav_methods PUT DELETE MKCOL COPY MOVE;
+          dav_ext_methods PROPFIND OPTIONS;
+          dav_access user:rw group:rw all:r;
+          client_max_body_size 10G; # Ajustado se for sincronizar arquivos grandes
+          autoindex on;
+          disable_symlinks off;
+
+          auth_basic "Restricted Sync";
+          auth_basic_user_file ${htpasswdFile};
+        '';
+      };
+
+      # Add!
+      locations."/notas/" = {
+        extraConfig = ''
+          alias /home/andre/notas/; # O Nginx buscará os arquivos aqui
+
+          dav_methods PUT DELETE MKCOL COPY MOVE;
+          dav_ext_methods PROPFIND OPTIONS;
+          dav_access user:rw group:rw all:r;
+          client_max_body_size 10G; # Ajustado se for sincronizar arquivos grandes
+          autoindex on;
+          disable_symlinks off;
+
+          auth_basic "Restricted Sync";
+          auth_basic_user_file ${htpasswdFile};
+        '';
+      };
+
     };
   };
 
@@ -61,13 +97,28 @@ in {
   };
 
   systemd.tmpfiles.rules = [
+    "d /srv/webdav 0755 nginx nginx - -"
+    "d /srv/webdav/${username} 0755 nginx nginx - -"
     "d /srv/webdav/${username}/zotero 0755 nginx nginx - -"
+
+    "d /home/${username}/sync 0775 ${username} nginx - -"
+    "d /home/${username}/notas 0775 ${username} nginx - -"
+
+    "L+ /srv/webdav/${username}/sync - - - - /home/${username}/sync"
+    "L+ /srv/webdav/${username}/notas - - - - /home/${username}/notas"
+
     "d /var/log/nginx 0755 nginx nginx - -"
+
+    # garante que nginx (no grupo andre) consiga atravessar /home/andre
+    "z /home/${username} 0777 ${username} users - -"
+    "z /home/${username}/sync 0777 ${username} nginx - -"
+    "z /home/${username}/notas 0777 ${username} nginx - -"
   ];
 
   systemd.services.nginx.serviceConfig = {
     ProtectSystem = lib.mkForce "no";
-    ReadWritePaths = [ "/srv/webdav" ];
+    ProtectHome = lib.mkForce "no";
+    ReadWritePaths = [ "/srv/webdav" "/home/andre/sync" "/home/andre/notas" ];
   };
 
   security.acme = {
@@ -89,5 +140,7 @@ in {
       Environment = "DNS_OVER_HTTPS=off";
     };
   };
+
+  users.users.nginx.extraGroups = [ "andre" ];
 
 }

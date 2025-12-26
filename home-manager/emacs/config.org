@@ -95,6 +95,14 @@ Some personal information.
   :ensure t)
 #+end_src
 
+* Guile Scheme
+
+#+begin_src emacs-lisp
+
+(after! geiser
+  (setq geiser-guile-binary "/etc/profiles/per-user/andre/bin/guile"))
+
+#+end_src
 * Subed
 
 #+begin_src emacs-lisp :tangle t
@@ -122,7 +130,6 @@ Some personal information.
 	(add-hook 'subed-mode-hook 'subed-enable-show-cps)
 	)
 #+end_src
-
 * SpellCheck
 
 #+begin_src emacs-lisp
@@ -882,6 +889,19 @@ Recomendação feita por Doom Doctor
 (after! projectile
           (setq projectile-project-root-files-bottom-up
                 (remove ".git" projectile-project-root-files-bottom-up)))
+
+#+end_src
+
+#+begin_src emacs-lisp
+
+(after! projectile
+  ;; Nunca trate a home como projeto
+  (add-to-list 'projectile-ignored-projects "~/")
+
+  ;; (opcional) ignore também subdiretórios comuns da home
+  (add-to-list 'projectile-globally-ignored-directories "~/.cache")
+  (add-to-list 'projectile-globally-ignored-directories "~/.local")
+  (add-to-list 'projectile-globally-ignored-directories "~/.config"))
 
 #+end_src
 
