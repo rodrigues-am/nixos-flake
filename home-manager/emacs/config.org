@@ -676,7 +676,13 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 #+begin_src emacs-lisp
 (with-eval-after-load 'ox
     (require 'ox-hugo))
+
+(with-eval-after-load 'ox-hugo
+  (plist-put org-hugo-citations-plist :bibliography-section-heading "Referências"))
 #+end_src
+
+#+RESULTS:
+| :bibliography-section-heading | Referências |
 
 ** Capture template
 

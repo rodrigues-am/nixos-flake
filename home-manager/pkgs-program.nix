@@ -141,6 +141,8 @@ in {
 
     jq # lightweight and flexible command-line JSON processor
 
+    direnv
+
     #Nix
     nixfmt-classic
     nixd

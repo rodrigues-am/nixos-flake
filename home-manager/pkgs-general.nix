@@ -43,6 +43,7 @@
     hunspellDicts.en_US-large
     hunspellDicts.pt_BR
     inkscape-with-extensions
+    jp2a
     libreoffice
     libtool
     libvterm

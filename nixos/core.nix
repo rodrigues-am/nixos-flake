@@ -1,4 +1,4 @@
-{ pkgs-stable, inputs, userSettings, pkgs, ... }:
+{ pkgs-stable, config, inputs, userSettings, pkgs, ... }:
 
 {
 
@@ -157,6 +157,16 @@
       options = "--delete-older-than 7d";
     };
   };
+  # TAILSCALE
+  # 1. Ativa o serviço do Tailscale
+  services.tailscale.enable = true;
+
+  # 2. Abre as portas necessárias para o Tailscale (opcional, mas recomendado para performance)
+  networking.firewall.allowedUDPPorts = [ config.services.tailscale.port ];
+
+  # 3. Importante: Se você quiser que o Syncthing "veja" outros dispositivos via Tailscale,
+  # pode ser necessário dizer ao firewall para confiar na interface do Tailscale.
+  networking.firewall.checkReversePath = "loose";
 
   system.stateVersion = "24.11"; # Did you read the comment?
 }

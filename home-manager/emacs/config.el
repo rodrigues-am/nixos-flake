@@ -367,6 +367,9 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (with-eval-after-load 'ox
     (require 'ox-hugo))
 
+(with-eval-after-load 'ox-hugo
+  (plist-put org-hugo-citations-plist :bibliography-section-heading "Bibliography"))
+
 (add-to-list 'org-capture-templates
       '(("b" "blog post" entry
          (file+headline "~/notas/blog/blog.org" "NO New ideas")
