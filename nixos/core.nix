@@ -159,7 +159,11 @@
   };
   # TAILSCALE
   # 1. Ativa o serviço do Tailscale
-  services.tailscale.enable = true;
+  services.tailscale = {
+    enable = true;
+    # Força o Tailscale a não tentar gerenciar o DNS se ele detectar problemas
+    extraUpFlags = [ "--accept-dns=false" ];
+  };
 
   # 2. Abre as portas necessárias para o Tailscale (opcional, mas recomendado para performance)
   networking.firewall.allowedUDPPorts = [ config.services.tailscale.port ];
