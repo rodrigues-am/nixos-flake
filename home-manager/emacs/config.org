@@ -732,7 +732,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 
 (use-package citar-org-roam
   :after (citar org-roam)

@@ -368,7 +368,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
     (require 'ox-hugo))
 
 (with-eval-after-load 'ox-hugo
-  (plist-put org-hugo-citations-plist :bibliography-section-heading "Bibliography"))
+  (plist-put org-hugo-citations-plist :bibliography-section-heading "Referências"))
 
 (add-to-list 'org-capture-templates
       '(("b" "blog post" entry
@@ -395,6 +395,10 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :after citar embark
   :no-require
   :config (citar-embark-mode))
+
+(use-package citar-org-roam
+  :after (citar org-roam)
+  :config (citar-org-roam-mode))
 
 (use-package helm-bibtex
   :custom
