@@ -2,20 +2,22 @@
 
 {
 
-  home.packages = (with pkgs; [
-    swaynotificationcenter
-    swww
-    grim
-    slurp
-    swayidle
-    wl-clipboard
-    libnotify
-    ydotool
-    xorg.xhost
-    wev
-    nautilus
-    hyprlock
-  ]) ++ (with pkgs-stable; [ ]);
+  home.packages =
+    (with pkgs; [
+      swaynotificationcenter
+      swww
+      grim
+      slurp
+      swayidle
+      wl-clipboard
+      libnotify
+      ydotool
+      xhost
+      wev
+      nautilus
+      hyprlock
+    ])
+    ++ (with pkgs-stable; [ ]);
 
   home.file = {
 
