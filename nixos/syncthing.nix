@@ -1,8 +1,7 @@
-{ config, lib, pkgs, userSettings, ... }: {
-#systemd.services.syncthing-init.enable = false;
+{ userSettings, ... }: {
+  #systemd.services.syncthing-init.enable = false;
   services.syncthing = {
     enable = true;
-#declarative = false;
     dataDir = "/home/andre/.local/share/syncthing";
     openDefaultPorts = true;
     configDir = "/home/andre/.config/syncthing";
@@ -10,7 +9,6 @@
     group = "users";
     guiAddress = "127.0.0.1:8384";
     overrideDevices = true;
-    # overrideFolders = true;
 
     settings.devices = {
       "home-desktop" = {
@@ -35,6 +33,10 @@
       };
       "thinkpad" = {
         id = "SHARK5X-T43RLXJ-JYQIIU6-LKFOIT4-DVII6XM-XW4VKRJ-MYO77XU-QKBZUAF";
+        autoAcceptFolders = true;
+      };
+      "boox" = {
+        id = "NEKJLFN-X3D5WTA-UVJU3J5-INB2WJW-ATANUIB-Z54M63N-2NGPCVG-3ECIKA2";
         autoAcceptFolders = true;
       };
     };
@@ -62,30 +64,13 @@
           "s22-cel"
           "hp-laptop"
           "thinkpad"
+          "boox"
         ];
         versioning = {
           type = "simple";
           params = { keep = "10"; };
         };
       };
-
-      ".ssh" = {
-        id = "vworj-qlkdr";
-        path = "/home/andre/.ssh";
-        devices = [
-          "home-desktop"
-          "usp-desktop"
-          "dell-laptop"
-          "s22-cel"
-          "hp-laptop"
-          "thinkpad"
-        ];
-        versioning = {
-          type = "simple";
-          params = { keep = "10"; };
-        };
-      };
-
     };
 
   };
