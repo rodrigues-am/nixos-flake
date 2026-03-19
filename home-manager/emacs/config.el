@@ -18,6 +18,8 @@
 
 (setq doom-theme 'doom-gruvbox)
 
+(setq delete-by-moving-to-trash t)
+
 (use-package auth-source
   :ensure t
   :custom
@@ -515,7 +517,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (use-package gptel
   :custom
- (gptel-model "gpt-4")
+ (gptel-model "gpt-5-nano")
   (gptel-default-mode 'org-mode)
   (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
   (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
@@ -525,3 +527,18 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 :config
   (global-set-key (kbd "M-p g") #'gptel-menu)
   :ensure t)
+
+(gptel-make-ollama "Ollama"             ;Any name of your choosing
+  :host "localhost:11434"               ;Where it's running
+  :stream t                             ;Stream responses
+  :models '(deepseek-r1:1.5b
+            llama3-groq-tool-use:8b
+      rns96/deepseek-R1-ablated:f16_Q4KM
+      qwen3.5:9b
+      qwen3.5:4b
+      qwen3.5:2b
+      qwen3.5:0.8b
+      gemma3:4b
+deepseek-r1:8b
+granite3.3:8b
+      ))          ;List of models

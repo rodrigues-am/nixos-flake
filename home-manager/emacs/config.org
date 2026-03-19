@@ -29,10 +29,12 @@ Some personal information.
 ;;       doom-variable-pitch-font (font-spec :family "Iosevka" :size 16))
 
 (setq doom-theme 'doom-gruvbox)
+
+(setq delete-by-moving-to-trash t)
 #+end_src
 
 #+RESULTS:
-: doom-gruvbox
+: t
 
 * Pass
 
@@ -1172,7 +1174,7 @@ Recomendação feita por Doom Doctor
 #+begin_src emacs-lisp
 (use-package gptel
   :custom
- (gptel-model "gpt-4")
+ (gptel-model "gpt-5-nano")
   (gptel-default-mode 'org-mode)
   (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
   (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
@@ -1188,16 +1190,22 @@ Recomendação feita por Doom Doctor
 
 #+RESULTS:
 : t
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 (gptel-make-ollama "Ollama"             ;Any name of your choosing
   :host "localhost:11434"               ;Where it's running
   :stream t                             ;Stream responses
   :models '(deepseek-r1:1.5b
             llama3-groq-tool-use:8b
-;;            deepseek-r1-coder-tools:1.5b
       rns96/deepseek-R1-ablated:f16_Q4KM
-      qwen2.5-coder:7b ))          ;List of models
+      qwen3.5:9b
+      qwen3.5:4b
+      qwen3.5:2b
+      qwen3.5:0.8b
+      gemma3:4b
+deepseek-r1:8b
+granite3.3:8b
+      ))          ;List of models
 
 
 #+end_src
