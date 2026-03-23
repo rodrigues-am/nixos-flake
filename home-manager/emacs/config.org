@@ -67,7 +67,7 @@ Some personal information.
 
 * Ordeless
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -107,7 +107,7 @@ Some personal information.
 #+end_src
 * Subed
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 (use-package subed
 	:ensure t
@@ -558,7 +558,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (org-roam-db-autosync-enable))
 #+end_src
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 (use-package ivy-bibtex)
 (use-package org-roam-bibtex
   :after org-roam
@@ -689,11 +689,19 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ** Capture template
 
 #+begin_src emacs-lisp
-(add-to-list 'org-capture-templates
-      '(("b" "blog post" entry
-         (file+headline "~/notas/blog/blog.org" "NO New ideas")
-         (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
+setq org-capture-templates
+      (append org-capture-templates
+              '(("t" "task inbox" entry
+                 (file+headline "~/notas/general/inbox.org" "Inbox")
+                 (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
+                ("b" "blog post" entry
+                 (file+headline "~/notas/blog/blog.org" "NO New ideas")
+                 (file "~/sync/pessoal/emacs/org-capture-templates/post.org")))))
 #+end_src
+
+#+RESULTS:
+| t | task inbox | entry | (file+headline ~/notas/general/inbox.org Inbox)    | (file ~/sync/pessoal/emacs/org-capture-templates/inbox.org) |
+| b | blog post  | entry | (file+headline ~/notas/blog/blog.org NO New ideas) | (file ~/sync/pessoal/emacs/org-capture-templates/post.org)  |
 
 * Template
 
@@ -765,7 +773,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 * Icons
 
-#+begin_src emacs-lisp :tangle nil
+#+begin_src emacs-lisp :tangle no
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 (use-package all-the-icons
@@ -1026,7 +1034,7 @@ Recomendação feita por Doom Doctor
 | amr-org-latex-filter-plantuml |
 * ESS R
 
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 (add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
 (defun amr-ess-keybindings ()
   (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))
@@ -1037,7 +1045,7 @@ Recomendação feita por Doom Doctor
 | amr-ess-keybindings | (lambda nil (abbrev-mode 1)) |
 * Email
 ** Mu4e
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 ;; (use-package mu4e
 ;;   :ensure nil  ;; mu4e já vem com o pacote mu, não precisa instalar via straight
@@ -1127,7 +1135,7 @@ Recomendação feita por Doom Doctor
 : t
 
 * Ement
-#+begin_src emacs-lisp :tangle t
+#+begin_src emacs-lisp
 
 (use-package ement
   :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
@@ -1205,6 +1213,7 @@ Recomendação feita por Doom Doctor
       gemma3:4b
 deepseek-r1:8b
 granite3.3:8b
+translategemma:12b
       ))          ;List of models
 
 
@@ -1222,4 +1231,18 @@ granite3.3:8b
 
 
 
+#+end_src
+
+** Copilot
+
+#+begin_src emas-lisp
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
 #+end_src

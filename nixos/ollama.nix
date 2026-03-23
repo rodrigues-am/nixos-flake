@@ -13,6 +13,7 @@
       "gemma3:4b"
       "deepseek-r1:8b"
       "granite3.3:8b"
+      "translategemma:12b"
     ];
   };
 }

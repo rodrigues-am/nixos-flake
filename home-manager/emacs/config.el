@@ -33,8 +33,41 @@
 
 (setq dired-dwim-target t)
 
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
 (after! geiser
   (setq geiser-guile-binary "/etc/profiles/per-user/andre/bin/guile"))
+
+(use-package subed
+	:ensure t
+	:config
+	;; Remember cursor position between sessions
+	(add-hook 'subed-mode-hook 'save-place-local-mode)
+	;; Break lines automatically while typing
+	(add-hook 'subed-mode-hook 'turn-on-auto-fill)
+	;; Break lines at 40 characters
+	(add-hook 'subed-mode-hook (lambda () (setq-local fill-column 40)))
+	;; Some reasonable defaults
+	(add-hook 'subed-mode-hook 'subed-enable-pause-while-typing)
+	;; As the player moves, update the point to show the current subtitle
+	(add-hook 'subed-mode-hook 'subed-enable-sync-point-to-player)
+	;; As your point moves in Emacs, update the player to start at the current subtitle
+	(add-hook 'subed-mode-hook 'subed-enable-sync-player-to-point)
+	;; Replay subtitles as you adjust their start or stop time with M-[, M-], M-{, or M-}
+	(add-hook 'subed-mode-hook 'subed-enable-replay-adjusted-subtitle)
+	;; Loop over subtitles
+	(add-hook 'subed-mode-hook 'subed-enable-loop-over-current-subtitle)
+	;; Show characters per second
+	(add-hook 'subed-mode-hook 'subed-enable-show-cps)
+	)
 
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
@@ -301,6 +334,12 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :config
   (org-roam-db-autosync-enable))
 
+(use-package ivy-bibtex)
+(use-package org-roam-bibtex
+  :after org-roam
+  :config
+  (require 'org-ref))
+
 (setq org-agenda-span 1
       org-agenda-start-day "+0d"
       org-agenda-skip-timestamp-if-done t
@@ -372,10 +411,14 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (with-eval-after-load 'ox-hugo
   (plist-put org-hugo-citations-plist :bibliography-section-heading "Referências"))
 
-(add-to-list 'org-capture-templates
-      '(("b" "blog post" entry
-         (file+headline "~/notas/blog/blog.org" "NO New ideas")
-         (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))
+setq org-capture-templates
+      (append org-capture-templates
+              '(("t" "task inbox" entry
+                 (file+headline "~/notas/general/inbox.org" "Inbox")
+                 (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
+                ("b" "blog post" entry
+                 (file+headline "~/notas/blog/blog.org" "NO New ideas")
+                 (file "~/sync/pessoal/emacs/org-capture-templates/post.org")))))
 
 (use-package yasnippet
   :ensure t
@@ -515,6 +558,97 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ;; Bind the function to "C-j c"
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
 
+(add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
+(defun amr-ess-keybindings ()
+  (define-key ess-mode-map (kbd "M-p e") 'ess-eval-paragraph))
+(add-hook 'ess-mode-hook 'amr-ess-keybindings)
+
+;; (use-package mu4e
+;;   :ensure nil  ;; mu4e já vem com o pacote mu, não precisa instalar via straight
+;;   :config
+;;   (setq mu4e-maildir "~/.mail/gmail"
+;;         mu4e-sent-folder "/gmail/Sent"
+;;         mu4e-drafts-folder "/gmail/Drafts"
+;;         mu4e-trash-folder "/gmail/Trash"
+;;         mu4e-refile-folder "/gmail/Archive"
+
+;;         user-mail-address "rodrigues.am83@gmail.com"
+;;         user-full-name "André Machado Rodrigues"
+
+;;         mu4e-compose-signature
+;;         (concat
+;;          "--\n\n"
+;;          "Prof. Dr. André Machado Rodrigues\n\n"
+;;          "Departamento de Física Aplicada\n\n"
+;;          "Instituto de Física - Universidade de São Paulo\n\n"
+;;          "Telefone: +55 (11) 3091-7108\n\n"
+;;          "Sala: 3016 - Prédio Ala II\n\n")
+
+;;         message-send-mail-function 'message-send-mail-with-sendmail
+;;         sendmail-program "/etc/profiles/per-user/andre/bin/msmtp"
+
+;;         mail-specify-envelope-from t
+;;         mail-envelope-from 'header))
+
+(use-package mu4e
+  :ensure nil
+  :config
+  (setq mu4e-maildir "~/.mail"
+        mu4e-get-mail-command "mbsync -a && mu index"
+        mu4e-update-interval 300
+        mu4e-change-filenames-when-moving t
+        mu4e-maildir-shortcuts
+        '( ("/gmail/INBOX"    . ?g)
+           ("/uspmail/INBOX"  . ?u) )
+        mu4e-compose-signature
+        (concat
+         "--\n\n"
+         "Prof. Dr. André Machado Rodrigues\n\n"
+         "Departamento de Física Aplicada\n\n"
+         "Instituto de Física - Universidade de São Paulo\n\n"
+         "Telefone: +55 (11) 3091-7108\n\n"
+         "Sala: 3016 - Prédio Ala II\n\n")
+        message-send-mail-function 'message-send-mail-with-sendmail
+        sendmail-program "/etc/profiles/per-user/andre/bin/msmtp"
+        mail-specify-envelope-from t
+        mail-envelope-from 'header)
+
+  ;; Contextos
+  (setq mu4e-contexts
+        (list
+         (make-mu4e-context
+          :name "USP"
+          :match-func
+          (lambda (msg)
+            (when msg
+              (string-prefix-p "/uspmail" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address . "rodrigues.am@usp.br")
+                  (user-full-name . "André Machado Rodrigues")
+                  (mu4e-sent-folder . "/uspmail/Sent")
+                  (mu4e-drafts-folder . "/uspmail/Drafts")
+                  (mu4e-trash-folder . "/uspmail/Trash")
+                  (mu4e-refile-folder . "/uspmail/Archive")))
+
+         (make-mu4e-context
+          :name "Gmail"
+          :match-func
+          (lambda (msg)
+            (when msg
+              (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address . "rodrigues.am83@gmail.com")
+                  (user-full-name . "André Machado Rodrigues")
+                  (mu4e-sent-folder . "/gmail/Sent")
+                  (mu4e-drafts-folder . "/gmail/Drafts")
+                  (mu4e-trash-folder . "/gmail/Trash")
+                  (mu4e-refile-folder . "/gmail/Archive")))))
+
+  ;; Sempre usar USP por padrão
+  (setq mu4e-context-policy 'pick-first
+        mu4e-compose-context-policy 'pick-first))
+
+(use-package ement
+  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
+
 (use-package gptel
   :custom
  (gptel-model "gpt-5-nano")
@@ -541,4 +675,14 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
       gemma3:4b
 deepseek-r1:8b
 granite3.3:8b
+translategemma:12b
       ))          ;List of models
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
