@@ -411,7 +411,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (with-eval-after-load 'ox-hugo
   (plist-put org-hugo-citations-plist :bibliography-section-heading "Referências"))
 
-setq org-capture-templates
+(setq org-capture-templates
       (append org-capture-templates
               '(("t" "task inbox" entry
                  (file+headline "~/notas/general/inbox.org" "Inbox")
