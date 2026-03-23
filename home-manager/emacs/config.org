@@ -107,7 +107,7 @@ Some personal information.
 #+end_src
 * Subed
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
 (use-package subed
 	:ensure t
@@ -689,19 +689,19 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ** Capture template
 
 #+begin_src emacs-lisp
-(setq org-capture-templates
-      (append org-capture-templates
-              '(("t" "task inbox" entry
-                 (file+headline "~/notas/general/inbox.org" "Inbox")
-                 (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
-                ("b" "blog post" entry
-                 (file+headline "~/notas/blog/blog.org" "NO New ideas")
-                 (file "~/sync/pessoal/emacs/org-capture-templates/post.org")))))
+(after! org
+  (setq org-capture-templates
+        (append org-capture-templates
+                '(("t" "task inbox" entry
+                   (file+headline "~/notas/general/inbox.org" "Inbox")
+                   (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
+                  ("b" "blog post" entry
+                   (file+headline "~/notas/blog/blog.org" "NO New ideas")
+                   (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))))
 #+end_src
 
 #+RESULTS:
-| t | task inbox | entry | (file+headline ~/notas/general/inbox.org Inbox)    | (file ~/sync/pessoal/emacs/org-capture-templates/inbox.org) |
-| b | blog post  | entry | (file+headline ~/notas/blog/blog.org NO New ideas) | (file ~/sync/pessoal/emacs/org-capture-templates/post.org)  |
+| t | Personal todo | entry | (file+headline +org-capture-todo-file Inbox) | * [ ] %? |
 
 * Template
 

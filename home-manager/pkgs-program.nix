@@ -144,7 +144,7 @@ in {
     direnv
 
     #Nix
-    nixfmt-classic
+    nixfmt
     nixd
 
     #Guile Scheme

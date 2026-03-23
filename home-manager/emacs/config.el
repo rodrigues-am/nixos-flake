@@ -46,29 +46,6 @@
 (after! geiser
   (setq geiser-guile-binary "/etc/profiles/per-user/andre/bin/guile"))
 
-(use-package subed
-	:ensure t
-	:config
-	;; Remember cursor position between sessions
-	(add-hook 'subed-mode-hook 'save-place-local-mode)
-	;; Break lines automatically while typing
-	(add-hook 'subed-mode-hook 'turn-on-auto-fill)
-	;; Break lines at 40 characters
-	(add-hook 'subed-mode-hook (lambda () (setq-local fill-column 40)))
-	;; Some reasonable defaults
-	(add-hook 'subed-mode-hook 'subed-enable-pause-while-typing)
-	;; As the player moves, update the point to show the current subtitle
-	(add-hook 'subed-mode-hook 'subed-enable-sync-point-to-player)
-	;; As your point moves in Emacs, update the player to start at the current subtitle
-	(add-hook 'subed-mode-hook 'subed-enable-sync-player-to-point)
-	;; Replay subtitles as you adjust their start or stop time with M-[, M-], M-{, or M-}
-	(add-hook 'subed-mode-hook 'subed-enable-replay-adjusted-subtitle)
-	;; Loop over subtitles
-	(add-hook 'subed-mode-hook 'subed-enable-loop-over-current-subtitle)
-	;; Show characters per second
-	(add-hook 'subed-mode-hook 'subed-enable-show-cps)
-	)
-
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
 (use-package flyspell
@@ -411,14 +388,15 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (with-eval-after-load 'ox-hugo
   (plist-put org-hugo-citations-plist :bibliography-section-heading "Referências"))
 
-(setq org-capture-templates
-      (append org-capture-templates
-              '(("t" "task inbox" entry
-                 (file+headline "~/notas/general/inbox.org" "Inbox")
-                 (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
-                ("b" "blog post" entry
-                 (file+headline "~/notas/blog/blog.org" "NO New ideas")
-                 (file "~/sync/pessoal/emacs/org-capture-templates/post.org")))))
+(after! org
+  (setq org-capture-templates
+        (append org-capture-templates
+                '(("t" "task inbox" entry
+                   (file+headline "~/notas/general/inbox.org" "Inbox")
+                   (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
+                  ("b" "blog post" entry
+                   (file+headline "~/notas/blog/blog.org" "NO New ideas")
+                   (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))))
 
 (use-package yasnippet
   :ensure t
