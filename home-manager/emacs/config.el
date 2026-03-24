@@ -18,8 +18,6 @@
 
 (setq doom-theme 'doom-gruvbox)
 
-(setq delete-by-moving-to-trash t)
-
 (use-package auth-source
   :ensure t
   :custom
@@ -32,6 +30,8 @@
 (setq bookmark-save-flag 1)
 
 (setq dired-dwim-target t)
+
+(setq delete-by-moving-to-trash t)
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -95,14 +95,6 @@
       (:prefix ("M-p d" . "toggle")
        :desc "English Dictionary" "e" #'amr/set-english-dictionary
        :desc "Portuguese Dictionary" "p" #'amr/set-portuguese-dictionary))
-
-;; padrão em português
-;; (setq ispell-dictionary "pt_BR")
-
-;; ;; opcional: mapeamento explícito
-;; (setq ispell-dictionary-alist
-;;       '(("pt_BR" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "pt_BR") nil utf-8)
-;;         ("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
 
 (use-package org
   :defer t
@@ -311,12 +303,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :config
   (org-roam-db-autosync-enable))
 
-(use-package ivy-bibtex)
-(use-package org-roam-bibtex
-  :after org-roam
-  :config
-  (require 'org-ref))
-
 (setq org-agenda-span 1
       org-agenda-start-day "+0d"
       org-agenda-skip-timestamp-if-done t
@@ -391,10 +377,10 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (after! org
   (setq org-capture-templates
         (append org-capture-templates
-                '(("t" "task inbox" entry
+                '(("i" "Inbox Tasks" entry
                    (file+headline "~/notas/general/inbox.org" "Inbox")
                    (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
-                  ("b" "blog post" entry
+                  ("b" "Blog Post" entry
                    (file+headline "~/notas/blog/blog.org" "NO New ideas")
                    (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))))
 
@@ -422,15 +408,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (use-package citar-org-roam
   :after (citar org-roam)
   :config (citar-org-roam-mode))
-
-(use-package helm-bibtex
-  :custom
-  (bibtex-completion-bibliography '("~/notas/bib/bib.bib")))
-
-(use-package zotxt
-  :defer t
-  :custom
-  (setq zotxt-default-bibiliography-style "apa"))
 
 (with-eval-after-load "ox-latex"
 
@@ -623,9 +600,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   ;; Sempre usar USP por padrão
   (setq mu4e-context-policy 'pick-first
         mu4e-compose-context-policy 'pick-first))
-
-(use-package ement
-  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
 
 (use-package gptel
   :custom

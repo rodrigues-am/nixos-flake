@@ -55,7 +55,6 @@
 (package! quelpa-use-package)
 
 ;; References
-(package! zotxt)
 (package! citeproc-org)
 (package! ivy-bibtex)
 (package! org-roam-bibtex)
@@ -65,12 +64,6 @@
 (package! citar-org-roam)
 
 
-;; Icons
-;;(package! all-the-icons)
-;;(package! all-the-icons-dired)
-;;(package! all-the-icons-ivy-rich)
-;;(package! ivy-rich)
-
 ;; mini-buffer
 (package! orderless)
 
@@ -79,19 +72,13 @@
 (package! org-ql)
 
 (package! sops)
-;; Gramarlly
-;; (package! lsp-grammarly)
-;; (package! grammarly)
 
 (package! org-modern)
 
 ;; Write
-(package! writeroom-mode)
 
 (package! nov)
 (package! org-web-tools)
-;;(package! telega)
-;;(package! mastodon)
 (package! elfeed-goodies)
 (package! esxml)
 (package! psgml)
@@ -110,8 +97,6 @@
 (package! golden-ratio
   :recipe (:host github :repo "roman/golden-ratio.el" :files ("golden-ratio.el")))
 
-;;(package! nano-emacs
-;;  :recipe (:host github :repo "rougier/nano-emacs"))
 (package! org-noter
   :recipe (:host github :repo "dmitrym0/org-noter-plus" :branch "main"))
 
@@ -128,9 +113,6 @@
   :recipe (:host github :repo "lizqwerscott/gptel-mcp"))
 ;; When using org-roam via the `+roam` flag
 (unpin! org-roam)
-
-;; When using bibtex-completion via the `biblio` module
-(unpin! bibtex-completion helm-bibtex ivy-bibtex)
 
 (package! mcp)
 

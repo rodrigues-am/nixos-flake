@@ -6,8 +6,10 @@
 Some personal information.
 
 #+begin_src emacs-lisp
+
 (setq user-full-name "André Rodrigues"
       user-mail-address "rodrigues.am@usp.br")
+
 #+end_src
 
 * Global Variables
@@ -30,7 +32,6 @@ Some personal information.
 
 (setq doom-theme 'doom-gruvbox)
 
-(setq delete-by-moving-to-trash t)
 #+end_src
 
 #+RESULTS:
@@ -63,6 +64,8 @@ Some personal information.
 
 #+begin_src emacs-lisp
 (setq dired-dwim-target t)
+
+(setq delete-by-moving-to-trash t)
 #+end_src
 
 * Ordeless
@@ -79,22 +82,6 @@ Some personal information.
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
-#+end_src
-
-* Grammarly
-
-#+begin_src emacs-lisp :tangle no
-(use-package lsp-grammarly
-  :ensure t
-  ;; :hook ((text-mode org-mode) . (lambda ()
-  ;;                       (require 'lsp-grammarly)
-  ;;                       (lsp)))
-  ) ; or lsp-deferred
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-(use-package grammarly
-  :ensure t)
 #+end_src
 
 * Guile Scheme
@@ -198,64 +185,9 @@ Some personal information.
 #+RESULTS:
 : amr/set-portuguese-dictionary
 
-#+begin_src emacs-lisp
-
-;; padrão em português
-;; (setq ispell-dictionary "pt_BR")
-
-;; ;; opcional: mapeamento explícito
-;; (setq ispell-dictionary-alist
-;;       '(("pt_BR" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "pt_BR") nil utf-8)
-;;         ("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
-
-#+end_src
 #+RESULTS:
 | pt_BR | [[:alpha:]] | [^[:alpha:]] | ['] | nil | (-d pt_BR) | nil | utf-8 |
 | en_US | [[:alpha:]] | [^[:alpha:]] | ['] | nil | (-d en_US) | nil | utf-8 |
-
-* TODO Writeroom
-
-#+begin_src emacs-lisp :tangle no
-(use-package writeroom-mode
-  :defer t
-  :config
-  (setq writeroom-maximize-window nil
-        writeroom-mode-line t
-        writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
-        writeroom-extra-line-spacing 3)
-  (setq writeroom-width visual-fill-column-width))
-#+end_src
-
-* Social network
-
-** Telegram Client
-
-#+begin_src emacs-lisp :tangle no
-(use-package telega
-  :defer t)
-#+end_src
-
-** TODO Ement - Matrix Client
-
-#+begin_src emacs-lisp :tangle no
-(use-package ement
-  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
-#+end_src
-
-** Matodon
-
-#+begin_src emacs-lisp :tangle no
-(use-package mastodon
-  :defer t
-  :config
-  (setq mastodon-instance-url "https://mastodon.social"
-  mastodon-active-user "rodrigues_am"))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-(use-package mastodon-alt
-  :ensure t)
-#+end_src
 
 * Org-mode
 
@@ -368,13 +300,6 @@ Função para ajudar a escrever melhor. Retira o número das linhas; aumenta a c
 
 #+begin_src emacs-lisp
 (use-package golden-ratio
-  :ensure t)
-#+end_src
-
-** Nano
-
-#+begin_src emacs-lisp :tangle no
-(use-package nano-emacs
   :ensure t)
 #+end_src
 
@@ -558,14 +483,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (org-roam-db-autosync-enable))
 #+end_src
 
-#+begin_src emacs-lisp
-(use-package ivy-bibtex)
-(use-package org-roam-bibtex
-  :after org-roam
-  :config
-  (require 'org-ref))
-#+end_src
-
 * Agenda
 
 ** Org-agenda
@@ -692,10 +609,10 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 (after! org
   (setq org-capture-templates
         (append org-capture-templates
-                '(("t" "task inbox" entry
+                '(("i" "Inbox Tasks" entry
                    (file+headline "~/notas/general/inbox.org" "Inbox")
                    (file "~/sync/pessoal/emacs/org-capture-templates/inbox.org"))
-                  ("b" "blog post" entry
+                  ("b" "Blog Post" entry
                    (file+headline "~/notas/blog/blog.org" "NO New ideas")
                    (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))))
 #+end_src
@@ -751,42 +668,12 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 #+end_src
 
-#+begin_src emacs-lisp
-(use-package helm-bibtex
-  :custom
-  (bibtex-completion-bibliography '("~/notas/bib/bib.bib")))
-#+end_src
-
-#+RESULTS:
+#+begin_#+RESULTS:
 : ~/Zotero/styles
 
-** Zotxt
-
-#+begin_src emacs-lisp
-(use-package zotxt
-  :defer t
-  :custom
-  (setq zotxt-default-bibiliography-style "apa"))
-#+end_src
 
 #+RESULTS:
 
-* Icons
-
-#+begin_src emacs-lisp :tangle no
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-
-(use-package all-the-icons-ivy-rich
-  :ensure t
-  :init (all-the-icons-ivy-rich-mode 1))
-
-(use-package ivy-rich
-  :ensure t
-  :init (ivy-rich-mode 1))
-#+end_src
 
 * Latex
 
@@ -1133,14 +1020,6 @@ Recomendação feita por Doom Doctor
 
 #+RESULTS:
 : t
-
-* Ement
-#+begin_src emacs-lisp
-
-(use-package ement
-  :quelpa (ement :fetcher github :repo "alphapapa/ement.el"))
-
-#+end_src
 
 * IA
 ** Servers
