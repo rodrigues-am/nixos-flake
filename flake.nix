@@ -28,11 +28,17 @@
     nix-colors.url = "github:misterio77/nix-colors";
 
     nix-mcp-servers.url = "github:aloshy-ai/nix-mcp-servers";
-    nix-mcp-servers.inputs.nixpkgs.follows =
-      "nixpkgs"; # Opcional: para usar sua versão do nixpkgs
+    nix-mcp-servers.inputs.nixpkgs.follows = "nixpkgs"; # Opcional: para usar sua versão do nixpkgs
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      home-manager,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
 
@@ -52,7 +58,9 @@
 
       pkgs = import nixpkgs {
         inherit system;
-        config = { allowUnfree = true; };
+        config = {
+          allowUnfree = true;
+        };
         #overlays = [
         #      (import ./nixos/cmake-overlay.nix)  # <-- AQUI (overlay)
         #    ];
@@ -60,10 +68,13 @@
 
       pkgs-stable = import nixpkgs-stable {
         inherit system;
-        config = { allowUnfree = true; };
+        config = {
+          allowUnfree = true;
+        };
       };
 
-    in {
+    in
+    {
 
       nixosConfigurations = {
 
@@ -74,7 +85,12 @@
         home-desktop = nixpkgs.lib.nixosSystem {
           system = system;
           specialArgs = {
-            inherit inputs system userSettings pkgs-stable;
+            inherit
+              inputs
+              system
+              userSettings
+              pkgs-stable
+              ;
             nixpkgs = { inherit pkgs; };
           };
           modules = [
@@ -84,9 +100,10 @@
             ./nixos/home-desktop/nvidia.nix
             ./nixos/home-desktop/webdav.nix
             ./nixos/home-desktop/game.nix
+            ./nixos/home-desktop/hermes.nix
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
-            ./nixos/ollama.nix
+            ./nixos/home-desktop/ollama.nix
             #  ./nixos/homelab.nix
             home-manager.nixosModules.home-manager
             {
@@ -105,7 +122,12 @@
 
           specialArgs = {
 
-            inherit inputs system userSettings pkgs-stable;
+            inherit
+              inputs
+              system
+              userSettings
+              pkgs-stable
+              ;
             nixpkgs = { inherit pkgs; };
 
           };
@@ -134,7 +156,12 @@
         hp-laptop = nixpkgs.lib.nixosSystem {
 
           specialArgs = {
-            inherit inputs system userSettings pkgs-stable;
+            inherit
+              inputs
+              system
+              userSettings
+              pkgs-stable
+              ;
             nixpkgs = { inherit pkgs; };
           };
 
@@ -165,7 +192,12 @@
 
           specialArgs = {
 
-            inherit inputs system userSettings pkgs-stable;
+            inherit
+              inputs
+              system
+              userSettings
+              pkgs-stable
+              ;
             nixpkgs = { inherit pkgs; };
           };
 
@@ -191,7 +223,12 @@
 
         thinkpad = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs system userSettings pkgs-stable;
+            inherit
+              inputs
+              system
+              userSettings
+              pkgs-stable
+              ;
             nixpkgs = { inherit pkgs; };
           };
 

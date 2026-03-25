@@ -1,14 +1,23 @@
-{ pkgs-stable, config, inputs, userSettings, pkgs, ... }:
+{
+  pkgs-stable,
+  config,
+  inputs,
+  userSettings,
+  pkgs,
+  ...
+}:
 
 {
 
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ./syncthing.nix
     ./polkit.nix
     ./emacs-overlay.nix
     ./isync-overlay.nix
     ./print.nix
     ./mcp.nix
+    ./sops-env.nix
     inputs.sops-nix.nixosModules.sops
     #   inputs.xremap-flake.nixosModules.default
     #    ./xremap.nix
@@ -16,11 +25,13 @@
 
   nixpkgs.overlays = [
     (final: prev: {
-      python313Packages = prev.python313Packages.overrideScope
-        (pyFinal: pyPrev: {
-          proton-core = pyPrev.proton-core.overridePythonAttrs
-            (oldAttrs: { doCheck = false; });
-        });
+      python313Packages = prev.python313Packages.overrideScope (
+        pyFinal: pyPrev: {
+          proton-core = pyPrev.proton-core.overridePythonAttrs (oldAttrs: {
+            doCheck = false;
+          });
+        }
+      );
     })
   ];
 
@@ -32,18 +43,14 @@
   #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   programs.hyprland.enable = true;
+  # Permitir que o container execute binários não-nix (necessário para o 'uv' e 'node' que o script baixa)
+  programs.nix-ld.enable = true;
 
   nix = {
     package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-  };
-
-  sops = {
-    defaultSopsFile = ../secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
   };
 
   # Enable networking
@@ -95,17 +102,20 @@
   users.users.${userSettings.name} = {
     isNormalUser = true;
     description = "${userSettings.name}";
-    extraGroups = [ "networkmanager" "wheel" "input" "uinput" ];
-    packages = with pkgs;
-      [
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+      "uinput"
+    ];
+    packages = with pkgs; [
 
-        protonvpn-gui
-      ];
+      protonvpn-gui
+    ];
   };
 
   environment.variables = {
-    POLKIT_BIN =
-      "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+    POLKIT_BIN = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
 
     # Força o Xwayland (Wayland puro quebra Wine GUI)
     # GDK_BACKEND = "wayland,x11"; # Prioriza Wayland, mas permite fallback
@@ -116,8 +126,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [ home-manager ])
-    ++ (with pkgs-stable; [ ]);
+  environment.systemPackages = (with pkgs; [ home-manager ]) ++ (with pkgs-stable; [ ]);
 
   # Enable the OpenSSH daemon.
 
@@ -126,7 +135,10 @@
   services.openssh.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [
+      80
+      443
+    ];
     allowedUDPPortRanges = [
       {
         from = 4000;

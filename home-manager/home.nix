@@ -1,4 +1,12 @@
-{ pkgs, inputs, userSettings, nix-doom-emacs, nix-colors, ... }: {
+{
+  pkgs,
+  inputs,
+  userSettings,
+  nix-doom-emacs,
+  nix-colors,
+  ...
+}:
+{
 
   imports = [
     ./bash.nix
@@ -47,7 +55,7 @@
   home = {
     username = "${userSettings.name}";
     homeDirectory = "/home/${userSettings.name}";
-    stateVersion = "25.11"; # Please read the comment before changing.
+    stateVersion = "26.05"; # Please read the comment before changing.
     file = { };
     sessionVariables = {
       EDITOR = "${userSettings.editor}";

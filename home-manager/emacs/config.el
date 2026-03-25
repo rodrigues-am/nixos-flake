@@ -619,22 +619,38 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :stream t                             ;Stream responses
   :models '(deepseek-r1:1.5b
             llama3-groq-tool-use:8b
-      rns96/deepseek-R1-ablated:f16_Q4KM
-      qwen3.5:9b
-      qwen3.5:4b
-      qwen3.5:2b
-      qwen3.5:0.8b
-      gemma3:4b
-deepseek-r1:8b
-granite3.3:8b
-translategemma:12b
-      ))          ;List of models
+            rns96/deepseek-R1-ablated:f16_Q4KM
+            qwen3.5:9b
+            qwen3.5:4b
+            qwen3.5:2b
+            qwen3.5:0.8b
+            gemma3:4b
+            deepseek-r1:8b
+            granite3.3:8b
+            translategemma:12b
+            ))          ;List of models
 
-;; accept completion from copilot and fallback to company
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+(gptel-make-openai "OpenRouter"               ;Any name you want
+  :host "openrouter.ai"
+  :endpoint "/api/v1/chat/completions"
+  :stream t
+  :key (lambda ()
+         (let ((match (auth-source-search :host "openrouter.ai" :user "apikey")))
+           (if match
+               (let ((secret (plist-get (car match) :secret)))
+                 (if (functionp secret) (funcall secret) secret))
+             (error "API Key para OpenRouter não encontrada no auth-source!"))))
+  :models '(xiaomi/mimo-v2-pro
+            stepfun/step-3.5-flash:free
+            deepseek/deepseek-v3.2
+            minimax/minimax-m2.5
+            z-ai/glm-5-turbo
+            anthropic/claude-sonnet-4.6
+            anthropic/claude-opus-4.6
+            google/gemini-3-flash-preview
+            minimax/minimax-m2.7
+            moonshotai/kimi-k2.5
+            openai/gpt-5.4
+            openai/gpt-5.4-nano
+            qwen/qwen3.5-35b-a3b
+            ))

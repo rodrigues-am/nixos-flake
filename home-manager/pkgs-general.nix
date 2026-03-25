@@ -32,6 +32,7 @@
     gnumake
     gnupg
     gnuplot
+    gnucash
     gnutar
     graphviz # build diagrams declaratively
     gtk-engine-murrine
