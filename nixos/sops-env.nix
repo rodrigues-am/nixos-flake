@@ -16,6 +16,7 @@
       telegram_id = { };
       openai_key = { };
       firecrawl_token = { };
+      gmail_key = { };
       # ... adicione outras se precisar referenciá-las individualmente
     };
 

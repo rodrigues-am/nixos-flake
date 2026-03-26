@@ -5,7 +5,7 @@
 }:
 
 {
-  # --- CONFIGURAÇÃO DE REDE NO HOST ---
+  # # --- CONFIGURAÇÃO DE REDE NO HOST ---
   networking.firewall.trustedInterfaces = [ "ve-hermes" ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
@@ -27,11 +27,6 @@
         hostPath = "/home/${userSettings.name}/sync/pessoal/hermes-agent";
         isReadOnly = false;
       };
-      # 2. Pasta de Segredos do SOPS (Necessário para o link .env funcionar)
-      "/run/secrets/rendered" = {
-        hostPath = "/run/secrets/rendered";
-        isReadOnly = true;
-      };
     };
 
     # --- CONFIGURAÇÃO INTERNA DO GUEST ---
@@ -39,13 +34,12 @@
       { pkgs, ... }:
       {
         i18n.defaultLocale = "pt_BR.UTF-8";
-        services.xserver.xkb = {
-          layout = "us";
-          variant = "intl";
+        environment.sessionVariables = {
+          XKB_DEFAULT_LAYOUT = "br";
+          XKB_DEFAULT_VARIANT = "abnt2";
         };
         # Configure console keymap
         console.keyMap = "us-acentos";
-
         # Suporte a binários externos (essencial para o Hermes)
         programs.nix-ld.enable = true;
         documentation.enable = false;
@@ -64,6 +58,7 @@
           ffmpeg
           bash
           cacert
+          himalaya # para o gerenciamento do e-mail
         ];
 
         # ARQUIVO .XCompose (Cedilha dentro do container)
@@ -88,38 +83,16 @@
             # O segredo é chamar o executável do python e passar o script depois
             ExecStart = "/root/.local/bin/hermes gateway";
 
-            # WorkingDirectory = "/home/${userSettings.name}/sync/pessoal/hermes-agent";
-
             Restart = "always";
             RestartSec = "10s";
             User = "root";
 
-            Environment = [
-              # "PATH=/home/${userSettings.name}/sync/pessoal/hermes-agent/venv/bin:/run/current-system/sw/bin:/usr/bin:/bin"
-              # "PYTHONPATH=/home/${userSettings.name}/sync/pessoal/hermes-agent"
-              "PYTHONUNBUFFERED=1"
-            ];
-
-            # EnvironmentFile = "/home/${userSettings.name}/sync/pessoal/hermes-agent/.env";
           };
 
         };
 
         system.stateVersion = "24.11";
       };
-  };
-
-  # --- INTEGRAÇÃO COM SOPS (No Host) ---
-  sops.templates."hermes.env" = {
-    path = "/home/${userSettings.name}/sync/pessoal/hermes-agent/.env";
-    owner = userSettings.name;
-    content = ''
-      TELEGRAM_BOT_TOKEN=${config.sops.placeholder.telegram_token}
-      ALLOWED_TELEGRAM_IDS=${builtins.toString config.sops.placeholder.telegram_id}
-      OPENROUTER_API_KEY=${config.sops.placeholder.openrouter_token}
-      OPENAI_API_KEY=${config.sops.placeholder.openai_key}
-      FIRECRAWL_API_KEY=${config.sops.placeholder.firecrawl_token}
-    '';
   };
 
   # --- UTILITÁRIOS E ALIASES ---
@@ -129,8 +102,4 @@
     hermes-status = "sudo nixos-container run hermes -- systemctl status hermes-gateway";
   };
 
-  # Cedilha no Host
-  systemd.tmpfiles.rules = [
-    "L+ /home/${userSettings.name}/.XCompose - - - - /home/${userSettings.name}/sync/pessoal/hermes-agent/.XCompose"
-  ];
 }
