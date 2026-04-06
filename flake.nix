@@ -42,8 +42,6 @@
     let
       system = "x86_64-linux";
 
-      via-pkg = pkgs.callPackage ./home-manager/via-vpn/via.nix { };
-
       userSettings = rec {
         name = "andre";
         email = "rodrigues.am@usp.br";
@@ -55,15 +53,13 @@
         wallpaperDir = "/home/andre/sync/pessoal/pic/wallpapers";
         theme = "gruvbox-dark-pale";
       };
+      ollamaOverlay = import ./nixos/ollama-overlay.nix;
 
       pkgs = import nixpkgs {
         inherit system;
         config = {
           allowUnfree = true;
         };
-        #overlays = [
-        #      (import ./nixos/cmake-overlay.nix)  # <-- AQUI (overlay)
-        #    ];
       };
 
       pkgs-stable = import nixpkgs-stable {
@@ -105,6 +101,12 @@
             ./nixos/boot-desktop.nix
             ./nixos/home-desktop/ollama.nix
             #  ./nixos/homelab.nix
+            (
+              { ... }:
+              {
+                nixpkgs.overlays = [ ollamaOverlay ];
+              }
+            )
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

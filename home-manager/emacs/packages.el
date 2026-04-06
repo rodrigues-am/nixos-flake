@@ -89,7 +89,7 @@
 (package! burly)
 (package! olivetti)
 (package! gptel)
-
+(package! mu4e-alert)
 
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))

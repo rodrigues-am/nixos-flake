@@ -13,6 +13,10 @@
       #      export PATH="$XDG_CONFIG_HOME/emacs/bin:$PATH"
              export PATH="$HOME/.emacs.d/bin:$PATH"
              export GTK_IM_MODULE="cedilla"
+             export WINIT_XKB_IM_MODULE=cedilla
+             export QT_IM_MODULE=cedilla
+             export CLUTTER_IM_MODULE=cedilla
+             export SDL_IM_MODULE=cedilla
     '';
 
     shellAliases = {

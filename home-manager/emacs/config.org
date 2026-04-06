@@ -934,88 +934,163 @@ Recomendação feita por Doom Doctor
 ** Mu4e
 #+begin_src emacs-lisp
 
-;; (use-package mu4e
-;;   :ensure nil  ;; mu4e já vem com o pacote mu, não precisa instalar via straight
-;;   :config
-;;   (setq mu4e-maildir "~/.mail/gmail"
-;;         mu4e-sent-folder "/gmail/Sent"
-;;         mu4e-drafts-folder "/gmail/Drafts"
-;;         mu4e-trash-folder "/gmail/Trash"
-;;         mu4e-refile-folder "/gmail/Archive"
+;; ══════════════════════════════════════════════════════════════════════
+;; Configuração mu4e — Doom Emacs
+;; Contas: Gmail (pessoal) + USPmail (institucional)
+;; Envia via msmtp, sincroniza via mbsync, indexa via mu
+;; ══════════════════════════════════════════════════════════════════════
 
-;;         user-mail-address "rodrigues.am83@gmail.com"
-;;         user-full-name "André Machado Rodrigues"
-
-;;         mu4e-compose-signature
-;;         (concat
-;;          "--\n\n"
-;;          "Prof. Dr. André Machado Rodrigues\n\n"
-;;          "Departamento de Física Aplicada\n\n"
-;;          "Instituto de Física - Universidade de São Paulo\n\n"
-;;          "Telefone: +55 (11) 3091-7108\n\n"
-;;          "Sala: 3016 - Prédio Ala II\n\n")
-
-;;         message-send-mail-function 'message-send-mail-with-sendmail
-;;         sendmail-program "/etc/profiles/per-user/andre/bin/msmtp"
-
-;;         mail-specify-envelope-from t
-;;         mail-envelope-from 'header))
-
-(use-package mu4e
-  :ensure nil
+(use-package! mu4e
+  :ensure nil  ;; mu4e vem com o pacote mu, não instalar via straight/package.el
   :config
+
+  ;; ── Configurações gerais ────────────────────────────────────────────
   (setq mu4e-maildir "~/.mail"
-        mu4e-get-mail-command "mbsync -a && mu index"
-        mu4e-update-interval 300
-        mu4e-change-filenames-when-moving t
-        mu4e-maildir-shortcuts
-        '( ("/gmail/INBOX"    . ?g)
-           ("/uspmail/INBOX"  . ?u) )
-        mu4e-compose-signature
-        (concat
-         "--\n\n"
-         "Prof. Dr. André Machado Rodrigues\n\n"
-         "Departamento de Física Aplicada\n\n"
-         "Instituto de Física - Universidade de São Paulo\n\n"
-         "Telefone: +55 (11) 3091-7108\n\n"
-         "Sala: 3016 - Prédio Ala II\n\n")
-        message-send-mail-function 'message-send-mail-with-sendmail
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-update-interval 300             ;; sync a cada 5 min (além do systemd timer)
+        mu4e-change-filenames-when-moving t  ;; necessário para mbsync + Maildir
+        mu4e-index-cleanup t                 ;; remove msgs antigos do índice
+        mu4e-index-lazy-check nil            ;; indexação completa
+        mu4e-view-show-images t
+        mu4e-view-image-max-width 800
+        mu4e-headers-auto-update t)
+
+  ;; Usar msmtp para envio
+  (setq message-send-mail-function 'message-send-mail-with-sendmail
         sendmail-program "/etc/profiles/per-user/andre/bin/msmtp"
         mail-specify-envelope-from t
         mail-envelope-from 'header)
 
-  ;; Contextos
+  ;; ── Atalhos de pastas ───────────────────────────────────────────────
+  ;; Os caminhos refletem a estrutura real do Maildir sincronizado via mbsync.
+  ;; Gmail via mbsync cria: INBOX, [Gmail]/Sent Mail, [Gmail]/Drafts,
+  ;;                          [Gmail]/Trash, [Gmail]/All Mail
+  (setq mu4e-maildir-shortcuts
+        '((:maildir "/gmail/INBOX"             :key ?g)
+          (:maildir "/uspmail/INBOX"            :key ?u)
+          (:maildir "/gmail/[Gmail]/Sent Mail"  :key ?G)
+          (:maildir "/uspmail/[Gmail]/Sent Mail" :key ?U)
+          (:maildir "/gmail/[Gmail]/Drafts"     :key ?d)
+          (:maildir "/gmail/[Gmail]/All Mail"   :key ?a)))
+
+  ;; ── Assinatura ──────────────────────────────────────────────────────
+  (setq mu4e-compose-signature
+        (concat
+         "--\n"
+         "Prof. Dr. André Machado Rodrigues\n"
+         "Departamento de Física Aplicada\n"
+         "Instituto de Física — Universidade de São Paulo\n"
+         "Telefone: +55 (11) 3091-7108\n"
+         "Sala: 3016 — Prédio Ala II\n"))
+
+  ;; ── Contextos (contas) ──────────────────────────────────────────────
+  ;; O contexto é selecionado automaticamente pelo prefixo do maildir
   (setq mu4e-contexts
         (list
+         ;; Contexto USP (padrão)
          (make-mu4e-context
           :name "USP"
+          :enter-func (lambda () (mu4e-message "Entrando no contexto USP"))
+          :leave-func (lambda () (mu4e-message "Saindo do contexto USP"))
           :match-func
           (lambda (msg)
             (when msg
               (string-prefix-p "/uspmail" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "rodrigues.am@usp.br")
-                  (user-full-name . "André Machado Rodrigues")
-                  (mu4e-sent-folder . "/uspmail/Sent")
-                  (mu4e-drafts-folder . "/uspmail/Drafts")
-                  (mu4e-trash-folder . "/uspmail/Trash")
-                  (mu4e-refile-folder . "/uspmail/Archive")))
+          :vars '((user-mail-address    . "rodrigues.am@usp.br")
+                  (user-full-name       . "André Machado Rodrigues")
+                  (mu4e-sent-folder     . "/uspmail/[Gmail]/Sent Mail")
+                  (mu4e-drafts-folder   . "/uspmail/[Gmail]/Drafts")
+                  (mu4e-trash-folder    . "/uspmail/[Gmail]/Trash")
+                  (mu4e-refile-folder   . "/uspmail/[Gmail]/All Mail")))
 
+         ;; Contexto Gmail (pessoal)
          (make-mu4e-context
           :name "Gmail"
+          :enter-func (lambda () (mu4e-message "Entrando no contexto Gmail"))
+          :leave-func (lambda () (mu4e-message "Saindo do contexto Gmail"))
           :match-func
           (lambda (msg)
             (when msg
               (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "rodrigues.am83@gmail.com")
-                  (user-full-name . "André Machado Rodrigues")
-                  (mu4e-sent-folder . "/gmail/Sent")
-                  (mu4e-drafts-folder . "/gmail/Drafts")
-                  (mu4e-trash-folder . "/gmail/Trash")
-                  (mu4e-refile-folder . "/gmail/Archive")))))
+          :vars '((user-mail-address    . "rodrigues.am83@gmail.com")
+                  (user-full-name       . "André Machado Rodrigues")
+                  (mu4e-sent-folder     . "/gmail/[Gmail]/Sent Mail")
+                  (mu4e-drafts-folder   . "/gmail/[Gmail]/Drafts")
+                  (mu4e-trash-folder    . "/gmail/[Gmail]/Trash")
+                  (mu4e-refile-folder   . "/gmail/[Gmail]/All Mail")))))
 
-  ;; Sempre usar USP por padrão
+  ;; Política de contexto: usa o primeiro (USP) por padrão
   (setq mu4e-context-policy 'pick-first
-        mu4e-compose-context-policy 'pick-first))
+        mu4e-compose-context-policy 'ask-if-none)
+
+  ;; ── Bookmarks (atalhos na view principal) ────────────────────────────
+  (setq mu4e-bookmarks
+        '((:name "Unread (all)"
+           :query "flag:unread AND NOT flag:trashed"
+           :key ?U)
+          (:name "Unread (Gmail)"
+           :query "flag:unread AND NOT flag:trashed AND maildir:/gmail/"
+           :key ?g)
+          (:name "Unread (USP)"
+           :query "flag:unread AND NOT flag:trashed AND maildir:/uspmail/"
+           :key ?u)
+          (:name "Today"
+           :query "date:today..now"
+           :key ?t)
+          (:name "Last 7 days"
+           :query "date:7d..now"
+           :key ?w)
+          (:name "Sent (all)"
+           :query "maildir:/[Gmail]/Sent Mail"
+           :key ?s)
+          (:name "Attachments"
+           :query "mime:application/pdf OR mime:application/zip"
+           :key ?A)
+          (:name "Flagged"
+           :query "flag:flagged"
+           :key ?f)))
+
+  ;; ── Headers view: colunas e aparência ────────────────────────────────
+  (setq mu4e-headers-fields
+        '((:human-date    . 12)
+          (:flags         .  6)
+          (:mailing-list  . 10)
+          (:from          . 25)
+          (:subject       . 60)))
+
+  (setq mu4e-headers-date-format "%d/%m/%Y"
+        mu4e-headers-time-format "%H:%M")
+
+  ;; ── View: ao abrir mensagem ─────────────────────────────────────────
+  (setq mu4e-view-fields
+        '(:from :to :cc :subject :flags :date :maildir
+          :mailing-list :tags :attachments :signature))
+
+  ;; Não confirmar ao sair do compose
+  (setq mu4e-compose-dont-reply-to-self t)
+
+  ;; ── Headers: ações rápidas ───────────────────────────────────────────
+  ;; Marcar como lido ao arquivar
+  (add-to-list 'mu4e-header-info-custom
+               '(:empty . (:name "empty"
+                           :shortname ""
+                           :function (lambda (msg) ""))))
+  ;; Navegação: abrir links no browser padrão
+  (setq browse-url-browser-function 'browse-url-default-browser)
+
+  ;; ── Flyspell no compose ─────────────────────────────────────────────
+  (add-hook 'mu4e-compose-mode-hook
+            (lambda ()
+              (flyspell-mode 1)
+              (set-fill-column 72))))
+
+(use-package! mu4e-alert
+  :after mu4e
+  :config
+   (setq mu4e-alert-interesting-mail-query
+        "flag:unread AND NOT flag:trashed")
+  (mu4e-alert-enable-mode-line-display)
+  (mu4e-alert-enable-notifications))
 #+end_src
 
 #+RESULTS:
@@ -1059,88 +1134,60 @@ Recomendação feita por Doom Doctor
 ** Gptel
 
 #+begin_src emacs-lisp
-(use-package gptel
+(use-package! gptel
+  :commands (gptel gptel-menu gptel-send)
+  :bind (("M-p g" . gptel-menu))
   :custom
- (gptel-model "gpt-5-nano")
+  (gptel-model "xiaomi/mimo-v2-pro")
   (gptel-default-mode 'org-mode)
-  (gptel--rewrite-message  "Apenas reescreva mantendo o texto na língua original, mantendo o sentido original e simplificando o texto quando necessário. Evite fazer adição de adjetivos desnecessários." )
-  (gptel-directives '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
-                      (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
-                      (programming . "Você é um programador experiênte que gosta muito de elisp.")
-                      (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
-:config
-  (global-set-key (kbd "M-p g") #'gptel-menu)
-  :ensure t)
+  (gptel-directives
+   '((default . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+     (writing . "Responda de maneira consisa na mesma língua em que foi perguntado.")
+     (programming . "Você é um programador experiênte que gosta muito de elisp.")
+     (chat . "Responda de maneira consisa na mesma língua em que foi perguntado.")))
+  :config
+  (gptel-make-ollama
+      "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '(qwen3.5:9b
+              qwen3.5:4b
+              gemma4:e4b
+              granite3.3:8b
+              translategemma:12b
+              deepseek-ocr:3b))
 
-
+  (gptel-make-openai
+      "OpenRouter"
+    :host "openrouter.ai"
+    :endpoint "/api/v1/chat/completions"
+    :stream t
+    :key (lambda ()
+           (let ((match (auth-source-search :host "openrouter.ai" :user "emacs_key")))
+             (if match
+                 (let ((secret (plist-get (car match) :secret)))
+                   (if (functionp secret) (funcall secret) secret))
+               (error "API Key para OpenRouter não encontrada no auth-source!"))))
+    :models '(google/gemma-4-26b-a4b-it
+              google/gemma-4-31b-it
+              qwen/qwen3.6-plus:free
+              xiaomi/mimo-v2-pro
+              stepfun/step-3.5-flash:free
+              deepseek/deepseek-v3.2
+              minimax/minimax-m2.5
+              z-ai/glm-5-turbo
+              anthropic/claude-sonnet-4.6
+              anthropic/claude-opus-4.6
+              google/gemini-3-flash-preview
+              minimax/minimax-m2.7
+              moonshotai/kimi-k2.5
+              openai/gpt-5.4
+              openai/gpt-5.4-nano
+              qwen/qwen3.5-35b-a3b)))
 #+end_src
 
 #+RESULTS:
-: t
-#+begin_src emacs-lisp
-
-(gptel-make-ollama "Ollama"             ;Any name of your choosing
-  :host "localhost:11434"               ;Where it's running
-  :stream t                             ;Stream responses
-  :models '(deepseek-r1:1.5b
-            llama3-groq-tool-use:8b
-            rns96/deepseek-R1-ablated:f16_Q4KM
-            qwen3.5:9b
-            qwen3.5:4b
-            qwen3.5:2b
-            qwen3.5:0.8b
-            gemma3:4b
-            deepseek-r1:8b
-            granite3.3:8b
-            translategemma:12b
-            ))          ;List of models
-
-
-#+end_src
-#+RESULTS:
-: amr-gptel-translate-replace
-
-#+begin_src emacs-lisp :tangle no
-
-(after! gptel
-  (let ((gptel-tools-dir (expand-file-name "~/sync/pessoal/emacs/gptel/")))
-    (when (file-directory-p gptel-tools-dir)
-      (add-to-list 'load-path gptel-tools-dir)
-      (mapc #'load (directory-files gptel-tools-dir t "\\.el$")))))
-
-
-
-#+end_src
-
-#+begin_src emacs-lisp
-
-
-(gptel-make-openai "OpenRouter"               ;Any name you want
-  :host "openrouter.ai"
-  :endpoint "/api/v1/chat/completions"
-  :stream t
-  :key (lambda ()
-         (let ((match (auth-source-search :host "openrouter.ai" :user "apikey")))
-           (if match
-               (let ((secret (plist-get (car match) :secret)))
-                 (if (functionp secret) (funcall secret) secret))
-             (error "API Key para OpenRouter não encontrada no auth-source!"))))
-  :models '(xiaomi/mimo-v2-pro
-            stepfun/step-3.5-flash:free
-            deepseek/deepseek-v3.2
-            minimax/minimax-m2.5
-            z-ai/glm-5-turbo
-            anthropic/claude-sonnet-4.6
-            anthropic/claude-opus-4.6
-            google/gemini-3-flash-preview
-            minimax/minimax-m2.7
-            moonshotai/kimi-k2.5
-            openai/gpt-5.4
-            openai/gpt-5.4-nano
-            qwen/qwen3.5-35b-a3b
-            ))
-
-#+end_src
+: gptel-menu
 
 ** Copilot
 

@@ -1,5 +1,4 @@
 {
-  pkgs,
   inputs,
   userSettings,
   nix-doom-emacs,
@@ -20,8 +19,7 @@
     ./espanso.nix
     ./alacritty.nix
     #./thunderbird.nix
-    # ./mbsync.nix
-    #    ./email.nix
+    ./email.nix
     ./aspell.nix
     # pkgs
     ./pkgs-program.nix

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
 
@@ -10,14 +15,26 @@ let
   clientSecretFile = config.sops.secrets.uspmail-client-secret.path;
   refreshTokenFile = config.sops.secrets.uspmail-refresh-token.path;
 
-  oauth2-token-script = import ./bin/oauth2-token.nix {
-    inherit pkgs clientIdFile clientSecretFile refreshTokenFile;
+  oauth2-token-set = import ./bin/oauth2-token.nix {
+    inherit
+      pkgs
+      clientIdFile
+      clientSecretFile
+      refreshTokenFile
+      ;
   };
-  oauth2-token = "${oauth2-token-script.oauth2-token}/bin/oauth2-token";
+  oauth2-token-bin = "${oauth2-token-set.oauth2-token}/bin/oauth2-token";
 
-in {
-  home.packages = with pkgs; [ msmtp mu oauth2ms isync ];
+in
+{
+  home.packages = with pkgs; [
+    msmtp
+    mu
+    isync
+    oauth2-token-set.oauth2-token
+  ];
 
+  # ── Secrets (sops-nix) ──────────────────────────────────────────────
   sops.secrets.uspmail-client-id = {
     sopsFile = ../secrets/secrets.yaml;
     key = "usp_client_id";
@@ -38,6 +55,7 @@ in {
     key = "gmail_key";
   };
 
+  # ── msmtp (envio) ───────────────────────────────────────────────────
   programs.msmtp = {
     enable = true;
     configContent = ''
@@ -60,111 +78,128 @@ in {
       port 587
       from ${uspmailEmail}
       user ${uspmailEmail}
-      passwordeval "${oauth2-token}"
+      passwordeval "${oauth2-token-bin}"
 
       account default : uspmail
     '';
   };
 
+  # ── mbsync (.mbsyncrc) ──────────────────────────────────────────────
   home.file.".mbsyncrc".text = ''
-            ##################
-               ## Conta pessoal
-               ##################
-
-               IMAPAccount gmail
-               Host imap.gmail.com
-               Port 993
-               User rodrigues.am83@gmail.com
-               PassCmd "cat ${config.sops.secrets.gmail-password.path}"
+    #####################
+    ## Conta Gmail (pessoal)
+    #####################
+    IMAPAccount gmail
+    Host imap.gmail.com
+    Port 993
+    User ${gmailEmail}
+    PassCmd "cat ${config.sops.secrets.gmail-password.path}"
     AuthMechs PLAIN LOGIN
-               TLSType IMAPS
-        CertificateFile /etc/ssl/certs/ca-certificates.crt
+    TLSType IMAPS
+    CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-               IMAPStore gmail-remote
-               Account gmail
+    IMAPStore gmail-remote
+    Account gmail
 
-               MaildirStore gmail-local
-               Path  ${mailDir}/gmail/
-               Inbox  ${mailDir}/gmail/Inbox
+    MaildirStore gmail-local
+    Path ${mailDir}/gmail/
+    Inbox ${mailDir}/gmail/INBOX
+    SubFolders Legacy
 
-                Channel gmail-inbox
-                Far :gmail-remote:
-                Near :gmail-local:
-               Patterns "INBOX" "[Gmail]/All Mail" "[Gmail]/Sent Mail" "[Gmail]/Drafts"
-                Create Both
-                Expunge Both
-                SyncState *
+    Channel gmail
+    Far :gmail-remote:
+    Near :gmail-local:
+    Patterns "INBOX" "[Gmail]/Sent Mail" "[Gmail]/Drafts" "[Gmail]/Trash" "[Gmail]/All Mail"
+    Create Both
+    Expunge Both
+    SyncState *
 
-               ##################
-               ## Conta USPmail
-               ##################
-               IMAPAccount uspmail
-               Host imap.gmail.com
-               Port 993
-               User ${uspmailEmail}
-               AuthMechs XOAUTH2
-               PassCmd "${oauth2-token}"
-               TLSType IMAPS
-               CertificateFile /etc/ssl/certs/ca-certificates.crt
+    #####################
+    ## Conta USPmail
+    #####################
+    IMAPAccount uspmail
+    Host imap.gmail.com
+    Port 993
+    User ${uspmailEmail}
+    AuthMechs XOAUTH2
+    PassCmd "${oauth2-token-bin}"
+    TLSType IMAPS
+    CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-               IMAPStore uspmail-remote
-               Account uspmail
+    IMAPStore uspmail-remote
+    Account uspmail
 
-               MaildirStore uspmail-local
-               Path ${mailDir}/uspmail/
-               Inbox ${mailDir}/uspmail/Inbox
+    MaildirStore uspmail-local
+    Path ${mailDir}/uspmail/
+    Inbox ${mailDir}/uspmail/INBOX
+    SubFolders Legacy
 
-               Channel uspmail-inbox
-               Far :uspmail-remote:
-               Near :uspmail-local:
-               Patterns "INBOX" "[Gmail]/All Mail" "[Gmail]/Sent Mail" "[Gmail]/Drafts"
-               Create Both
-               Expunge Both
-               SyncState *
+    Channel uspmail
+    Far :uspmail-remote:
+    Near :uspmail-local:
+    Patterns "INBOX" "[Gmail]/Sent Mail" "[Gmail]/Drafts" "[Gmail]/Trash" "[Gmail]/All Mail"
+    Create Both
+    Expunge Both
+    SyncState *
   '';
 
+  # ── Systemd timers (sync a cada 3 min) ──────────────────────────────
   systemd.user.services.mbsync-gmail = {
-    Unit = { Description = "mbsync Gmail Service"; };
+    Unit = {
+      Description = "mbsync Gmail Service";
+    };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.isync}/bin/mbsync gmail-inbox";
+      ExecStart = "${pkgs.isync}/bin/mbsync gmail";
     };
   };
 
   systemd.user.timers.mbsync-gmail-timer = {
-    Unit = { Description = "Run mbsync Gmail every 3 minutes"; };
+    Unit = {
+      Description = "Run mbsync Gmail every 3 minutes";
+    };
     Timer = {
       OnBootSec = "1min";
       OnUnitActiveSec = "3min";
       Persistent = true;
     };
-    Install = { WantedBy = [ "timers.target" ]; };
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
   };
 
   systemd.user.services.mbsync-uspmail = {
-    Unit = { Description = "mbsync USPmail Service"; };
+    Unit = {
+      Description = "mbsync USPmail Service";
+    };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.isync}/bin/mbsync uspmail-inbox";
+      ExecStart = "${pkgs.isync}/bin/mbsync uspmail";
     };
   };
 
   systemd.user.timers.mbsync-uspmail-timer = {
-    Unit = { Description = "Run mbsync USPmail every 3 minutes"; };
+    Unit = {
+      Description = "Run mbsync USPmail every 3 minutes";
+    };
     Timer = {
       OnBootSec = "1min";
       OnUnitActiveSec = "3min";
       Persistent = true;
     };
-    Install = { WantedBy = [ "timers.target" ]; };
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
   };
 
-  # Criação de diretórios Maildir
+  # ── Criação estrutura Maildir completa ───────────────────────────────
+  # SubFolders Legacy cria subpastas como .[Gmail].Sent Mail automaticamente
+  # mas garantimos o INBOX inicial para o mbsync não falhar na primeira run
   home.activation.createMaildir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p ${mailDir}/gmail/Inbox
-    chmod 700 ${mailDir}/gmail/Inbox
+    mkdir -p ${mailDir}/gmail/INBOX/{cur,new,tmp}
+    chmod 700 ${mailDir}/gmail/INBOX
 
-    mkdir -p ${mailDir}/uspmail/Inbox
-    chmod 700 ${mailDir}/uspmail/Inbox
+    mkdir -p ${mailDir}/uspmail/INBOX/{cur,new,tmp}
+    chmod 700 ${mailDir}/uspmail/INBOX
   '';
 }

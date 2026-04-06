@@ -5,7 +5,7 @@
   home.packages =
     (with pkgs; [
       swaynotificationcenter
-      swww
+      awww
       grim
       slurp
       swayidle

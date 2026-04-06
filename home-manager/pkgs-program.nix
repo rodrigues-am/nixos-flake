@@ -1,4 +1,9 @@
-{ pkgs, pkgs-stable, lib, ... }:
+{
+  pkgs,
+  pkgs-stable,
+  lib,
+  ...
+}:
 with pkgs-stable;
 let
   pacotesR = with rPackages; [
@@ -104,76 +109,83 @@ let
 
   };
 
-in {
+in
+{
 
-  home.packages = (with pkgs; [
-    # database
-    sqlite
-    # surrealdb
-    #postgresql
+  home.packages =
+    (with pkgs; [
+      # database
+      sqlite
+      # surrealdb
+      #postgresql
 
-    # general
-    postman
-    #surrealdb
+      # general
+      postman
+      #surrealdb
 
-    # sh
-    shellcheck
-    shfmt
+      # sh
+      shellcheck
+      shfmt
 
-    # common-lisp
-    #sbcl
-    #rlwrap
+      # common-lisp
+      #sbcl
+      #rlwrap
 
-    # python
+      # python
 
-    # rust
-    #rustc
+      # rust
+      #rustc
 
-    # rustup
-    #rustfmt
-    #rust-analyzer
-    #cargo
+      # rustup
+      #rustfmt
+      #rust-analyzer
+      #cargo
 
-    #Web
-    html-tidy
-    stylelint
-    nodePackages.js-beautify
+      #Web
+      html-tidy
+      stylelint
+      js-beautify
 
-    jq # lightweight and flexible command-line JSON processor
+      jq # lightweight and flexible command-line JSON processor
 
-    direnv
+      direnv
 
-    #Nix
-    nixfmt
-    nixd
+      #Nix
+      nixfmt
+      nixd
 
-    #Guile Scheme
-    guile
-    guile-fibers
-    guile-lib
+      #Guile Scheme
+      guile
+      guile-fibers
+      guile-lib
 
-    #(pkgs.guile.withPackages (p: [ p.fibers p.guile-lib ]))
+      #(pkgs.guile.withPackages (p: [ p.fibers p.guile-lib ]))
 
-    #Yaml
-    yaml-language-server
-    yamlfmt
+      #Yaml
+      yaml-language-server
+      yamlfmt
 
-  ]) ++ (with pkgs-stable; [
-    # programing
-    python3Full
-    uv
-    RStudio-with-my-packages
-    # R
-    R-with-my-packages
-    #rstudioWrapper
-    igraph
-    #nodejs
-    nodejs_22
-    yarn
-    nodePackages.np
-    #    nodePackages.grammarly-languageserver
-    #Cliente DB para o IFUSP
-    #dbeaver-bin
-  ]);
+      # IA
+      #honcho
+      #python313Packages.chromadb
+
+    ])
+    ++ (with pkgs-stable; [
+      # programing
+      python3Full
+      uv
+      RStudio-with-my-packages
+      # R
+      R-with-my-packages
+      #rstudioWrapper
+      igraph
+      #nodejs
+      nodejs_22
+      yarn
+      np
+      #    nodePackages.grammarly-languageserver
+      #Cliente DB para o IFUSP
+      #dbeaver-bin
+    ]);
 
 }

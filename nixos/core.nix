@@ -110,7 +110,7 @@
     ];
     packages = with pkgs; [
 
-      protonvpn-gui
+      proton-vpn
     ];
   };
 
@@ -119,6 +119,11 @@
 
     # Força o Xwayland (Wayland puro quebra Wine GUI)
     # GDK_BACKEND = "wayland,x11"; # Prioriza Wayland, mas permite fallback
+    #WINIT_XKB_IM_MODULE = "cedilla";
+    #GTK_IM_MODULE = "cedilla";
+    #QT_IM_MODULE = "cedilla";
+    #CLUTTER_IM_MODULE = "cedilla";
+    #SDL_IM_MODULE = "cedilla";
   };
 
   # Allow unfree packages
@@ -126,7 +131,11 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [ home-manager ]) ++ (with pkgs-stable; [ ]);
+  environment.systemPackages =
+    (with pkgs; [
+      home-manager
+    ])
+    ++ (with pkgs-stable; [ ]);
 
   # Enable the OpenSSH daemon.
 
@@ -180,5 +189,5 @@
   # pode ser necessário dizer ao firewall para confiar na interface do Tailscale.
   networking.firewall.checkReversePath = "loose";
 
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "26.05"; # Did you read the comment?
 }
