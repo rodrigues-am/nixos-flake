@@ -32,12 +32,17 @@
   containers.hermes = {
     autoStart = true;
     privateNetwork = false;
-
     bindMounts = {
       # 1. Pasta do Agente (Caminho idêntico ao Host para manter o venv funcional)
       "/home/${userSettings.name}/sync/pessoal/hermes-agent" = {
         hostPath = "/home/${userSettings.name}/sync/pessoal/hermes-agent";
         isReadOnly = false;
+      };
+
+      # 1. Pasta do Agente (Caminho idêntico ao Host para manter o venv funcional)
+      "/home/${userSettings.name}/.config/doom-local" = {
+        hostPath = "/home/${userSettings.name}/.config/doom-local";
+        isReadOnly = true;
       };
 
       # 1. Pasta do Agente (Caminho idêntico ao Host para manter o venv funcional)
@@ -80,6 +85,8 @@
       { pkgs, ... }:
       {
 
+        nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [ "timescaledb" ];
+
         # Set your time zone.
         time.timeZone = "America/Sao_Paulo";
 
@@ -100,17 +107,10 @@
           LC_ALL = "${userSettings.locale}";
         };
 
-        environment.sessionVariables = {
-          GTK_IM_MODULE = "cedilla";
-          QT_IM_MODULE = "cedilla";
+        services.postgresql = {
+          enable = true;
+          extensions = ps: with ps; [ timescaledb ];
         };
-
-        services.xserver.xkb = {
-          layout = "us";
-          variant = "intl";
-        };
-        # Configure console keymap
-        console.keyMap = "us-acentos";
 
         # Suporte a binários externos (essencial para o Hermes)
         programs.nix-ld.enable = true;
@@ -217,7 +217,7 @@
       OPENROUTER_API_KEY=${config.sops.placeholder.openrouter_token_hermes}
       OPENAI_API_KEY=${config.sops.placeholder.openai_key}
       FIRECRAWL_API_KEY=${config.sops.placeholder.firecrawl_token}
-      GMAIL_PASSWORD=${config.sops.placeholder.gmail_key}
+      GMAIL_PASSWORD=${config.sops.placeholder.gmail_key};
 
     '';
   };

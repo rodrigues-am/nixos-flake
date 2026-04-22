@@ -9,6 +9,7 @@
 
     initExtra = ''
              eval "$(starship init bash)"
+             eval "$(zoxide init bash)"
              eval "$(pandoc --bash-completion)"
       #      export PATH="$XDG_CONFIG_HOME/emacs/bin:$PATH"
              export PATH="$HOME/.emacs.d/bin:$PATH"

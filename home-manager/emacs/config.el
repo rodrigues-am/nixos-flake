@@ -692,12 +692,23 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
       "Ollama"
     :host "localhost:11434"
     :stream t
+    :key (lambda ()
+           (let ((match (auth-source-search :host "ollama.com" :user "ollama_key")))
+             (if match
+                 (let ((secret (plist-get (car match) :secret)))
+                   (if (functionp secret) (funcall secret) secret))
+               (error "API Key para Ollama não encontrada no auth-source!"))))
     :models '(qwen3.5:9b
               qwen3.5:4b
               gemma4:e4b
+              gemma4:31b
               granite3.3:8b
               translategemma:12b
-              deepseek-ocr:3b))
+              deepseek-ocr:3b
+              glm-5.1:cloud
+              minimax-m2.7:cloud
+              gemma4:31b-cloud
+              qwen3.5:cloud ))
 
   (gptel-make-openai
       "OpenRouter"
@@ -712,7 +723,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                (error "API Key para OpenRouter não encontrada no auth-source!"))))
     :models '(google/gemma-4-26b-a4b-it
               google/gemma-4-31b-it
-              qwen/qwen3.6-plus:free
+              qwen/qwen3.6-plus
               xiaomi/mimo-v2-pro
               stepfun/step-3.5-flash:free
               deepseek/deepseek-v3.2
@@ -725,4 +736,20 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
               moonshotai/kimi-k2.5
               openai/gpt-5.4
               openai/gpt-5.4-nano
-              qwen/qwen3.5-35b-a3b)))
+              qwen/qwen3.5-35b-a3b))
+
+        (gptel-make-openai "Hermes"
+    :host "192.168.15.4:8642"
+    :key "hermes-api-key-33b371c0310bf7d3"
+    :stream t
+    :models '("qwen/qwen3.6-plus")
+    :endpoint "/v1/chat/completions"))
+
+(use-package telega
+  :defer t
+  :config
+  (setq telega-skip-confirm-destroy-root t)
+  ;; O bot token ja esta no container.
+  ;; Para usar telega com a conta pessoal, configure o TDLib.
+  ;; Para usar o bot, use: telega-bot
+  )

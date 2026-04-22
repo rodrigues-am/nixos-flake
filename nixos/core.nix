@@ -139,8 +139,6 @@
 
   # Enable the OpenSSH daemon.
 
-  # services.postgresql.enable = true;
-
   services.openssh.enable = true;
   networking.firewall = {
     enable = true;

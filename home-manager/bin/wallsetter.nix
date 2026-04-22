@@ -16,9 +16,9 @@ let
       exit 1
     fi
 
-    # garante que o daemon do swww está rodando
-    if ! pgrep -x swww-daemon >/dev/null 2>&1; then
-      ${pkgs.swww}/bin/swww-daemon &
+    # garante que o daemon do awww está rodando
+    if ! pgrep -x awww-daemon >/dev/null 2>&1; then
+      ${pkgs.awww}/bin/awww-daemon &
       # dá um pequeno tempo pro daemon inicializar
       sleep 0.5
     fi
@@ -27,6 +27,9 @@ let
     idx=$(${pkgs.coreutils}/bin/shuf -i 0-$(( ''${#files[@]}-1 )) -n 1)
     img="''${files[$idx]}"
 
-    exec ${pkgs.swww}/bin/swww img "$img"
+    exec ${pkgs.awww}/bin/swww img "$img"
   '';
-in { home.packages = [ wallsetter ]; }
+in
+{
+  home.packages = [ wallsetter ];
+}

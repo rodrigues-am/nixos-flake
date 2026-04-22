@@ -11,7 +11,7 @@
     age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
 
     secrets = {
-
+      ollama_key = { };
       gmail_key = { };
       usp_client_id = { };
       usp_client_secret = { };
@@ -36,7 +36,9 @@
         machine openrouter.ai login emacs_key password ${config.sops.placeholder.openrouter_token_emacs}
         machine api.telegram.org login bot password ${config.sops.placeholder.telegram_token}
         machine api.openai.com login apikey password ${config.sops.placeholder.openai_key}
+        machine ollama.com login ollama_key password ${config.sops.placeholder.ollama_key}
       '';
+
     };
   };
 }
