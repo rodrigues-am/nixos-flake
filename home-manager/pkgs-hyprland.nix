@@ -4,13 +4,13 @@
 
   home.packages =
     (with pkgs; [
-      swaynotificationcenter
+      #swaynotificationcenter
       awww
       grim
       slurp
-      swayidle
+      #swayidle
       wl-clipboard
-      libnotify
+      #libnotify
       ydotool
       xhost
       wev

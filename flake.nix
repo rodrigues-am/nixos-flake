@@ -53,7 +53,7 @@
         wallpaperDir = "/home/andre/sync/pessoal/pic/wallpapers";
         theme = "gruvbox-dark-pale";
       };
-      ollamaOverlay = import ./nixos/ollama-overlay.nix;
+      # ollamaOverlay = import ./nixos/ollama-overlay.nix;
 
       pkgs = import nixpkgs {
         inherit system;
@@ -100,19 +100,19 @@
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
             ./nixos/home-desktop/ollama.nix
-            #  ./nixos/homelab.nix
-            (
-              { ... }:
-              {
-                nixpkgs.overlays = [ ollamaOverlay ];
-              }
-            )
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              imports = [ ./home-manager/hm-module.nix ];
-            }
+            # ./nixos/homelab.nix
+            # (
+            #   { ... }:
+            #   {
+            #     nixpkgs.overlays = [ ollamaOverlay ];
+            #   }
+            # )
+             home-manager.nixosModules.home-manager
+             {
+               home-manager.useGlobalPkgs = true;
+               home-manager.useUserPackages = true;
+               imports = [ ./home-manager/hm-module.nix ];
+             }
           ];
         };
 

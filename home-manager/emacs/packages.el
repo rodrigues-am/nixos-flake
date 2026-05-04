@@ -122,4 +122,19 @@
 ;; (package! copilot
 ;;   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 
+;; PERSONAL
+
+(package! citar-org-roam-noter
+  :recipe (:host github
+           :repo "rodrigues-am/citar-org-roam-noter"
+           :files ("citar-org-roam-noter.el")))
+
+(package! esr
+  :recipe (:host codeberg
+           :repo "teoten/esr"
+           :files ("*.el" "*.R")))
+
+
+
+
 ;; ends here

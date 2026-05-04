@@ -18,6 +18,7 @@
       "minimax-m2.7:cloud"
       "gemma4:31b-cloud"
       "qwen3.5:cloud"
+      "embeddinggemma:300m"
     ];
     environmentVariables = {
       OLLAMA_API_KEY = "${config.sops.placeholder.ollama_key}";
@@ -25,6 +26,6 @@
     };
   };
 
-  services.open-webui.enable = true;
+  #services.open-webui.enable = true;
 
 }

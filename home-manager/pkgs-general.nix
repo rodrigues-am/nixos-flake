@@ -1,13 +1,9 @@
 {
-  config,
-  lib,
   pkgs,
   pkgs-stable,
-  inputs,
   ...
 }:
 {
-
   home.packages =
     (with pkgs; [
       dpkg
@@ -17,17 +13,10 @@
           pt_BR
         ]
       ))
-      #oauth2ms
-      #calibre
       age # encryptionc
-      #aspell
-      #aspellDicts.en
-      #aspellDicts.pt_BR
       auctex # text
       bat
       binutils
-      bottles # wine prefix manager
-      # blender
       cmake
       curl
       dig
@@ -35,7 +24,6 @@
       eza
       fd
       firefox # web browser
-      # fontforge-gtk
       fzf
       gcc
       gh
@@ -67,7 +55,6 @@
       maim # command-line screenshot utility to emacs
       mautrix-whatsapp
       mpv # media player
-      #mu
       neovim
       ocrmypdf
       pandoc
@@ -88,18 +75,17 @@
       syncthing
       texlive.combined.scheme-full # latex
       tree
+      tree-sitter
       unzip
       wget
       xclip
       xournalpp # pdf edit
-      #    wine
       wine-wayland
       winetricks
       wlr-randr
       zathura # pdf viwer
       zellij
       zip
-      #zoom-us
       zotero
       zoxide
       kitty
@@ -108,7 +94,6 @@
       # Proton VPN com override para versão mais recente
     ])
     ++ (with pkgs-stable; [
-
       audacity
       brave
       calibre

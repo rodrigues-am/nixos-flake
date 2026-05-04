@@ -474,6 +474,16 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
 
+(use-package! citar-org-roam-noter
+  :after (citar citar-org-roam org)
+  :custom
+  ;; Ask before adding NOTER_DOCUMENT when exactly one PDF is found.
+  (citar-org-roam-noter-ask-before-adding t)
+  ;; Preserve existing NOTER_DOCUMENT properties by default.
+  (citar-org-roam-noter-overwrite-existing nil)
+  :config
+  (citar-org-roam-noter-mode 1))
+
 (defgroup amr-custom-group nil
   "Custom group for my settings."
   :group 'convenience)
@@ -512,6 +522,23 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 ;; Bind the function to "C-j c"
 (global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
+
+(use-package! esr
+  ;; Associa arquivos .R e .r diretamente ao r-ts-mode (já que você está fazendo o remap)
+  :mode ("\\.[rR]\\'" . r-ts-mode)
+  :config
+  ;; A macro 'after!' do Doom é a alternativa moderna ao 'with-eval-after-load'
+  (after! treesit
+    (when (treesit-language-available-p 'r)
+      (setq esr-inherit-ess t)
+      ;; Usamos 'add-to-list' em vez de 'push'. Isso é uma boa prática no Emacs
+      ;; para evitar que a mesma regra seja duplicada na lista caso você recarregue
+      ;; suas configurações (M-x doom/reload).
+      (add-to-list 'major-mode-remap-alist '(ess-r-mode . r-ts-mode))))
+
+  ;; (Opcional) Adiciona o Eglot diretamente ao hook do r-ts-mode,
+  ;; já que ele será o modo principal agora.
+  (add-hook 'r-ts-mode-hook #'eglot-ensure))
 
 (add-hook 'ess-mode-hook (lambda () (abbrev-mode 1)))
 (defun amr-ess-keybindings ()

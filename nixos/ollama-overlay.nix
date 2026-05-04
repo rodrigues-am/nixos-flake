@@ -1,6 +1,6 @@
 final: prev:
 let
-  version = "0.21.0";
+  version = "0.22.1";
   src = prev.fetchFromGitHub {
     owner = "ollama";
     repo = "ollama";

@@ -12,10 +12,11 @@ in
 with lib;
 {
   imports = [
-    ./waybar.nix
+    # ./waybar.nix
     ./rofi.nix
+    ./quickshell.nix
     #./swaylock.nix
-    ./swaync.nix
+    #./swaync.nix
     ./pkgs-hyprland.nix
     ./bin/powermenu.nix
   ];
@@ -39,7 +40,7 @@ with lib;
       concatStrings [
         ''
                       #monitor=,preferred,auto,1
-          	    monitor=HDMI-A-1,2569x1080@60,0x0,1
+          	          monitor=HDMI-A-1,2569x1080@60,0x0,1
                       general {
                         gaps_in = 3
                         gaps_out = 3
@@ -127,10 +128,29 @@ with lib;
                       exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
                       exec-once = awww-daemon
                       exec-once = awww img ${userSettings.wallpaperDir}/battery-gruvbox.png --transition-type wipe
-                      exec-once = waybar
-                      exec-once = swaync
-                      exec-once = swayidle -w timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
-                exec-once = bash -c 'source "${config.home.homeDirectory}/.nix-profile/etc/profile.d/hm-session-vars.sh" && emacs --daemon'
+                      # exec-once = waybar
+                      # exec-once = swaync
+                      # exec-once = swayidle -w timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+                      # exec-once = bash -c 'source "${config.home.homeDirectory}/.nix-profile/etc/profile.d/hm-session-vars.sh" && emacs --daemon'
+
+                      ### QUICKSHELL Controles
+                      exec-once = quickshell
+
+                      ### APP LAUCHER
+                      bind = ${modifier}SHIFT,P,exec, qs ipc call launcher toggle
+                      ### BAR
+                      bind = ${modifier}SHIFT,L,exec, qs ipc call bar toggle
+                      ### NOTIFICATION
+                      bind = = ${modifier}, N, exec, qs ipc call notifications dismiss_all
+                      bind = = ${modifier}SHIFT, N, exec, qs ipc call notifications dnd_toggle
+                      ### MEDIA
+                      bind = = ${modifier}, M, exec, qs ipc call media toggle
+                      bind = , XF86AudioPlay, exec, qs ipc call media play_pause
+                      ### WallPaper
+                      bind = = ${modifier}, W, exec, qs ipc call wallpaper toggle
+
+
+
                       # === LAYOUT ===
                       dwindle {
                         pseudotile = true
@@ -139,13 +159,12 @@ with lib;
                       }
 
                       bind = ${modifier},Return,exec,${userSettings.term}
-                      bind = ${modifier}SHIFT,P,exec,rofi -show drun
-                      bind = ${modifier}SHIFT,S,exec,swaync-client -rs
+                      # bind = ${modifier}SHIFT,P,exec,rofi -show drun
+                      # bind = ${modifier}SHIFT,S,exec,swaync-client -rs
                       bind = ${modifier},S,exec,grim -g "$(slurp)"
 
                       ### exec programs ###
                       bind = ${modifier}SHIFT,B,exec,${userSettings.browser}
-                    #  bind = ${modifier}SHIFT,E,exec,/bin/sh -c 'source ~/.nix-profile/etc/profile.d/hm-session-vars.sh && emacsclient -c -a ""'
                       bind = ${modifier}SHIFT,E,exec,${userSettings.editor}
                       bind = ${modifier}SHIFT,Z,exec,zotero
                       bind = ${modifier}SHIFT,F,exec,nautilus
@@ -161,6 +180,7 @@ with lib;
                       bind = ${modifier},F,fullscreen,
                       bind = ${modifier},W,togglefloating,
                       bind = ${modifier}SHIFT,C,exit,
+                      bind = ${modifier}SHIFT,R,exec, hyprctl reload
 
 
                       # sets repeatable binds for resizing the active window

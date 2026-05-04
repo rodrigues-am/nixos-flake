@@ -224,6 +224,7 @@
   # --- UTILITÁRIOS E ALIASES ---
   programs.bash.shellAliases = {
     hermes = "sudo nixos-container run hermes -- hermes";
+    hermes-tui = "sudo nixos-container run hermes -- hermes --tui";
     hermes-logs = "sudo nixos-container run hermes -- journalctl -u hermes-gateway -f";
     hermes-status = "sudo nixos-container run hermes -- systemctl status hermes-gateway";
     hermes-root-login = "sudo nixos-container root-login hermes";

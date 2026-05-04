@@ -133,13 +133,17 @@ in
 
       # python
 
-      # rust
-      #rustc
+      # Core
+      cargo
+      rustc
+      rust-analyzer
+      rustfmt
+      clippy
 
-      # rustup
-      #rustfmt
-      #rust-analyzer
-      #cargo
+      # Utilities
+      bacon
+      cargo-expand
+      gdb # Ou lldb para debugging
 
       #Web
       html-tidy
@@ -165,10 +169,6 @@ in
       yaml-language-server
       yamlfmt
 
-      # IA
-      #honcho
-      #python313Packages.chromadb
-
     ])
     ++ (with pkgs-stable; [
       # programing
@@ -183,9 +183,6 @@ in
       nodejs_22
       yarn
       np
-      #    nodePackages.grammarly-languageserver
-      #Cliente DB para o IFUSP
-      #dbeaver-bin
     ]);
 
 }
