@@ -25,7 +25,6 @@
     ./pkgs-program.nix
     ./pkgs-fonts.nix
     ./pkgs-general.nix
-    # ./via-aruba.nix
 
     # scripts
     ./bin/doomcapture.nix

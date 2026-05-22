@@ -10,7 +10,7 @@
       "qwen3.5:9b"
       "qwen3.5:4b"
       "gemma4:e4b"
-      "granite3.3:8b"
+      "granite4.1:8b"
       "translategemma:12b"
       "gema4:31b"
       "deepseek-ocr:3b"

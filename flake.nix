@@ -100,6 +100,7 @@
             ./nixos/desktop-keymap.nix
             ./nixos/boot-desktop.nix
             ./nixos/home-desktop/ollama.nix
+            ./nixos/home-desktop/labdemo.nix
             # ./nixos/homelab.nix
             # (
             #   { ... }:
@@ -107,12 +108,12 @@
             #     nixpkgs.overlays = [ ollamaOverlay ];
             #   }
             # )
-             home-manager.nixosModules.home-manager
-             {
-               home-manager.useGlobalPkgs = true;
-               home-manager.useUserPackages = true;
-               imports = [ ./home-manager/hm-module.nix ];
-             }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              imports = [ ./home-manager/hm-module.nix ];
+            }
           ];
         };
 

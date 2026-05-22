@@ -3,23 +3,11 @@
 
 ;; (add-to-list 'load-path "~/.script/elisp")
 ;; (require 'amr.el)
-
-(use-package use-package-quelpa
-  :defer t)
-
 (define-key evil-normal-state-map (kbd "C-u") 'universal-argument)
-
 (define-key evil-motion-state-map (kbd "C-u") 'universal-argument)
-
-;; (setq doom-font (font-spec :family "Iosevka" :size 14)
-;;       doom-big-font (font-spec :family "Iosevka" :size 20)
-;;       ;; Opcional: fonte variável para textos
-;;       doom-variable-pitch-font (font-spec :family "Iosevka" :size 16))
-
 (setq doom-theme 'doom-gruvbox)
 
-(use-package auth-source
-  :ensure t
+(use-package! auth-source
   :custom
   (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
 
@@ -30,11 +18,10 @@
 (setq bookmark-save-flag 1)
 
 (setq dired-dwim-target t)
-
 (setq delete-by-moving-to-trash t)
 
 ;; Optionally use the `orderless' completion style.
-(use-package orderless
+(use-package! orderless
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
@@ -48,8 +35,7 @@
 
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
-(use-package flyspell
-  :defer t
+(use-package! flyspell
   :config
   (add-to-list 'ispell-skip-region-alist '("~" "~"))
   (add-to-list 'ispell-skip-region-alist '("=" "="))
@@ -96,10 +82,8 @@
        :desc "English Dictionary" "e" #'amr/set-english-dictionary
        :desc "Portuguese Dictionary" "p" #'amr/set-portuguese-dictionary))
 
-(use-package org
-  :defer t
+(use-package! org
   :mode (("\\.org$" . org-mode))
-  :ensure org-plus-contrib
   :config
   (setq org-directory "~/notas/general/")
   (setq org-agenda-files '("~/notas/general/"))
@@ -110,21 +94,20 @@
   :custom
   (org-headline-card-directory "~/notas/general/card"))
 
-(use-package pdf-tools
+(use-package! pdf-tools
 :config
 (pdf-tools-install)
   (setq pdf-view-use-scaling t))
 
-(use-package org-noter
-  :defer t
+(use-package! org-noter
   :after pdf-tools
   :custom
   (org-noter-enable-org-roam-integration)
   (org-noter-highlight-selected-text t)
   (org-noter-max-short-selected-text-length 5))
 
-(use-package org-modern
-  :ensure t
+(use-package! org-modern
+  :after org
   :hook
   (org-mode . org-modern-mode)
   :custom
@@ -146,21 +129,17 @@
         ("DONE"  . "#CCCCCC")
         ("KILL"  . "#FF0000")))
 
-(use-package burly)
-
 (setq abbrev-file-name
         "~/sync/pessoal/emacs/abbrev/.abbrev_defs.el")
 
-(org-babel-do-load-languages
+(after! org (org-babel-do-load-languages
   'org-babel-load-languages
-  '((plantuml . t)))
+  '((plantuml . t))))
 
-(use-package golden-ratio
-  :ensure t)
+(use-package! golden-ratio)
 
-(use-package olivetti
-  :ensure
-  :defer
+(use-package! olivetti
+  :after org
   :diminish
   :config
   (setq olivetti-body-width 0.65)
@@ -190,7 +169,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
     :bind ("M-p o" . amr/olivetti-mode))
 
 
-  (use-package face-remap
+  (use-package! face-remap
     :diminish buffer-face-mode            ; the actual mode
     :commands amr/variable-pitch-mode
     :config
@@ -204,7 +183,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
         (variable-pitch-mode -1))))
 
 
-  (use-package emacs
+  (use-package! emacs
     :config
     (setq-default scroll-preserve-screen-position t)
     (setq-default scroll-conservatively 1) ; affects `scroll-step'
@@ -230,8 +209,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
     :bind ("M-p q" . amr/scroll-centre-cursor-mode))
 
 
-  (use-package display-line-numbers
-    :defer
+  (use-package! display-line-numbers
     :config
     ;; Set absolute line numbers.  A value of "relative" is also useful.
     (setq display-line-numbers-type t)
@@ -248,19 +226,17 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
         (hl-line-mode -1)))
     :bind ("M-p l" . amr/display-line-numbers-mode))
 
-(use-package nov
-  :defer t
+(use-package! nov
   :hook
   (nov-mode . scroll-lock-mode))
 
-(use-package org-roam
- :ensure t
+(use-package! org-roam
+  :after org
  :init
  (setq org-roam-v2-ack t)
  (setq org-roam-mode-sections
        (list #'org-roam-backlinks-section
-             #'org-roam-reflinks-section
-              #'org-roam-unlinked-references-section ))
+             ))
  (add-to-list 'display-buffer-alist
               '("\\*org-roam\\*"
                 (display-buffer-in-direction)
@@ -270,32 +246,36 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
  :custom
  (org-roam-directory "~/notas/roam-notes")
  (org-roam-complete-everywhere t)
- (org-roam-capture-templates
-  '(("d" "default" plain "%?"
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-     :unnarrowed t))
-    ("m" "main" plain
-     (file "~/notas/roam-notes/templates/main.org")
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-     :unnarrowed t)
-    ("n" "novo pensamento" plain
-     (file "~/notas/roam-notes/templates/pensa.org")
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-     :unnarrowed t)
-    ("r" "bibliography reference" plain
-         (file "~/notas/roam-notes/templates/bib.org")
-         :target
-         (file+head "references/${citekey}.org" "#+title: ${title}\n")
-         :unnarrowed t)
-    ("p" "project" plain
-     (file "~/notas/roam-notes/templates/project.org")
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-     :unnarrowed t))
- :bind (("C-c n l" . org-roam-buffer-toggle)
+(org-roam-capture-templates
+ '(("d" "default" plain "%?"
+    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+    :unnarrowed t)
+
+   ("m" "main" plain
+    (file "~/notas/roam-notes/templates/main.org")
+    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+    :unnarrowed t)
+
+   ("n" "novo pensamento" plain
+    (file "~/notas/roam-notes/templates/pensa.org")
+    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+    :unnarrowed t)
+
+   ("r" "bibliography reference" plain
+    (file "~/notas/roam-notes/templates/bib.org")
+    :target (file+head "references/${citekey}.org"
+                       "#+title: ${title}\n")
+    :unnarrowed t)
+
+   ("p" "project" plain
+    (file "~/notas/roam-notes/templates/project.org")
+    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: ${title}\n")
+    :unnarrowed t)))
+:bind (("C-c n l" . org-roam-buffer-toggle)
         ("C-c n f" . org-roam-node-find)
         ("C-c n i" . org-roam-node-insert)
         :map org-mode-map
@@ -331,39 +311,14 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ;; Adds hook to org agenda mode, making follow mode active in org agenda
 (add-hook 'org-agenda-mode-hook 'org-agenda-open-hook)
 
-;; org-super-agenda
-
-(use-package org-super-agenda
-  :after org
-  :config
-  (setq org-super-agenda-header-map nil) ;; takes over 'j'
-  ;; (setq org-super-agenda-header-prefix " ◦ ") ;; There are some unicode "THIN SPACE"s after the ◦
-  ;; Hide the thin width char glyph. This is dramatic but lets me not be annoyed
-  (add-hook 'org-agenda-mode-hook
-            #'(lambda () (setq-local nobreak-char-display nil)))
-  (org-super-agenda-mode)
-  (setq org-super-agenda-groups
-       '(;; Each group has an implicit boolean OR operator between its selectors.
-         (:name " Overdue "  ; Optionally specify section name
-                :scheduled past
-                :order 2
-                :face 'error)
-          (:name " Today "  ; Optionally specify section name
-                :time-grid t
-                :date today
-                :scheduled today
-                :order 1
-                :face 'warning)))
-
-(org-super-agenda-mode t))
-
-(use-package elfeed-org
-  :defer
+(use-package! elfeed-org
+   :after elfeed
   :config
   (setq rmh-elfeed-org-files (list "~/sync/pessoal/emacs/elfeed/elfeed.org"))
   (setq-default elfeed-search-filter "@4-week-ago +unread -news -blog -search"))
 
-(use-package elfeed-goodies
+(use-package! elfeed-goodies
+   :after elfeed
   :custom
   (elfeed-goodies/feed-source-column-width 36)
   (elfeed-goodies/tag-column-width 25))
@@ -384,28 +339,28 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                    (file+headline "~/notas/blog/blog.org" "NO New ideas")
                    (file "~/sync/pessoal/emacs/org-capture-templates/post.org"))))))
 
-(use-package yasnippet
-  :ensure t
+(use-package! yasnippet
   :config
   (setq yas-snippet-dirs '("~/sync/pessoal/emacs/snippets"))
   (yas-global-mode 1))
 
-(require 'org-tempo)
+(after! org
+  (require 'org-tempo))
 
 (require 'oc-csl)
 (setq org-cite-global-bibliography '("~/notas/bib/bib.bib"))
 (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
-(use-package citar
+(use-package! citar
   :custom
   (citar-bibliography '("~/notas/bib/bib.bib")))
 
-(use-package citar-embark
+(use-package! citar-embark
   :after citar embark
   :no-require
   :config (citar-embark-mode))
 
-(use-package citar-org-roam
+(use-package! citar-org-roam
   :after (citar org-roam)
   :config (citar-org-roam-mode))
 
@@ -468,8 +423,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (add-to-list 'projectile-globally-ignored-directories "~/.local")
   (add-to-list 'projectile-globally-ignored-directories "~/.config"))
 
-(use-package company
-  :defer t
+(use-package! company
   :custom
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
@@ -552,7 +506,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 ;; ══════════════════════════════════════════════════════════════════════
 
 (use-package! mu4e
-  :ensure nil  ;; mu4e vem com o pacote mu, não instalar via straight/package.el
+:after org
   :config
 
   ;; ── Configurações gerais ────────────────────────────────────────────
@@ -703,6 +657,33 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (mu4e-alert-enable-mode-line-display)
   (mu4e-alert-enable-notifications))
 
+(use-package! mcp
+  :after gptel
+  :custom
+  (mcp-hub-servers
+   `(("filesystem" . (:command ,(executable-find "npx")
+                      :args ("-y" "@modelcontextprotocol/server-filesystem")
+                      :roots ("/home/andre/tmp/")))
+     ;;("fetch" . (:command ,(executable-find "uv")
+      ;;           :args ("run" "mcp-server-fetch")))
+
+      ("searxng" . (:command ,(executable-find "npx")
+                   :args ("-y" "mcp-searxng" "--network host")
+                   :env (:SEARXNG_URL "http://localhost:8888")))
+     ("nixos" . (:command "nix"  ; Ou use "nix" para executar diretamente via Nix
+                 :args ( "run" "github:utensils/mcp-nixos" "--")
+
+
+                 ;; :cwd "/diretorio/de/trabalho"  ; Opcional, se necessário
+                 ))))
+  :config
+  (require 'mcp-hub)
+
+  ;; Verifica se os comandos estão disponíveis
+
+  (add-hook 'after-init-hook #'check-mcp-dependencies)
+  (add-hook 'after-init-hook #'mcp-hub-start-all-server))
+
 (use-package! gptel
   :commands (gptel gptel-menu gptel-send)
   :bind (("M-p g" . gptel-menu))
@@ -771,12 +752,3 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
     :stream t
     :models '("qwen/qwen3.6-plus")
     :endpoint "/v1/chat/completions"))
-
-(use-package telega
-  :defer t
-  :config
-  (setq telega-skip-confirm-destroy-root t)
-  ;; O bot token ja esta no container.
-  ;; Para usar telega com a conta pessoal, configure o TDLib.
-  ;; Para usar o bot, use: telega-bot
-  )

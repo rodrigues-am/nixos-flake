@@ -55,9 +55,7 @@
 (package! quelpa-use-package)
 
 ;; References
-(package! citeproc-org)
-(package! ivy-bibtex)
-(package! org-roam-bibtex)
+;; (package! org-roam-bibtex)
 
 (package! citar)
 (package! citar-embark)
@@ -68,8 +66,8 @@
 (package! orderless)
 
 ;; Agenda
-(package! org-super-agenda)
-(package! org-ql)
+;; (package! org-super-agenda)
+;; (package! org-ql)
 
 (package! sops)
 
@@ -78,6 +76,7 @@
 ;; Write
 
 (package! nov)
+(package! djvu)
 (package! org-web-tools)
 (package! elfeed-goodies)
 (package! esxml)
@@ -86,7 +85,7 @@
 (package! xslt-process)
 (package! websocket)
 (package! htmlize)
-(package! burly)
+;; (package! burly)
 (package! olivetti)
 (package! gptel)
 (package! mu4e-alert)
@@ -112,8 +111,11 @@
 
 (package! gptel-mcp
   :recipe (:host github :repo "lizqwerscott/gptel-mcp"))
+
 ;; When using org-roam via the `+roam` flag
 (unpin! org-roam)
+
+(unpin! transient magit magit-section git-commit compat)
 
 (package! mcp)
 
@@ -135,6 +137,14 @@
            :files ("*.el" "*.R")))
 
 
+(package! git-commit
+  :recipe (:host github
+           :repo "magit/magit"
+           :files ("lisp/git-commit.el")))
 
+(package! magit-section
+  :recipe (:host github
+           :repo "magit/magit"
+           :files ("lisp/magit-section.el")))
 
 ;; ends here
