@@ -8,9 +8,7 @@
 }:
 
 {
-
   imports = [
-    # Include the results of the hardware scan.
     ./syncthing.nix
     ./polkit.nix
     ./emacs-overlay.nix
@@ -18,9 +16,10 @@
     ./print.nix
     ./mcp.nix
     ./sops-env.nix
+    ./fonts.nix
     inputs.sops-nix.nixosModules.sops
-    #   inputs.xremap-flake.nixosModules.default
-    #    ./xremap.nix
+    # inputs.xremap-flake.nixosModules.default
+    # ./xremap.nix
   ];
 
   nixpkgs.overlays = [
@@ -39,27 +38,41 @@
     "olm-3.2.16"
     "openssl-1.1.1w"
     "xpdf-4.05"
-  ]; # para instalação de matrix e pontes
-  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
+  ];
+
+  nixpkgs.config.allowUnfree = true;
+
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-  programs.hyprland.enable = true;
-  # Permitir que o container execute binários não-nix (necessário para o 'uv' e 'node' que o script baixa)
+
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  security.polkit.enable = true;
+
   programs.nix-ld.enable = true;
 
   nix = {
     package = pkgs.nixVersions.stable;
+
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+
+    settings.auto-optimise-store = true;
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
-  # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "${userSettings.locale}";
 
   i18n.extraLocaleSettings = {
@@ -75,19 +88,18 @@
     LC_TIME = "${userSettings.locale}";
     LC_ALL = "${userSettings.locale}";
   };
-  # Enable the X11 windowing system.
+
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
+
   security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -95,57 +107,57 @@
     pulse.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${userSettings.name} = {
     isNormalUser = true;
     description = "${userSettings.name}";
+
     extraGroups = [
       "networkmanager"
       "wheel"
       "input"
       "uinput"
     ];
-    packages = with pkgs; [
 
+    packages = with pkgs; [
       proton-vpn
     ];
   };
 
   environment.variables = {
     POLKIT_BIN = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-
-    # Força o Xwayland (Wayland puro quebra Wine GUI)
-    # GDK_BACKEND = "wayland,x11"; # Prioriza Wayland, mas permite fallback
-    #WINIT_XKB_IM_MODULE = "cedilla";
-    #GTK_IM_MODULE = "cedilla";
-    #QT_IM_MODULE = "cedilla";
-    #CLUTTER_IM_MODULE = "cedilla";
-    #SDL_IM_MODULE = "cedilla";
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages =
     (with pkgs; [
       home-manager
     ])
-    ++ (with pkgs-stable; [ ]);
-
-  # Enable the OpenSSH daemon.
+    ++ (with pkgs-stable; [
+    ]);
 
   services.openssh.enable = true;
+
+  # Tailscale
+  services.tailscale.enable = true;
+
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [
-      80
-      443
+
+    # Permite que tráfego vindo da Tailnet acesse serviços locais,
+    # incluindo o Nginx do host em http://100.80.86.16.
+    trustedInterfaces = [
+      config.services.tailscale.interfaceName
     ];
+
+    # Porta UDP usada pelo Tailscale.
+    allowedUDPPorts = [
+      config.services.tailscale.port
+    ];
+
+    # Não abrimos 80/443 globalmente aqui.
+    # O acesso ao WordPress deve vir pela interface Tailscale,
+    # que já está em trustedInterfaces.
+    allowedTCPPorts = [ ];
+
     allowedUDPPortRanges = [
       {
         from = 4000;
@@ -156,36 +168,39 @@
         to = 8010;
       }
     ];
+
+    checkReversePath = "loose";
   };
 
-  xdg = {
-    portal = {
-      extraPortals = with pkgs; [
-        xdg-desktop-portal
-        xdg-desktop-portal-hyprland
-      ];
+  xdg.portal = {
+    enable = true;
+
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
+    ];
+
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+
+      gnome = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+      };
+
+      hyprland = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+      };
     };
   };
 
-  # Optimization settings and garbage collection automation
-  nix = {
-    settings.auto-optimise-store = true;
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
-  # TAILSCALE
-  # 1. Ativa o serviço do Tailscale
-  services.tailscale.enable = true;
-
-  # 2. Abre as portas necessárias para o Tailscale (opcional, mas recomendado para performance)
-  networking.firewall.allowedUDPPorts = [ config.services.tailscale.port ];
-
-  # 3. Importante: Se você quiser que o Syncthing "veja" outros dispositivos via Tailscale,
-  # pode ser necessário dizer ao firewall para confiar na interface do Tailscale.
-  networking.firewall.checkReversePath = "loose";
-
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "26.05";
 }

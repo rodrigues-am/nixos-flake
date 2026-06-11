@@ -474,6 +474,13 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                        "#+title: ${title}\n")
     :unnarrowed t)
 
+    ("l" "labdemo" plain
+    (file "~/notas/roam-notes/templates/labdemo.org")
+    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org")
+   :unnarrowed t
+   :prepend t
+   :empty-lines 1)
+
    ("n" "novo pensamento" plain
     (file "~/notas/roam-notes/templates/pensa.org")
     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"

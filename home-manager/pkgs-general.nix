@@ -95,7 +95,7 @@
     ])
     ++ (with pkgs-stable; [
       audacity
-      brave
+      #brave
       calibre
       darktable
       ffmpeg_6-full
@@ -108,6 +108,8 @@
       tesseract4
       vulkan-tools
       jre8
+      libinput
+      evtest
     ]);
 
 }

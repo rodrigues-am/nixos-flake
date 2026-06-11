@@ -1,10 +1,18 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
 
   programs.alacritty = {
     enable = true;
     package = pkgs.alacritty;
     settings = {
-      scrolling = { history = 10000; };
+      scrolling = {
+        history = 10000;
+      };
 
       window = {
         dynamic_padding = true;
@@ -18,19 +26,19 @@
       font = {
         size = 12;
         normal = {
-          family = "Fira Code";
+          family = "DejaVu Sans Mono";
           style = "Regular";
         };
         bold = {
-          family = "Fira Code";
+          family = "DejaVu Sans Mono";
           style = "Bold";
         };
         italic = {
-          family = "Fira Code";
+          family = "DejaVu Sans Mono";
           style = "Italic";
         };
         bold_italic = {
-          family = "Fira Code";
+          family = "DejaVu Sans Mono";
           style = "Bold Italic";
         };
       };

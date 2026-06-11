@@ -1,17 +1,12 @@
-{ pkgs-stable, ... }:
+{ pkgs, ... }:
 
 {
   fonts.fontconfig.enable = true;
-  home.packages = with pkgs-stable; [
-    dejavu_fonts
-    emacs-all-the-icons-fonts
-    font-awesome
-    comic-relief
-    google-fonts
-    (google-fonts.override { fonts = [ "Roboto" ]; })
-    (nerdfonts.override {
-      fonts = [ "JetBrainsMono" "FiraCode" "Iosevka" "Noto" ];
-    })
-  ];
 
+  home.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.iosevka
+    nerd-fonts.noto
+  ];
 }

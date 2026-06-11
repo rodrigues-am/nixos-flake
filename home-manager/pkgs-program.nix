@@ -93,7 +93,6 @@ let
     ggplot2
     ggthemes
     ggrepel
-    hrbrthemes
     viridis
     plotly
     plotrix
@@ -172,7 +171,7 @@ in
     ])
     ++ (with pkgs-stable; [
       # programing
-      python3Full
+      python3
       uv
       RStudio-with-my-packages
       # R

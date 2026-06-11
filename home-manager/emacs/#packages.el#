@@ -55,14 +55,12 @@
 (package! quelpa-use-package)
 
 ;; References
-(package! zotxt)
-(package! citeproc-org)
+;; (package! org-roam-bibtex)
 
-;; Icons
-;;(package! all-the-icons)
-;;(package! all-the-icons-dired)
-;;(package! all-the-icons-ivy-rich)
-;;(package! ivy-rich)
+(package! citar)
+(package! citar-embark)
+(package! citar-org-roam)
+
 
 ;; mini-buffer
 (package! orderless)
@@ -71,18 +69,14 @@
 (package! org-super-agenda)
 (package! org-ql)
 
-;; Gramarlly
-(package! lsp-grammarly)
-(package! grammarly)
+(package! sops)
+
 (package! org-modern)
 
 ;; Write
-(package! writeroom-mode)
 
 (package! nov)
 (package! org-web-tools)
-(package! telega)
-(package! mastodon)
 (package! elfeed-goodies)
 (package! esxml)
 (package! psgml)
@@ -93,15 +87,52 @@
 (package! burly)
 (package! olivetti)
 (package! gptel)
+(package! mu4e-alert)
+(package! telega)
+
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
 
 (package! golden-ratio
   :recipe (:host github :repo "roman/golden-ratio.el" :files ("golden-ratio.el")))
 
-;;(package! nano-emacs
-;;  :recipe (:host github :repo "rougier/nano-emacs"))
 (package! org-noter
   :recipe (:host github :repo "dmitrym0/org-noter-plus" :branch "main"))
+
+(package! visual-fill-column
+  :recipe (:host github :repo "joostkremers/visual-fill-column"))
+
+(package! org-headline-card
+  :recipe (:host github :repo "yibie/org-headline-card"))
+
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+
+(package! gptel-mcp
+  :recipe (:host github :repo "lizqwerscott/gptel-mcp"))
+ ;; When using org-roam via the `+roam` flag
+ (unpin! org-roam)
+
+(package! mcp)
+
+(package! centered-window :disable t)
+
+;; (package! copilot
+;;   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+
+;; PERSONAL
+
+(package! citar-org-roam-noter
+  :recipe (:host github
+           :repo "rodrigues-am/citar-org-roam-noter"
+           :files ("citar-org-roam-noter.el")))
+
+(package! esr
+  :recipe (:host codeberg
+           :repo "teoten/esr"
+           :files ("*.el" "*.R")))
+
+
+
 
 ;; ends here

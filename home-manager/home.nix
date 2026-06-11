@@ -52,7 +52,7 @@
   home = {
     username = "${userSettings.name}";
     homeDirectory = "/home/${userSettings.name}";
-    stateVersion = "26.05"; # Please read the comment before changing.
+    stateVersion = "26.11"; # Please read the comment before changing.
     file = { };
     sessionVariables = {
       EDITOR = "${userSettings.editor}";

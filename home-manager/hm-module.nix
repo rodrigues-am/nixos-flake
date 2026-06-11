@@ -1,4 +1,13 @@
-{ config, pkgs, pkgs-stable, lib, inputs, userSettings, home-manager, ... }: {
+{
+  config,
+  pkgs,
+  pkgs-stable,
+  lib,
+  inputs,
+  userSettings,
+  ...
+}:
+{
   home-manager = {
     extraSpecialArgs = {
       inherit inputs;
