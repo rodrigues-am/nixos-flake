@@ -7,17 +7,8 @@
     host = "0.0.0.0"; # Adicione isso para garantir visibilidade total
     port = 11434;
     loadModels = [
-      "qwen3.5:9b"
-      "qwen3.5:4b"
-      "gemma4:e4b"
-      "granite4.1:8b"
-      "translategemma:12b"
-      "gema4:31b"
+      "gemma4:12b"
       "deepseek-ocr:3b"
-      "glm-5.1:cloud"
-      "minimax-m2.7:cloud"
-      "gemma4:31b-cloud"
-      "qwen3.5:cloud"
       "embeddinggemma:300m"
     ];
     environmentVariables = {

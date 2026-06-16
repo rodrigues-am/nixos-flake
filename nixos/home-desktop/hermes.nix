@@ -109,7 +109,12 @@
 
         services.postgresql = {
           enable = true;
-          extensions = ps: with ps; [ timescaledb ];
+          extensions =
+            ps: with ps; [
+              timescaledb
+              age
+              pgvector
+            ];
         };
 
         # Suporte a binários externos (essencial para o Hermes)

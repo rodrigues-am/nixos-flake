@@ -6,18 +6,21 @@
 }:
 
 let
-  wpContainerHostAddress = "192.168.100.10";
-  wpContainerAddress = "192.168.100.11";
+  # IP Tailscale do home-desktop.
+  # Assim você acessa dos outros aparelhos por:
+  #   http://100.80.86.16:8081/wp-admin/
+  wpHost = "100.80.86.16";
+  wpPort = 8081;
 
-  wpUrl = "http://${wpContainerAddress}";
+  wpUrl = "http://${wpHost}:${toString wpPort}";
 in
 {
   containers.wordpress-site = {
     autoStart = true;
 
-    privateNetwork = true;
-    hostAddress = wpContainerHostAddress;
-    localAddress = wpContainerAddress;
+    # Compartilha a rede do host.
+    # Isso elimina o endereço privado 192.168.100.11.
+    privateNetwork = false;
 
     config =
       {
@@ -35,10 +38,21 @@ in
 
         services.wordpress.sites."labdemo" = {
           virtualHost = {
-            hostName = wpContainerAddress;
+            hostName = wpHost;
+
+            # Importante: não usar porta 80, pois o host já usa nginx/WebDAV.
+            listen = [
+              {
+                ip = "*";
+                port = wpPort;
+              }
+            ];
 
             extraConfig = lib.mkAfter ''
-              ServerAlias ${wpContainerHostAddress}
+              ServerAlias localhost
+              ServerAlias 127.0.0.1
+              ServerAlias home-desktop
+              ServerAlias ${wpHost}
 
               Alias /wp-content/ /var/lib/wordpress/labdemo/
 
@@ -170,21 +184,13 @@ in
           };
         };
 
-        networking.firewall.allowedTCPPorts = [ 80 ];
+        # Como o contêiner compartilha a rede do host, prefiro não
+        # tentar gerenciar firewall dentro do contêiner.
+        # O controle fica no firewall do host, que já confia na interface tailscale.
+        networking.firewall.enable = lib.mkForce false;
 
         system.stateVersion = "26.05";
       };
   };
 
-  networking.nat = {
-    enable = true;
-    internalInterfaces = [ "ve-+" ];
-    externalInterface = lib.mkForce "enp8s0";
-  };
-
-  # Sem abertura de portas no host.
-  # O acesso fica restrito à rede privada host <-> container:
-  #   http://192.168.100.11
-
-  #services.nginx.enable = lib.mkForce false;
 }
