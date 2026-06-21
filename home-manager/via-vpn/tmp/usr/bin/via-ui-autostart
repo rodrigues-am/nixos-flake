@@ -1,6 +1,0 @@
-#!/bin/sh
-
-if [ ! -f /usr/share/via/noauto ]
-then
-  via-ui
-fi

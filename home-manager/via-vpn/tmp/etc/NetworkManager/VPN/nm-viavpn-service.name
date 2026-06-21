@@ -1,7 +1,0 @@
-[VPN Connection]
-name=ViaVpn
-service=org.freedesktop.NetworkManager.ViaVpn
-program=/usr/bin/nm-viavpn-service
-
-[GNOME]
-properties=libnm-viavpn-properties

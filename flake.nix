@@ -27,8 +27,6 @@
 
     nix-colors.url = "github:misterio77/nix-colors";
 
-    nix-mcp-servers.url = "github:aloshy-ai/nix-mcp-servers";
-    nix-mcp-servers.inputs.nixpkgs.follows = "nixpkgs"; # Opcional: para usar sua versão do nixpkgs
   };
 
   outputs =
@@ -53,7 +51,6 @@
         wallpaperDir = "/home/andre/sync/pessoal/pic/wallpapers";
         theme = "gruvbox-dark-pale";
       };
-      # ollamaOverlay = import ./nixos/ollama-overlay.nix;
 
       pkgs = import nixpkgs {
         inherit system;

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   systemd = {
@@ -9,8 +9,7 @@
       after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
-        ExecStart =
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
@@ -22,8 +21,7 @@
 
   environment = {
     variables = {
-      POLKIT_BIN =
-        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      POLKIT_BIN = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
     };
     systemPackages = with pkgs; [ polkit_gnome ];
   };

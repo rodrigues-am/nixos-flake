@@ -21,7 +21,7 @@
     # inputs.xremap-flake.nixosModules.default
     # ./xremap.nix
   ];
-
+  services.flatpak.enable = true;
   nixpkgs.overlays = [
     (final: prev: {
       python313Packages = prev.python313Packages.overrideScope (
