@@ -131,6 +131,11 @@
            :repo "rodrigues-am/citar-org-roam-noter"
            :files ("citar-org-roam-noter.el")))
 
+(package! jupiterweb
+  :recipe (:host github
+           :repo "rodrigues-am/jupiterweb"
+           :files ("*.el" "test/*.el")))
+
 (package! esr
   :recipe (:host codeberg
            :repo "teoten/esr"

@@ -445,6 +445,20 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   :config
   (citar-org-roam-noter-mode 1))
 
+(use-package! jupiterweb
+  :after (url json)
+  :config
+  ;; Default: Physics Teaching Degree at USP
+  (setq jupiterweb-codcg "43"
+        jupiterweb-codcur "43031"
+        jupiterweb-codhab "0"
+        jupiterweb-tipo "N"))
+
+
+(map! :map global-map
+      "M-p j" #'jupiterweb-dispatch
+      "M-p p" #'jupiterweb-select-discipline)
+
 (defgroup amr-custom-group nil
   "Custom group for my settings."
   :group 'convenience)

@@ -937,6 +937,23 @@ Recomendação feita por Doom Doctor
 #+RESULTS:
 : t
 
+** JupiterWeb
+#+begin_src emacs-lisp
+(use-package! jupiterweb
+  :after (url json)
+  :config
+  ;; Default: Physics Teaching Degree at USP
+  (setq jupiterweb-codcg "43"
+        jupiterweb-codcur "43031"
+        jupiterweb-codhab "0"
+        jupiterweb-tipo "N"))
+
+
+(map! :map global-map
+      "M-p j" #'jupiterweb-dispatch
+      "M-p p" #'jupiterweb-select-discipline)
+
+#+end_src
 ** Lista de disciplinas
 
 #+begin_src emacs-lisp
