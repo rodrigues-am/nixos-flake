@@ -173,9 +173,9 @@ in
       # programing
       python3
       uv
-      RStudio-with-my-packages
+      #RStudio-with-my-packages
       # R
-      R-with-my-packages
+      #R-with-my-packages
       #rstudioWrapper
       igraph
       #nodejs

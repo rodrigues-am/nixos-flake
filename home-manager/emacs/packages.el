@@ -121,6 +121,11 @@
 
 (package! centered-window :disable t)
 
+(package! shell-maker)
+(package! acp)
+(package! agent-shell)
+
+
 ;; (package! copilot
 ;;   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 
@@ -136,10 +141,11 @@
            :repo "rodrigues-am/jupiterweb"
            :files ("*.el" "test/*.el")))
 
-(package! esr
-  :recipe (:host codeberg
-           :repo "teoten/esr"
-           :files ("*.el" "*.R")))
+;; (package! esr
+;;   :recipe (:host codeberg
+;;            :repo "teoten/esr"
+;;            :files ("*.el" "*.R")))
+
 
 
 (package! git-commit

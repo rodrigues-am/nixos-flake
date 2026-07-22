@@ -236,48 +236,4 @@
     hermes-check-ollama = "sudo nixos-container run hermes -- curl http://127.0.0.1:11434/api/tags";
   };
 
-  #-- Chroma DB para criação de RAGs
-  # systemd.services.chromadb = {
-  #   description = "ChromaDB Vector Database";
-  #   after = [ "network.target" ];
-  #   wantedBy = [ "multi-user.target" ];
-
-  #   serviceConfig = {
-  #     # 1. Adicionamos o Bash e Coreutils ao PATH do serviço
-  #     Environment = [
-  #       "PATH=${pkgs.bash}/bin:${pkgs.coreutils}/bin:${pkgs.nodejs_22}/bin"
-  #     ];
-
-  #     # 2. Mantemos o comando, mas agora ele encontrará o 'sh'
-  #     ExecStart = "${pkgs.nodejs_22}/bin/npx -y chromadb run --path /home/${userSettings.name}/sync/pessoal/hermes-agent/.hermes/chroma_data --host 127.0.0.1 --port 8000";
-
-  #     Restart = "always";
-  #     User = userSettings.name;
-  #   };
-  # };
-
-  # #-- Hncho para Hermes, aprimorar a memória
-  # systemd.services.honcho-hermes.serviceConfig = {
-  #   # Ajuste o WorkingDirectory para onde o código fonte (com a pasta hermes_agent) está
-  #   WorkingDirectory = "/home/andre/sync/pessoal/hermes-agent/.hermes/hermes-agent";
-
-  #   # Honcho do nixpkgs do sistema
-  #   ExecStart = "${pkgs.honcho}/bin/honcho start -f /home/andre/sync/pessoal/hermes-agent/.hermes/Procfile";
-
-  #   Environment = [
-  #     # PATH com python do nixpkgs
-  #     "PATH=${pkgs.python311}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:${pkgs.honcho}/bin"
-
-  #     # PYTHONPATH para achar o módulo hermes_agent
-  #     "PYTHONPATH=/home/andre/sync/pessoal/hermes-agent/.hermes/hermes-agent"
-
-  #     # Dir de configuração (aponta pro .hermes no sync)
-  #     "HERMES_CONFIG_DIR=/home/andre/sync/pessoal/hermes-agent/.hermes"
-  #   ];
-
-  #   Restart = "always";
-  #   RestartSec = "10s";
-  #   User = "andre";
-  #   UMask = "0002";
-  # };
 }

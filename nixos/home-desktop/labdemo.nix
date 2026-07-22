@@ -54,6 +54,7 @@ in
               ServerAlias home-desktop
               ServerAlias ${wpHost}
 
+
               Alias /wp-content/ /var/lib/wordpress/labdemo/
 
               <Directory "/var/lib/wordpress/labdemo">

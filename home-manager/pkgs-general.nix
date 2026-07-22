@@ -73,6 +73,7 @@
       sops
       stow
       syncthing
+      telegram-desktop
       texlive.combined.scheme-full # latex
       tree
       tree-sitter
@@ -94,6 +95,8 @@
       # Proton VPN com override para versão mais recente
     ])
     ++ (with pkgs-stable; [
+      nspr
+      nss
       audacity
       #brave
       calibre

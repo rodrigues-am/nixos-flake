@@ -49,8 +49,6 @@
                   mu4e-compose-mode-hook))
     (add-hook mode (lambda () (flyspell-mode 1)))))
 
-(global-set-key (kbd "M-p s") 'my-flyspell-toggle)
-
 (defun my-flyspell-toggle ()
   "Toggle flyspell-mode and run flyspell-buffer if enabling flyspell-mode."
   (interactive)
@@ -76,11 +74,6 @@
   "Switch ispell to Brazilian Portuguese."
   (interactive)
   (ispell-change-dictionary "pt_BR"))
-
-(map! :leader
-      (:prefix ("M-p d" . "toggle")
-       :desc "English Dictionary" "e" #'amr/set-english-dictionary
-       :desc "Portuguese Dictionary" "p" #'amr/set-portuguese-dictionary))
 
 (use-package! org
   :mode (("\\.org$" . org-mode))
@@ -165,8 +158,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
           (amr/display-line-numbers-mode 0))
       (olivetti-mode -1)
       (set-window-fringes (selected-window) nil) ; Use default width
-      (amr/variable-pitch-mode -1)))
-    :bind ("M-p o" . amr/olivetti-mode))
+      (amr/variable-pitch-mode -1))))
 
 
   (use-package! face-remap
@@ -202,11 +194,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
                          scroll-conservatively
                          maximum-scroll-margin
                          scroll-margin))
-          (kill-local-variable `,local))))
-
-    ;; C-c l is used for `org-store-link'.  The mnemonic for this is to
-    ;; focus the Line and also works as a variant of C-l.
-    :bind ("M-p q" . amr/scroll-centre-cursor-mode))
+          (kill-local-variable `,local)))))
 
 
   (use-package! display-line-numbers
@@ -223,8 +211,7 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
             (display-line-numbers-mode 1)
             (hl-line-mode 1))
         (display-line-numbers-mode -1)
-        (hl-line-mode -1)))
-    :bind ("M-p l" . amr/display-line-numbers-mode))
+        (hl-line-mode -1))))
 
 (use-package! nov
   :hook
@@ -435,6 +422,84 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
   (company-minimum-prefix-length 3)
   (company-idle-delay 0.3))
 
+(require 'org)
+(require 'seq)
+
+(defconst amr/org-equivalencia-resultado-tags
+  '("verificar" "deferido" "indeferido")
+  "Tags de resultado usadas nos relatórios de equivalência/aproveitamento.")
+
+(defun amr/org-cycle-equivalencia-resultado-tag ()
+  "Cycle result tags on current Org heading, preserving all other tags.
+
+Cycle is: verificar -> deferido -> indeferido -> verificar.
+If no result tag is present on the heading, start by adding deferido."
+  (interactive)
+  (unless (derived-mode-p 'org-mode)
+    (user-error "Este comando funciona apenas em buffers Org"))
+  (save-excursion
+    (org-back-to-heading t)
+    (let* ((tags (org-get-tags nil t))
+           (current
+            (seq-find (lambda (tag)
+                        (member tag amr/org-equivalencia-resultado-tags))
+                      tags))
+           (next
+            (pcase current
+              ("verificar" "deferido")
+              ("deferido" "indeferido")
+              ("indeferido" "verificar")
+              (_ "deferido")))
+           (clean-tags
+            (seq-remove (lambda (tag)
+                          (member tag amr/org-equivalencia-resultado-tags))
+                        tags))
+           (new-tags (append clean-tags (list next))))
+      (org-set-tags new-tags)
+      (message "Resultado da disciplina: %s" next))))
+
+(map! :leader
+      (:prefix ("z" . "AMR/personal")
+
+       ;; Ortografia e dicionários
+       (:prefix ("d" . "dictionary/spell")
+        :desc "Toggle flyspell"              "s" #'my-flyspell-toggle
+        :desc "Set English dictionary"       "e" #'amr/set-english-dictionary
+        :desc "Set Portuguese dictionary"    "p" #'amr/set-portuguese-dictionary)
+
+       ;; Leitura, escrita e aparência do buffer
+       (:prefix ("t" . "text/display toggles")
+        :desc "Toggle Olivetti writing mode" "o" #'amr/olivetti-mode
+        :desc "Toggle centred cursor"        "c" #'amr/scroll-centre-cursor-mode
+        :desc "Toggle line numbers"          "l" #'amr/display-line-numbers-mode)
+
+       ;; JupiterWeb
+       (:prefix ("j" . "jupiterweb")
+        :desc "JupiterWeb dispatch"          "j" #'jupiterweb-dispatch
+        :desc "Select discipline"            "d" #'jupiterweb-select-discipline
+        :desc "Insert Name (Code)"           "n" #'jupiterweb-insert-name-code
+        :desc "View syllabus"                "v" #'jupiterweb-view-discipline)
+
+      ( :prefix ("a" . "hermes")
+      :desc "Start Hermes agent"              "h" #'agent-shell-hermes-start-agent
+      :desc "Start/reuse agent shell (DWIM)"  "a" #'agent-shell
+      :desc "New agent shell"                 "n" #'agent-shell-new-shell
+      :desc "Restart agent"                   "r" #'agent-shell-restart
+      :desc "Fork session"                     "f" #'agent-shell-fork
+      :desc "Resume session"                   "s" #'agent-shell-resume-session)
+
+        ;;  R / ESS
+       (:prefix ("r" . "R/ESS")
+        :desc "Evaluate paragraph"           "e" #'ess-eval-paragraph)
+
+       ;; Equivalência CoC
+       (:prefix ("e" . "equivalencia")
+        :desc "Cycle result tag on heading"  "r" #'amr/org-cycle-equivalencia-resultado-tag)
+
+       ;; GPTel
+       (:prefix ("g" . "gptel")
+        :desc "Open gptel menu"              "m" #'gptel-menu)))
+
 (use-package! citar-org-roam-noter
   :after (citar citar-org-roam org)
   :custom
@@ -453,50 +518,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
         jupiterweb-codcur "43031"
         jupiterweb-codhab "0"
         jupiterweb-tipo "N"))
-
-
-(map! :map global-map
-      "M-p j" #'jupiterweb-dispatch
-      "M-p p" #'jupiterweb-select-discipline)
-
-(defgroup amr-custom-group nil
-  "Custom group for my settings."
-  :group 'convenience)
-
-(defcustom amr-course-list-file-path "~/notas/.script/curso.txt"
-  "Path to the text file with courses list."
-  :type 'file
-  :group 'amr-custom-group)
-
-
-(defun amr-read--text-file-to-alist (file-path)
-  "Read a text file with one item per line and return an alist."
-  (with-temp-buffer
-    (insert-file-contents file-path)
-    (let ((alist '()))
-      (while (not (eobp))
-        (push (cons (buffer-substring-no-properties (line-beginning-position) (line-end-position)) nil) alist)
-        (forward-line))
-      (nreverse alist))))
-
-
-(defun amr-insert--alist-item (alist)
-  "Prompt the user to select an item from the given alist using ivy-read."
-  (let ((selected-item (completing-read "Select item: " (mapcar 'car alist))))
-    (when selected-item
-      (insert selected-item))))
-
-(defun amr-insert-course-ifusp ()
-  "Read a text file with one item per line, create an alist,
-  and then prompt the user to select and insert an item from it using ivy-read."
-  (interactive)
-  (let ((file-path amr-course-list-file-path))
-    (setq my-alist (amr-read--text-file-to-alist file-path))
-    (amr-insert--alist-item my-alist)))
-
-
-;; Bind the function to "C-j c"
-(global-set-key (kbd "M-p c") 'amr-insert-course-ifusp)
 
 (use-package! esr
   ;; Associa arquivos .R e .r diretamente ao r-ts-mode (já que você está fazendo o remap)
@@ -707,7 +728,6 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
 
 (use-package! gptel
   :commands (gptel gptel-menu gptel-send)
-  :bind (("M-p g" . gptel-menu))
   :custom
   (gptel-model "xiaomi/mimo-v2-pro")
   (gptel-default-mode 'org-mode)
@@ -773,3 +793,18 @@ The cursor becomes a blinking bar, per `amr/cursor-type-mode'."
     :stream t
     :models '("qwen/qwen3.6-plus")
     :endpoint "/v1/chat/completions"))
+
+(require 'acp)
+(require 'agent-shell)
+
+;; Hermes Agent via Tailscale (running in NixOS container at 100.80.86.16)
+;; SSH into the container and run `hermes acp' there.
+;; This gives full control of the Hermes Agent from any machine on the tailnet.
+
+(setq agent-shell-hermes-acp-command
+      '("sudo" "nixos-container" "run" "hermes" "--" "hermes" "acp"))
+;; Auto-approve workspace edits, prompt for sensitive paths (.git, .ssh, .env)
+(setq agent-shell-hermes-default-session-mode-id "accept_edits")
+;; Use Hermes as the preferred agent (skip agent picker)
+(setq agent-shell-preferred-agent-config
+      (agent-shell-hermes-make-agent-config))
