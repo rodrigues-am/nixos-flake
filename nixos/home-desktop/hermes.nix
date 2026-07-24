@@ -32,6 +32,11 @@
   containers.hermes = {
     autoStart = true;
     privateNetwork = false;
+
+    # Aruba VIA needs /dev/net/tun plus CAP_NET_ADMIN inside the nspawn container.
+    # NixOS expands this to the required device allow-list and capability.
+    enableTun = true;
+
     bindMounts = {
       # 1. Pasta do Agente (Caminho idêntico ao Host para manter o venv funcional)
       "/home/${userSettings.name}/sync/pessoal/hermes-agent" = {
@@ -58,7 +63,7 @@
 
       "/home/${userSettings.name}/nixos-flake" = {
         hostPath = "/home/${userSettings.name}/nixos-flake";
-        isReadOnly = true;
+        isReadOnly = false;
       };
       # Montamos a pasta de configuração diretamente no local que o Hermes espera
       "/root/.hermes" = {

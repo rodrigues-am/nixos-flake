@@ -12,6 +12,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +36,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       nixpkgs-stable,
       home-manager,
@@ -71,12 +75,36 @@
 
       nixosConfigurations = {
 
+        #################
+        # hermes-server #
+        #################
+
+        hermes-server = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit
+              inputs
+              system
+              userSettings
+              pkgs-stable
+              ;
+            nixpkgs = { inherit pkgs; };
+          };
+          modules = [
+            ./nixos/server/hardware-configuration.nix
+            ./nixos/server/boot.nix
+            inputs.sops-nix.nixosModules.sops
+            inputs.hermes-agent.nixosModules.default
+            ./nixos/server/default.nix
+          ];
+        };
+
         ################
         # home-desktop #
         ################
 
         home-desktop = nixpkgs.lib.nixosSystem {
-          system = system;
+          inherit system;
           specialArgs = {
             inherit
               inputs
@@ -111,41 +139,6 @@
               home-manager.useUserPackages = true;
               imports = [ ./home-manager/hm-module.nix ];
             }
-          ];
-        };
-
-        ###############
-        # usp-desktop #
-        ###############
-
-        usp-desktop = nixpkgs.lib.nixosSystem {
-
-          specialArgs = {
-
-            inherit
-              inputs
-              system
-              userSettings
-              pkgs-stable
-              ;
-            nixpkgs = { inherit pkgs; };
-
-          };
-          modules = [
-
-            ./nixos/usp-desktop/hardware-configuration.nix
-            ./nixos/core.nix
-            ./nixos/desktop-keymap.nix
-            ./nixos/boot-desktop.nix
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              imports = [ ./home-manager/hm-module.nix ];
-
-            }
-
           ];
         };
 
@@ -184,39 +177,6 @@
           ];
         };
 
-        ################
-        # dell-desktop #
-        ################
-
-        dell-laptop = nixpkgs.lib.nixosSystem {
-
-          specialArgs = {
-
-            inherit
-              inputs
-              system
-              userSettings
-              pkgs-stable
-              ;
-            nixpkgs = { inherit pkgs; };
-          };
-
-          modules = [
-            ./nixos/dell-laptop/hardware-configuration.nix
-            ./nixos/core.nix
-            ./nixos/dell-laptop/keymap-dell-laptop.nix
-            ./nixos/dell-laptop/boot-dell-laptop.nix
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              imports = [ ./home-manager/hm-module.nix ];
-            }
-
-          ];
-        };
         ################
         # thinkpad      #
         ################

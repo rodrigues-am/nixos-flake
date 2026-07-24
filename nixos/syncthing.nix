@@ -19,11 +19,8 @@
         id = "V5FI5LW-TSHJUIR-LVFYZHA-3CZX7WV-QMRI7AA-NPETMDZ-G67UE2G-5MGMVQ4";
         autoAcceptFolders = true;
       };
-      "usp-desktop" = {
-        id = "YAB3POW-GTB3WEC-OH4WJWA-VIG3DST-XFJVJ3Q-3HDYR66-RKAO7UI-FS32YAR";
-        autoAcceptFolders = true;
-      };
-      "dell-laptop" = {
+
+      "hermes-server" = {
         id = "GUW2JMZ-TKHWHP2-S6F7IGP-3UKUXIA-CUWCGTV-Z42ACS7-5WWHKRS-5KEXIQP";
         autoAcceptFolders = true;
       };
@@ -46,11 +43,17 @@
       "sync" = {
         id = "default";
         path = "/home/andre/sync";
-        devices =
-          [ "home-desktop" "usp-desktop" "dell-laptop" "hp-laptop" "thinkpad" ];
+        devices = [
+          "home-desktop"
+          "hermes-server"
+          "hp-laptop"
+          "thinkpad"
+        ];
         versioning = {
           type = "simple";
-          params = { keep = "10"; };
+          params = {
+            keep = "10";
+          };
         };
       };
 
@@ -59,8 +62,7 @@
         path = "/home/andre/notas";
         devices = [
           "home-desktop"
-          "usp-desktop"
-          "dell-laptop"
+          "hermes-server"
           "s22-cel"
           "hp-laptop"
           "thinkpad"
@@ -68,7 +70,9 @@
         ];
         versioning = {
           type = "simple";
-          params = { keep = "10"; };
+          params = {
+            keep = "10";
+          };
         };
       };
     };
