@@ -91,23 +91,23 @@ in
       yt-dlp
     ];
 
-    settings = {
-      model = {
-        provider = "ollama-cloud";
-        default = "glm-5.2";
-      };
-      toolsets = [ "all" ];
-      agent.max_turns = 150;
-      terminal = {
-        backend = "local";
-        cwd = "/home/${user}";
-        timeout = 180;
-      };
-      memory = {
-        memory_enabled = true;
-        user_profile_enabled = true;
-      };
-    };
+    # settings = {
+    #   model = {
+    #     provider = "ollama-cloud";
+    #     default = "glm-5.2";
+    #   };
+    #   toolsets = [ "all" ];
+    #   agent.max_turns = 150;
+    #   terminal = {
+    #     backend = "local";
+    #     cwd = "/home/${user}";
+    #     timeout = 180;
+    #   };
+    #   memory = {
+    #     memory_enabled = true;
+    #     user_profile_enabled = true;
+    #   };
+    # };
 
     restart = "always";
     restartSec = 5;
