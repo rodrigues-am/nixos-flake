@@ -4,10 +4,11 @@ _: {
     ../common/network.nix
     ../common/sops.nix
     ./bash.nix
-    ./gnome.nix
     ./hermes.nix
     ./postgresql.nix
+    ./power.nix
     ./syncthing.nix
+    ./via.nix
     ./webdav.nix
   ];
 }

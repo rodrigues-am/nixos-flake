@@ -3,11 +3,21 @@
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile = "/home/${userSettings.name}/.config/sops/age/keys.txt";
+    age.keyFile = "/home/${userSettings.name}/sync/pessoal/security/sops/age/keys.txt";
 
     secrets = {
       firecrawl_token = { };
       gmail_key = { };
+      hermes_env_default = {
+        owner = userSettings.name;
+        group = userSettings.name;
+        mode = "0400";
+      };
+      hermes_env_secretario = {
+        owner = userSettings.name;
+        group = userSettings.name;
+        mode = "0400";
+      };
       ollama_key = { };
       openai_key = { };
       openrouter_token_hermes = { };
