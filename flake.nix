@@ -22,6 +22,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    };
+
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
@@ -82,6 +88,7 @@
         hermes-server = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
+            machineName = "hermes-server";
             inherit
               inputs
               system
@@ -106,6 +113,7 @@
         home-desktop = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
+            machineName = "home-desktop";
             inherit
               inputs
               system
@@ -149,6 +157,7 @@
         hp-laptop = nixpkgs.lib.nixosSystem {
 
           specialArgs = {
+            machineName = "hp-laptop";
             inherit
               inputs
               system
@@ -183,6 +192,7 @@
 
         thinkpad = nixpkgs.lib.nixosSystem {
           specialArgs = {
+            machineName = "thinkpad";
             inherit
               inputs
               system

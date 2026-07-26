@@ -7,7 +7,7 @@ _: {
     ./hermes.nix
     ./postgresql.nix
     ./power.nix
-    ./syncthing.nix
+    ../syncthing.nix
     ./via.nix
     ./webdav.nix
   ];
