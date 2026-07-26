@@ -10,6 +10,14 @@ let
   hermesHome = "${stateDir}/.hermes";
   workspace = "${stateDir}/workspace";
 
+  # Runtime estável para os jobs determinísticos do cradle-news. Os wrappers
+  # não devem depender do venv interno de uma versão específica do Hermes.
+  cradleNewsPython = pkgs.python3.withPackages (ps: with ps; [
+    google-api-python-client
+    google-auth
+    pytest
+  ]);
+
   # Runtime compartilhado pelos gateways e pelo dashboard. O serviço principal
   # do módulo constrói sua própria variante equivalente com messaging.
   hermesRuntime = config.services.hermes-agent.package.override {
@@ -37,7 +45,7 @@ let
     nodejs_22
     pandoc
     poppler-utils
-    python3
+    cradleNewsPython
     ripgrep
     sops
     systemd
@@ -84,7 +92,7 @@ in
       nodejs_22
       pandoc
       poppler-utils
-      python3
+      cradleNewsPython
       ripgrep
       sops
       tesseract
