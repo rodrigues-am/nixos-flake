@@ -73,6 +73,7 @@ in
       age
       bash
       curl
+      emacs-nox
       fd
       ffmpeg
       git
