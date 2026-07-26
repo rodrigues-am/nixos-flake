@@ -9,7 +9,7 @@ let
   username = userSettings.name;
   authDir = "/var/lib/webdav-auth";
   htpasswdFile = "${authDir}/.htpasswd";
-  zoteroDataDir = "/home/${username}/zotero-webdav";
+  zoteroDataDir = "/srv/webdav/${username}/zotero";
 in
 {
   users.users.nginx.extraGroups = [ "users" ];
@@ -28,24 +28,6 @@ in
         }
       ];
       locations = {
-        "/sync/".extraConfig = ''
-          alias /home/${username}/sync/;
-          dav_methods PUT DELETE MKCOL COPY MOVE;
-          dav_ext_methods PROPFIND OPTIONS;
-          dav_access user:rw group:rw all:r;
-          client_max_body_size 10G;
-          auth_basic "WebDAV";
-          auth_basic_user_file ${htpasswdFile};
-        '';
-        "/notas/".extraConfig = ''
-          alias /home/${username}/notas/;
-          dav_methods PUT DELETE MKCOL COPY MOVE;
-          dav_ext_methods PROPFIND OPTIONS;
-          dav_access user:rw group:rw all:r;
-          client_max_body_size 10G;
-          auth_basic "WebDAV";
-          auth_basic_user_file ${htpasswdFile};
-        '';
         "/andre/zotero/".extraConfig = ''
           alias ${zoteroDataDir}/;
           dav_methods PUT DELETE MKCOL COPY MOVE;
@@ -85,23 +67,14 @@ in
       };
 
       nginx.serviceConfig = {
-        ProtectHome = lib.mkForce false;
-        ReadWritePaths = [
-          "/home/${username}/sync"
-          "/home/${username}/notas"
-          zoteroDataDir
-        ];
+        ReadWritePaths = [ zoteroDataDir ];
       };
     };
 
     tmpfiles.rules = [
-      "d /home/${username}/sync 0775 ${username} users - -"
-      "d /home/${username}/notas 0775 ${username} users - -"
+      "d /srv/webdav 0750 root users - -"
+      "d /srv/webdav/${username} 0750 ${username} users - -"
       "d ${zoteroDataDir} 2770 ${username} users - -"
-      "a+ /home/${username} - - - - user:nginx:--x,mask::--x"
-      "a+ /home/${username}/sync - - - - user:nginx:rwx,default:user:nginx:rwx"
-      "a+ /home/${username}/notas - - - - user:nginx:rwx,default:user:nginx:rwx"
-      "a+ ${zoteroDataDir} - - - - user:nginx:rwx,default:user:nginx:rwx,mask::rwx,default:mask::rwx"
     ];
   };
 }
