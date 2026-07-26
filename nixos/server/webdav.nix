@@ -9,8 +9,11 @@ let
   username = userSettings.name;
   authDir = "/var/lib/webdav-auth";
   htpasswdFile = "${authDir}/.htpasswd";
+  zoteroDataDir = "/home/${username}/zotero-webdav";
 in
 {
+  users.users.nginx.extraGroups = [ "users" ];
+
   services.nginx = {
     enable = true;
     package = pkgs.nginx.override {
@@ -41,6 +44,17 @@ in
           dav_access user:rw group:rw all:r;
           client_max_body_size 10G;
           auth_basic "WebDAV";
+          auth_basic_user_file ${htpasswdFile};
+        '';
+        "/andre/zotero/".extraConfig = ''
+          alias ${zoteroDataDir}/;
+          dav_methods PUT DELETE MKCOL COPY MOVE;
+          dav_ext_methods PROPFIND OPTIONS;
+          dav_access user:rw group:rw all:r;
+          create_full_put_path on;
+          client_max_body_size 10G;
+          autoindex off;
+          auth_basic "Zotero WebDAV";
           auth_basic_user_file ${htpasswdFile};
         '';
       };
@@ -75,6 +89,7 @@ in
         ReadWritePaths = [
           "/home/${username}/sync"
           "/home/${username}/notas"
+          zoteroDataDir
         ];
       };
     };
@@ -82,9 +97,11 @@ in
     tmpfiles.rules = [
       "d /home/${username}/sync 0775 ${username} users - -"
       "d /home/${username}/notas 0775 ${username} users - -"
-      "a+ /home/${username} - - - - user:nginx:--x"
+      "d ${zoteroDataDir} 2770 ${username} users - -"
+      "a+ /home/${username} - - - - user:nginx:--x,mask::--x"
       "a+ /home/${username}/sync - - - - user:nginx:rwx,default:user:nginx:rwx"
       "a+ /home/${username}/notas - - - - user:nginx:rwx,default:user:nginx:rwx"
+      "a+ ${zoteroDataDir} - - - - user:nginx:rwx,default:user:nginx:rwx,mask::rwx,default:mask::rwx"
     ];
   };
 }
