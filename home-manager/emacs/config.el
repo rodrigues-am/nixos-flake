@@ -813,7 +813,8 @@ If no result tag is present on the heading, start by adding deferido."
           "-o" "ServerAliveInterval=30"
           "-o" "ServerAliveCountMax=3"
           "-o" "StrictHostKeyChecking=accept-new"
-          "andre@hermes-server.tail80c2c6.ts.net"
+          ;; O desktop não usa o DNS do Tailscale; use o IPv4 estável do nó.
+          "andre@100.83.180.41"
           "/run/current-system/sw/bin/hermes" "acp" "--accept-hooks")
         ;; O processo local executado pelo Emacs é o cliente SSH. Ele precisa
         ;; herdar PATH, SSH_AUTH_SOCK e as demais variáveis da sessão gráfica.
