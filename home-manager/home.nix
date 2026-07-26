@@ -8,34 +8,36 @@
 {
 
   imports = [
-    ./bash.nix
-    ./git.nix
-    ./brave.nix
-    ./starship.nix
-    ./gtk.nix
-    ./doom.nix
-    ./xcompose.nix
-    ./hyprland.nix
-    ./espanso.nix
-    ./alacritty.nix
-    ./email.nix
-    ./aspell.nix
+    # programs
+    ./programs/aspell.nix
+    ./programs/bash.nix
+    ./programs/brave.nix
+    ./programs/doom.nix
+    ./programs/email.nix
+    ./programs/git.nix
+    ./programs/starship.nix
 
-    # pkgs
-    ./pkgs-program.nix
-    ./pkgs-fonts.nix
-    ./pkgs-general.nix
+    # desktop
+    ./desktop/alacritty.nix
+    ./desktop/espanso.nix
+    ./desktop/gtk.nix
+    ./desktop/hyprland.nix
+    ./desktop/xcompose.nix
+
+    # packages
+    ./packages/fonts.nix
+    ./packages/general.nix
+    ./packages/programs.nix
 
     # scripts
-    ./bin/doomcapture.nix
-    ./bin/emopicker.nix
-    ./bin/wallsetter.nix
-    ./bin/keyboard-layout-status.nix
-    ./bin/keyboard-toggle.nix
-    ./bin/powermenu.nix
-    ./bin/pdftotext.nix
-    #./bin/themechange.nix
-    #./bin/theme-selector.nix
+    ./scripts/doomcapture.nix
+    ./scripts/emopicker.nix
+    ./scripts/keyboard-layout-status.nix
+    ./scripts/keyboard-toggle.nix
+    ./scripts/pdftotext.nix
+    ./scripts/powermenu.nix
+    ./scripts/wallsetter.nix
+
     inputs.sops-nix.homeManagerModule
     nix-colors.homeManagerModules.default
     nix-doom-emacs.hmModule

@@ -9,17 +9,15 @@
 
 {
   imports = [
-    ./syncthing.nix
-    ./polkit.nix
-    ./emacs-overlay.nix
-    ./isync-overlay.nix
-    ./print.nix
-    ./mcp.nix
-    ./sops-env.nix
-    ./fonts.nix
+    ../modules/syncthing.nix
+    ../modules/polkit.nix
+    ../modules/overlays/emacs.nix
+    ../modules/overlays/isync.nix
+    ../modules/print.nix
+    ../modules/mcp.nix
+    ../modules/sops-env.nix
+    ../modules/fonts.nix
     inputs.sops-nix.nixosModules.sops
-    # inputs.xremap-flake.nixosModules.default
-    # ./xremap.nix
   ];
   services.flatpak.enable = true;
   nixpkgs.overlays = [

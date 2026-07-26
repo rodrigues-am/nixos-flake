@@ -972,13 +972,13 @@ If no result tag is present on the heading, start by adding deferido."
         :desc "Insert Name (Code)"           "n" #'jupiterweb-insert-name-code
         :desc "View syllabus"                "v" #'jupiterweb-view-discipline)
 
-      ( :prefix ("a" . "hermes")
-      :desc "Start Hermes agent"              "h" #'agent-shell-hermes-start-agent
-      :desc "Start/reuse agent shell (DWIM)"  "a" #'agent-shell
-      :desc "New agent shell"                 "n" #'agent-shell-new-shell
-      :desc "Restart agent"                   "r" #'agent-shell-restart
-      :desc "Fork session"                     "f" #'agent-shell-fork
-      :desc "Resume session"                   "s" #'agent-shell-resume-session)
+       (:prefix ("a" . "hermes")
+        :desc "Start Hermes agent"             "h" #'agent-shell-hermes-start-agent
+        :desc "Start/reuse agent shell (DWIM)" "a" #'agent-shell
+        :desc "New agent shell"                "n" #'agent-shell-new-shell
+        :desc "Restart agent"                  "r" #'agent-shell-restart
+        :desc "Fork session"                   "f" #'agent-shell-fork
+        :desc "Resume session"                 "s" #'agent-shell-resume-session)
 
         ;;  R / ESS
        (:prefix ("r" . "R/ESS")
@@ -1458,20 +1458,37 @@ If no result tag is present on the heading, start by adding deferido."
 
 #+begin_src emacs-lisp
 
-(require 'acp)
-(require 'agent-shell)
+(use-package! agent-shell
+  ;; Carrega o pacote durante a inicialização. Isso evita depender apenas dos
+  ;; autoloads de `agent-shell-hermes.el', que podem ficar desatualizados após
+  ;; uma atualização do agent-shell no Doom.
+  :demand t
+  :config
+  (require 'acp)
+  (require 'agent-shell-hermes)
 
-;; Hermes Agent via Tailscale (running in NixOS container at 100.80.86.16)
-;; SSH into the container and run `hermes acp' there.
-;; This gives full control of the Hermes Agent from any machine on the tailnet.
-
-(setq agent-shell-hermes-acp-command
-      '("sudo" "nixos-container" "run" "hermes" "--" "hermes" "acp"))
-;; Auto-approve workspace edits, prompt for sensitive paths (.git, .ssh, .env)
-(setq agent-shell-hermes-default-session-mode-id "accept_edits")
-;; Use Hermes as the preferred agent (skip agent picker)
-(setq agent-shell-preferred-agent-config
-      (agent-shell-hermes-make-agent-config))
+  ;; O cliente ACP usa o SSH somente como transporte de stdin/stdout. Não crie
+  ;; pseudo-terminal: qualquer saída de shell misturada ao stdout quebra o
+  ;; protocolo JSON-RPC do ACP.
+  (setq agent-shell-hermes-acp-command
+        '("ssh" "-T"
+          "-o" "BatchMode=yes"
+          "-o" "ConnectTimeout=10"
+          "-o" "ServerAliveInterval=30"
+          "-o" "ServerAliveCountMax=3"
+          "-o" "StrictHostKeyChecking=accept-new"
+          "andre@hermes-server.tail80c2c6.ts.net"
+          "/run/current-system/sw/bin/hermes" "acp" "--accept-hooks")
+        ;; O processo local executado pelo Emacs é o cliente SSH. Ele precisa
+        ;; herdar PATH, SSH_AUTH_SOCK e as demais variáveis da sessão gráfica.
+        agent-shell-hermes-environment
+        (agent-shell-make-environment-variables :inherit-env t)
+        ;; Aprova edições no workspace; caminhos sensíveis continuam pedindo
+        ;; confirmação.
+        agent-shell-hermes-default-session-mode-id "accept_edits"
+        ;; Usa Hermes diretamente, sem abrir o seletor de agentes.
+        agent-shell-preferred-agent-config
+        (agent-shell-hermes-make-agent-config)))
 
 
 #+end_src

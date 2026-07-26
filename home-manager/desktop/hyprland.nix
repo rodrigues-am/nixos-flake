@@ -45,7 +45,6 @@ in
   imports = [
     ./rofi.nix
     ./quickshell.nix
-    ./bin/powermenu.nix
   ];
 
   home.pointerCursor = {
@@ -80,10 +79,10 @@ in
     ++ (with pkgs-stable; [ ]);
 
   home.file = {
-    ".config/zaney-stinger.mov".source = ./resources/zaney-stinger.mov;
-    ".base16-themes".source = ./resources/base16-themes;
-    ".face".source = ./resources/face.jpg;
-    ".config/rofi/rofi.jpg".source = ./resources/rofi-gruvbox.jpg;
+    ".config/zaney-stinger.mov".source = ../resources/zaney-stinger.mov;
+    ".base16-themes".source = ../resources/base16-themes;
+    ".face".source = ../resources/face.jpg;
+    ".config/rofi/rofi.jpg".source = ../resources/rofi-gruvbox.jpg;
   };
 
   # Configuração mínima para testar Hyprland aninhado dentro do GNOME.

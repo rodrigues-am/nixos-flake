@@ -1,0 +1,19 @@
+# Nix build outputs
+/result
+/result-*
+
+# Editor temporary and backup files
+*~
+\#*\#
+.#*
+*.swp
+*.swo
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Directory-local tooling caches
+.direnv/
+.envrc.local

@@ -5,8 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
-    xremap-flake.url = "github:xremap/nix-flake";
-
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,7 +42,6 @@
     {
       nixpkgs,
       nixpkgs-stable,
-      home-manager,
       ...
     }@inputs:
     let
@@ -76,150 +73,30 @@
         };
       };
 
+      mkHost = machineName: module:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit
+              inputs
+              machineName
+              system
+              userSettings
+              pkgs-stable
+              ;
+            nixpkgs = { inherit pkgs; };
+          };
+          modules = [ module ];
+        };
+
     in
     {
 
       nixosConfigurations = {
-
-        #################
-        # hermes-server #
-        #################
-
-        hermes-server = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            machineName = "hermes-server";
-            inherit
-              inputs
-              system
-              userSettings
-              pkgs-stable
-              ;
-            nixpkgs = { inherit pkgs; };
-          };
-          modules = [
-            ./nixos/server/hardware-configuration.nix
-            ./nixos/server/boot.nix
-            inputs.sops-nix.nixosModules.sops
-            inputs.hermes-agent.nixosModules.default
-            ./nixos/server/default.nix
-          ];
-        };
-
-        ################
-        # home-desktop #
-        ################
-
-        home-desktop = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            machineName = "home-desktop";
-            inherit
-              inputs
-              system
-              userSettings
-              pkgs-stable
-              ;
-            nixpkgs = { inherit pkgs; };
-          };
-          modules = [
-
-            ./nixos/home-desktop/hardware-configuration.nix
-            ./nixos/core.nix
-            ./nixos/home-desktop/nvidia.nix
-            ./nixos/home-desktop/webdav.nix
-            ./nixos/home-desktop/game.nix
-            ./nixos/home-desktop/hermes.nix
-            ./nixos/desktop-keymap.nix
-            ./nixos/boot-desktop.nix
-            ./nixos/home-desktop/ollama.nix
-            ./nixos/home-desktop/labdemo.nix
-            # ./nixos/homelab.nix
-            # (
-            #   { ... }:
-            #   {
-            #     nixpkgs.overlays = [ ollamaOverlay ];
-            #   }
-            # )
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              imports = [ ./home-manager/hm-module.nix ];
-            }
-          ];
-        };
-
-        #############
-        # hp-laptop #
-        #############
-
-        hp-laptop = nixpkgs.lib.nixosSystem {
-
-          specialArgs = {
-            machineName = "hp-laptop";
-            inherit
-              inputs
-              system
-              userSettings
-              pkgs-stable
-              ;
-            nixpkgs = { inherit pkgs; };
-          };
-
-          modules = [
-            ./nixos/hp-laptop/hardware-configuration.nix
-            ./nixos/core.nix
-            ./nixos/hp-laptop/keymap-hp-laptop.nix
-            ./nixos/hp-laptop/boot-hp-laptop.nix
-
-            home-manager.nixosModules.home-manager
-            {
-
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              imports = [ ./home-manager/hm-module.nix ];
-
-            }
-
-          ];
-        };
-
-        ################
-        # thinkpad      #
-        ################
-
-        thinkpad = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            machineName = "thinkpad";
-            inherit
-              inputs
-              system
-              userSettings
-              pkgs-stable
-              ;
-            nixpkgs = { inherit pkgs; };
-          };
-
-          modules = [
-            ./nixos/thinkpad/hardware-configuration.nix
-            ./nixos/core.nix
-            ./nixos/thinkpad/keymap-thinkpad.nix
-            ./nixos/boot-desktop.nix
-
-            # ./nixos/ollama.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              imports = [ ./home-manager/hm-module.nix ];
-            }
-
-          ];
-        };
-
+        hermes-server = mkHost "hermes-server" ./nixos/server;
+        home-desktop = mkHost "home-desktop" ./nixos/home-desktop;
+        hp-laptop = mkHost "hp-laptop" ./nixos/hp-laptop;
+        thinkpad = mkHost "thinkpad" ./nixos/thinkpad;
       };
     };
 }

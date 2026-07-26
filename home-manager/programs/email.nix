@@ -15,7 +15,7 @@ let
   clientSecretFile = config.sops.secrets.uspmail-client-secret.path;
   refreshTokenFile = config.sops.secrets.uspmail-refresh-token.path;
 
-  oauth2-token-set = import ./bin/oauth2-token.nix {
+  oauth2-token-set = import ../scripts/oauth2-token.nix {
     inherit
       pkgs
       clientIdFile
@@ -36,22 +36,22 @@ in
 
   # ── Secrets (sops-nix) ──────────────────────────────────────────────
   sops.secrets.uspmail-client-id = {
-    sopsFile = ../secrets/secrets.yaml;
+    sopsFile = ../../secrets/secrets.yaml;
     key = "usp_client_id";
   };
 
   sops.secrets.uspmail-client-secret = {
-    sopsFile = ../secrets/secrets.yaml;
+    sopsFile = ../../secrets/secrets.yaml;
     key = "usp_client_secret";
   };
 
   sops.secrets.uspmail-refresh-token = {
-    sopsFile = ../secrets/secrets.yaml;
+    sopsFile = ../../secrets/secrets.yaml;
     key = "usp_refresh_token";
   };
 
   sops.secrets.gmail-password = {
-    sopsFile = ../secrets/secrets.yaml;
+    sopsFile = ../../secrets/secrets.yaml;
     key = "gmail_key";
   };
 

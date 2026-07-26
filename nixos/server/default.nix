@@ -1,5 +1,12 @@
-_: {
+{ inputs, ... }:
+{
   imports = [
+    ./hardware-configuration.nix
+    ./boot.nix
+
+    inputs.sops-nix.nixosModules.sops
+    inputs.hermes-agent.nixosModules.default
+
     ../common/base.nix
     ../common/network.nix
     ../common/sops.nix
@@ -7,7 +14,7 @@ _: {
     ./hermes.nix
     ./postgresql.nix
     ./power.nix
-    ../syncthing.nix
+    ../modules/syncthing.nix
     ./via.nix
     ./webdav.nix
   ];

@@ -2,7 +2,7 @@
 
 {
   home.file = {
-    ".config/espanso/match/base.yml".source = ./espanso/match/base.yml;
+    ".config/espanso/match/base.yml".source = ../resources/espanso/match/base.yml;
   };
   # 2) Forçar o ExecStart do unit a usar o espanso-wayland
   #

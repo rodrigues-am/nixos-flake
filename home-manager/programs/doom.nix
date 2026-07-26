@@ -13,9 +13,9 @@
   xdg = {
     enable = true;
     configFile = {
-      "doom-config/config.el".source = ./emacs/config.el;
-      "doom-config/init.el".source = ./emacs/init.el;
-      "doom-config/packages.el".source = ./emacs/packages.el;
+      "doom-config/config.el".source = ../emacs/config.el;
+      "doom-config/init.el".source = ../emacs/init.el;
+      "doom-config/packages.el".source = ../emacs/packages.el;
     };
   };
 
