@@ -74,6 +74,14 @@ in
     # ~/.hermes é mantido como link para este estado persistente.
     inherit stateDir;
     workingDirectory = workspace;
+    environment = {
+      # O listener só é habilitado quando API_SERVER_KEY também estiver
+      # presente em hermes_env_default (SOPS). O firewall confia apenas na
+      # interface Tailscale para portas não abertas globalmente.
+      API_SERVER_ENABLED = "true";
+      API_SERVER_HOST = "0.0.0.0";
+      API_SERVER_PORT = "8642";
+    };
     environmentFiles = [ config.sops.secrets.hermes_env_default.path ];
     extraDependencyGroups = [ "messaging" ];
 

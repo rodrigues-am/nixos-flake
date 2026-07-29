@@ -787,12 +787,21 @@ If no result tag is present on the heading, start by adding deferido."
               openai/gpt-5.4-nano
               qwen/qwen3.5-35b-a3b))
 
-        (gptel-make-openai "Hermes"
-    :host "192.168.15.4:8642"
-    :key "hermes-api-key-33b371c0310bf7d3"
+  (gptel-make-openai
+      "Hermes"
+    :host "100.83.180.41:8642"
+    :protocol "http"
+    :endpoint "/v1/chat/completions"
     :stream t
-    :models '("qwen/qwen3.6-plus")
-    :endpoint "/v1/chat/completions"))
+    :key (lambda ()
+           (let ((key-file "~/sync/pessoal/security/hermes-api-key"))
+             (unless (file-readable-p key-file)
+               (error "Chave da API Hermes não encontrada em %s" key-file))
+             (string-trim
+              (with-temp-buffer
+                (insert-file-contents key-file)
+                (buffer-string)))))
+    :models '(hermes-agent)))
 
 (use-package! agent-shell
   ;; Carrega o pacote durante a inicialização. Isso evita depender apenas dos

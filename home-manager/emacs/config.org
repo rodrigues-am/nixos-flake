@@ -1386,45 +1386,28 @@ If no result tag is present on the heading, start by adding deferido."
               openai/gpt-5.4-nano
               qwen/qwen3.5-35b-a3b))
 
-        (gptel-make-openai "Hermes"
-    :host "192.168.15.4:8642"
-    :key "hermes-api-key-33b371c0310bf7d3"
+  (gptel-make-openai
+      "Hermes"
+    :host "100.83.180.41:8642"
+    :protocol "http"
+    :endpoint "/v1/chat/completions"
     :stream t
-    :models '("qwen/qwen3.6-plus")
-    :endpoint "/v1/chat/completions"))
+    :key (lambda ()
+           (let ((key-file "~/sync/pessoal/security/hermes-api-key"))
+             (unless (file-readable-p key-file)
+               (error "Chave da API Hermes não encontrada em %s" key-file))
+             (string-trim
+              (with-temp-buffer
+                (insert-file-contents key-file)
+                (buffer-string)))))
+    :models '(hermes-agent)))
 #+end_src
 
 #+RESULTS:
 : gptel-menu
-** Hermes GPTEL
+** Telega (rascunho não emaranhado)
 
 #+begin_src emacs-lisp :tangle no
-
-;; ============================================================
-;; gptel - Integracao com Hermes API Server
-;; ============================================================
-(use-package gptel
-  :after consult
-  :bind (("C-c g" . gptel-menu)
-         ("C-c r" . gptel-send))
-  :config
-  ;; Definir o Hermes como provider
-  (gptel-make-openai "Hermes"
-    :host "192.168.15.4:8642"
-    :key "hermes-api-key-33b371c0310bf7d3"
-    :stream t
-    :models '("qwen/qwen3.6-plus:free")
-    :endpoint "/v1/chat/completions")
-
-  ;; Usar Hermes como padrao
-  (setq gptel-model "qwen/qwen3.6-plus:free"
-        gptel-provider "Hermes"
-        gptel-directives
-        '((default     . "You are a helpful Emacs assistant")
-          (programming  . "You are a programming expert. Provide clear, concise code.")
-          (writing      . "You are a skilled writer. Be creative and eloquent.")
-          (summarize    . "Summarize the following text concisely.")
-          (explain      . "Explain the following in simple terms."))))
 
 ;; ============================================================
 ;; Telega - Telegram no Emacs
