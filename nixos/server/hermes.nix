@@ -74,15 +74,6 @@ in
     # ~/.hermes é mantido como link para este estado persistente.
     inherit stateDir;
     workingDirectory = workspace;
-    environment = {
-      # O listener só é habilitado quando API_SERVER_KEY também estiver
-      # presente em hermes_env_default (SOPS). O firewall confia apenas na
-      # interface Tailscale para portas não abertas globalmente.
-      API_SERVER_ENABLED = "true";
-      API_SERVER_HOST = "0.0.0.0";
-      API_SERVER_PORT = "8642";
-    };
-    environmentFiles = [ config.sops.secrets.hermes_env_default.path ];
     extraDependencyGroups = [ "messaging" ];
 
     extraPackages = with pkgs; [
@@ -131,8 +122,20 @@ in
     restartSec = 5;
   };
 
-  # O Secretario usa bot e porta de API próprios, mas compartilha o estado
-  # base para continuar sendo um perfil Hermes normal.
+  # A versão atual do módulo expõe environment/environmentFiles como opções,
+  # mas não as transfere para a unidade gerada. Aplique-os diretamente ao
+  # serviço systemd para habilitar a API OpenAI compatível do gateway padrão.
+  systemd.services.hermes-agent = {
+    environment = {
+      API_SERVER_ENABLED = "true";
+      API_SERVER_HOST = "0.0.0.0";
+      API_SERVER_PORT = "8642";
+    };
+    serviceConfig.EnvironmentFile = config.sops.secrets.hermes_env_default.path;
+  };
+
+  # O Secretario usa o .env mutável do próprio perfil; seu antigo bloco SOPS
+  # foi removido sem impedir que o perfil continue sendo um Hermes normal.
   systemd.services.hermes-agent-secretario = {
     description = "Hermes Agent Gateway - Secretario profile";
     after = [ "network-online.target" ];
@@ -145,7 +148,6 @@ in
       User = user;
       Group = user;
       WorkingDirectory = "/home/${user}";
-      EnvironmentFile = config.sops.secrets.hermes_env_secretario.path;
       ExecStart = "${hermesRuntime}/bin/hermes -p secretario gateway";
       Restart = "always";
       RestartSec = 5;

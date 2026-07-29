@@ -13,11 +13,6 @@
         group = userSettings.name;
         mode = "0400";
       };
-      hermes_env_secretario = {
-        owner = userSettings.name;
-        group = userSettings.name;
-        mode = "0400";
-      };
       ollama_key = { };
       openai_key = { };
       openrouter_token_hermes = { };
