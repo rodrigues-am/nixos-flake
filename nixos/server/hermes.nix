@@ -131,7 +131,7 @@ in
       API_SERVER_HOST = "0.0.0.0";
       API_SERVER_PORT = "8642";
     };
-    serviceConfig.EnvironmentFile = config.sops.secrets.hermes_env_default.path;
+    serviceConfig.EnvironmentFile = config.sops.templates."hermes-api-server.env".path;
   };
 
   # O Secretario usa o .env mutável do próprio perfil; seu antigo bloco SOPS
@@ -178,7 +178,6 @@ in
       User = user;
       Group = user;
       WorkingDirectory = workspace;
-      EnvironmentFile = config.sops.secrets.hermes_env_default.path;
       ExecStart = "${hermesRuntime}/bin/hermes dashboard --host 0.0.0.0 --port 9119 --no-open";
       Restart = "always";
       RestartSec = 5;

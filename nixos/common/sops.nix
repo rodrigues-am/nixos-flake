@@ -1,4 +1,4 @@
-{ userSettings, ... }:
+{ config, userSettings, ... }:
 {
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
@@ -8,7 +8,7 @@
     secrets = {
       firecrawl_token = { };
       gmail_key = { };
-      hermes_env_default = {
+      hermes_api_server_key = {
         owner = userSettings.name;
         group = userSettings.name;
         mode = "0400";
@@ -22,6 +22,15 @@
       usp_client_secret = { };
       usp_refresh_token = { };
       webdav_key = { };
+    };
+
+    templates."hermes-api-server.env" = {
+      owner = userSettings.name;
+      group = userSettings.name;
+      mode = "0400";
+      content = ''
+        API_SERVER_KEY=${config.sops.placeholder.hermes_api_server_key}
+      '';
     };
   };
 }
