@@ -12,11 +12,13 @@ let
 
   # Runtime estável para os jobs determinísticos do cradle-news. Os wrappers
   # não devem depender do venv interno de uma versão específica do Hermes.
-  cradleNewsPython = pkgs.python3.withPackages (ps: with ps; [
-    google-api-python-client
-    google-auth
-    pytest
-  ]);
+  cradleNewsPython = pkgs.python3.withPackages (
+    ps: with ps; [
+      google-api-python-client
+      google-auth
+      pytest
+    ]
+  );
 
   # Runtime compartilhado pelos gateways e pelo dashboard. O serviço principal
   # do módulo constrói sua própria variante equivalente com messaging.
@@ -53,6 +55,7 @@ let
     wget
     yq-go
     yt-dlp
+    texliveFull
   ];
 
   commonEnvironment = {
@@ -79,8 +82,9 @@ in
     extraPackages = with pkgs; [
       age
       bash
-      curl
       chromium
+      cradleNewsPython
+      curl
       emacs-nox
       fd
       ffmpeg
@@ -91,32 +95,14 @@ in
       nodejs_22
       pandoc
       poppler-utils
-      cradleNewsPython
       ripgrep
       sops
       tesseract
+      texliveFull
       wget
       yq-go
       yt-dlp
     ];
-
-    # settings = {
-    #   model = {
-    #     provider = "ollama-cloud";
-    #     default = "glm-5.2";
-    #   };
-    #   toolsets = [ "all" ];
-    #   agent.max_turns = 150;
-    #   terminal = {
-    #     backend = "local";
-    #     cwd = "/home/${user}";
-    #     timeout = 180;
-    #   };
-    #   memory = {
-    #     memory_enabled = true;
-    #     user_profile_enabled = true;
-    #   };
-    # };
 
     restart = "always";
     restartSec = 5;

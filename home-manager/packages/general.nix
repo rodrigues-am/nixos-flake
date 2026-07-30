@@ -74,7 +74,7 @@
       stow
       syncthing
       telegram-desktop
-      texlive.combined.scheme-full # latex
+      texliveFull
       tree
       tree-sitter
       unzip
