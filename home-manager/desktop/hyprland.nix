@@ -262,7 +262,6 @@ in
           "LIBVA_DRIVER_NAME,nvidia"
           "GBM_BACKEND,nvidia-drm"
           "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-          "WLR_NO_HARDWARE_CURSORS,1"
         ];
 
       general = {
@@ -294,6 +293,9 @@ in
         disable_splash_rendering = true;
         force_default_wallpaper = 0;
       };
+
+      # Hyprland não usa mais a variável WLR_NO_HARDWARE_CURSORS.
+      cursor.no_hardware_cursors = if isNvidia then 1 else 2;
 
       animations = {
         enabled = true;
