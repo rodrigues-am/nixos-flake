@@ -63,6 +63,8 @@ Confirme:
 
 ## Etapa 3 — testar o candidato Lua sem alterar `main`
 
+Faça esta etapa a partir de uma sessão **GNOME/Wayland**, não da sessão Hyprland normal. A ativação do Home Manager tenta recarregar instâncias Hyprland já abertas; executar o primeiro `test` dentro do Hyprland eliminaria parte da proteção oferecida pelo teste aninhado.
+
 ```bash
 git -C ~/nixos-flake fetch origin
 git -C ~/nixos-flake switch hyprland-lua-migration
