@@ -23,7 +23,7 @@ let
     Type=Application
     DesktopNames=Hyprland
     EOF
-  '';
+  '' // { providedSessions = [ "hyprland-safe" ]; };
 in
 {
   imports = [
