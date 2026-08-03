@@ -7,6 +7,24 @@
   ...
 }:
 
+let
+  hyprlandSafeLauncher = pkgs.writeShellScriptBin "hyprland-safe-session" ''
+    set -euo pipefail
+    exec ${pkgs.hyprland}/bin/Hyprland --config "$HOME/.config/hypr/hyprland-nested.conf"
+  '';
+
+  hyprlandSafeSession = pkgs.runCommand "hyprland-safe-session" { } ''
+    mkdir -p "$out/share/wayland-sessions"
+    cat > "$out/share/wayland-sessions/hyprland-safe.desktop" <<EOF
+    [Desktop Entry]
+    Name=Hyprland (safe fallback)
+    Comment=Hyprland com configuração mínima de recuperação
+    Exec=${hyprlandSafeLauncher}/bin/hyprland-safe-session
+    Type=Application
+    DesktopNames=Hyprland
+    EOF
+  '';
+in
 {
   imports = [
     ../modules/syncthing.nix
@@ -87,7 +105,10 @@
 
   services.xserver.enable = true;
 
-  services.displayManager.gdm.enable = true;
+  services.displayManager = {
+    gdm.enable = true;
+    sessionPackages = [ hyprlandSafeSession ];
+  };
   services.desktopManager.gnome.enable = true;
 
   services.printing.enable = true;

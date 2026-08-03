@@ -3,12 +3,25 @@
   lib,
   pkgs,
   pkgs-stable ? pkgs,
+  machineName,
   userSettings,
   ...
 }:
 
 let
   theme = config.colorScheme.palette;
+  homeDir = "/home/${userSettings.name}";
+  isNvidia = machineName == "home-desktop";
+
+  monitorSpec =
+    if machineName == "home-desktop" then
+      "HDMI-A-1,2560x1080@60,0x0,1"
+    else
+      ",preferred,auto,1";
+
+  kbLayout = "us,br";
+  kbVariant = "intl,abnt2";
+  kbOptions = "grp:win_space_toggle,compose:rctrl";
 
   terminal = userSettings.term;
   browser = userSettings.browser;
@@ -39,6 +52,53 @@ let
     export XDG_SESSION_TYPE=wayland
 
     exec ${pkgs.hyprland}/bin/Hyprland --config "$HOME/.config/hypr/hyprland-nested.conf"
+  '';
+
+  morningMessages = pkgs.writeShellScriptBin "morning-messages" ''
+    set -euo pipefail
+
+    exec ${pkgs-stable.brave}/bin/brave --new-window \
+      "https://calendar.google.com/calendar/u/1/r/week" \
+      "https://mail.google.com/mail/u/1/#inbox" \
+      "https://web.whatsapp.com/" \
+      "https://mail.google.com/mail/u/0/#inbox"
+  '';
+
+  llmDashboards = pkgs.writeShellScriptBin "llm-dashboards" ''
+    set -euo pipefail
+
+    exec ${pkgs-stable.brave}/bin/brave --new-window \
+      "http://100.83.180.41:9119/models" \
+      "https://ollama.com/settings" \
+      "https://chatgpt.com/codex/cloud/settings/analytics" \
+      "https://openrouter.ai/activity"
+  '';
+
+  screenshotFull = pkgs.writeShellScriptBin "screenshot-full" ''
+    set -euo pipefail
+
+    screenshot_dir="$HOME/Pictures/Screenshots"
+    mkdir -p "$screenshot_dir"
+    output="$screenshot_dir/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"
+
+    ${pkgs.grim}/bin/grim "$output"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$output"
+    ${pkgs.libnotify}/bin/notify-send "Captura de tela salva" "$output"
+  '';
+
+  screenshotArea = pkgs.writeShellScriptBin "screenshot-area" ''
+    set -euo pipefail
+
+    geometry="$(${pkgs.slurp}/bin/slurp)" || exit 0
+    [ -n "$geometry" ] || exit 0
+
+    screenshot_dir="$HOME/Pictures/Screenshots"
+    mkdir -p "$screenshot_dir"
+    output="$screenshot_dir/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"
+
+    ${pkgs.grim}/bin/grim -g "$geometry" "$output"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$output"
+    ${pkgs.libnotify}/bin/notify-send "Captura de área salva" "$output"
   '';
 in
 {
@@ -75,6 +135,10 @@ in
     ++ [
       hyprlandNested
       hyprlandNestedSafe
+      morningMessages
+      llmDashboards
+      screenshotFull
+      screenshotArea
     ]
     ++ (with pkgs-stable; [ ]);
 
@@ -88,6 +152,7 @@ in
   # Configuração mínima para testar Hyprland aninhado dentro do GNOME.
   # Rode com: hyprland-nested-safe
   xdg.configFile."hypr/hyprland-nested.conf".text = ''
+    # Sessões aninhadas expõem um monitor virtual, independentemente do host.
     monitor = ,preferred,auto,1
 
     env = XDG_CURRENT_DESKTOP,Hyprland
@@ -95,7 +160,7 @@ in
     env = XDG_SESSION_DESKTOP,Hyprland
     env = QT_QPA_PLATFORM,wayland
     env = MOZ_ENABLE_WAYLAND,1
-    env = XCOMPOSEFILE,/home/andre/.XCompose
+    env = XCOMPOSEFILE,${homeDir}/.XCompose
     env = GTK_IM_MODULE,cedilla
     env = QT_IM_MODULE,cedilla
 
@@ -110,9 +175,9 @@ in
     }
 
     input {
-      kb_layout = us,br
-      kb_variant = intl,abnt2
-      kb_options = grp:alt_shift_toggle,compose:rctrl
+      kb_layout = ${kbLayout}
+      kb_variant = ${kbVariant}
+      kb_options = ${kbOptions}
       follow_mouse = 1
       sensitivity = 0
 
@@ -132,7 +197,6 @@ in
     }
 
     dwindle {
-      pseudotile = true
       preserve_split = true
       force_split = 2
     }
@@ -142,7 +206,7 @@ in
     bind = SUPER, F, fullscreen
     bind = SUPER, W, togglefloating
     bind = SUPER SHIFT, R, exec, hyprctl reload
-    bind = SUPER SHIFT, C, exit
+    bind = SUPER CTRL SHIFT, C, exit
 
     bind = SUPER, LEFT, movefocus, l
     bind = SUPER, RIGHT, movefocus, r
@@ -154,6 +218,11 @@ in
     bind = SUPER, 3, workspace, 3
     bind = SUPER, 4, workspace, 4
     bind = SUPER, 5, workspace, 5
+    bind = SUPER, 6, workspace, 6
+    bind = SUPER, 7, workspace, 7
+    bind = SUPER, 8, workspace, 8
+    bind = SUPER, 9, workspace, 9
+    bind = SUPER, 0, workspace, 10
 
     bindm = SUPER, mouse:272, movewindow
     bindm = SUPER, mouse:273, resizewindow
@@ -169,36 +238,32 @@ in
     configType = "hyprlang";
 
     settings = {
-      monitor = [
-        # Corrigi 2569 -> 2560. Se seu monitor realmente usa 2569,
-        # altere manualmente.
-        "HDMI-A-1,2560x1080@60,0x0,1"
-      ];
+      monitor = [ monitorSpec ];
 
-      env = [
-        "XDG_CURRENT_DESKTOP,Hyprland"
-        "XDG_SESSION_TYPE,wayland"
-        "XDG_SESSION_DESKTOP,Hyprland"
-        "CLUTTER_BACKEND,wayland"
-        "QT_QPA_PLATFORM,wayland"
-        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-        "MOZ_ENABLE_WAYLAND,1"
-
-        # NVIDIA. Remova se essa máquina não usa NVIDIA.
-        "LIBVA_DRIVER_NAME,nvidia"
-        "GBM_BACKEND,nvidia-drm"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-        "WLR_NO_HARDWARE_CURSORS,1"
-
-        "GTK_THEME,Gruvbox-Dark"
-        "XCOMPOSEFILE,/home/andre/.XCompose"
-        "GTK_IM_MODULE,cedilla"
-        "QT_IM_MODULE,cedilla"
-        "XDG_CONFIG_HOME,/home/andre/.config"
-        "DOOMLOCALDIR,/home/andre/.config/doom-local"
-        "DOOMDIR,/home/andre/.config/doom-config"
-      ];
+      env =
+        [
+          "XDG_CURRENT_DESKTOP,Hyprland"
+          "XDG_SESSION_TYPE,wayland"
+          "XDG_SESSION_DESKTOP,Hyprland"
+          "CLUTTER_BACKEND,wayland"
+          "QT_QPA_PLATFORM,wayland"
+          "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+          "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+          "MOZ_ENABLE_WAYLAND,1"
+          "GTK_THEME,Gruvbox-Dark"
+          "XCOMPOSEFILE,${homeDir}/.XCompose"
+          "GTK_IM_MODULE,cedilla"
+          "QT_IM_MODULE,cedilla"
+          "XDG_CONFIG_HOME,${homeDir}/.config"
+          "DOOMLOCALDIR,${homeDir}/.config/doom-local"
+          "DOOMDIR,${homeDir}/.config/doom-config"
+        ]
+        ++ lib.optionals isNvidia [
+          "LIBVA_DRIVER_NAME,nvidia"
+          "GBM_BACKEND,nvidia-drm"
+          "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+          "WLR_NO_HARDWARE_CURSORS,1"
+        ];
 
       general = {
         gaps_in = 3;
@@ -211,9 +276,9 @@ in
       };
 
       input = {
-        kb_layout = "us,br";
-        kb_variant = "intl,abnt2";
-        kb_options = "grp:win_space_toggle,compose:rctrl";
+        kb_layout = kbLayout;
+        kb_variant = kbVariant;
+        kb_options = kbOptions;
         follow_mouse = 1;
         sensitivity = 0;
 
@@ -224,7 +289,7 @@ in
 
       misc = {
         mouse_move_enables_dpms = true;
-        key_press_enables_dpms = false;
+        key_press_enables_dpms = true;
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         force_default_wallpaper = 0;
@@ -240,7 +305,7 @@ in
         blur = {
           enabled = true;
           size = 6;
-          passes = 3;
+          passes = if isNvidia then 2 else 1;
           new_optimizations = true;
           ignore_opacity = true;
           noise = 0.02;
@@ -248,11 +313,10 @@ in
         };
       };
 
-      # dwindle = {
-      #   pseudotile = true;
-      #   preserve_split = true;
-      #   force_split = 2;
-      # };
+      dwindle = {
+        preserve_split = true;
+        force_split = 2;
+      };
 
       bezier = [
         "wind, 0.05, 0.9, 0.1, 1.05"
@@ -267,7 +331,6 @@ in
         "windowsOut, 1, 5, winOut, slide"
         "windowsMove, 1, 5, wind, slide"
         "border, 1, 1, liner"
-        "borderangle, 1, 30, liner, loop"
         "fade, 1, 10, default"
         "workspaces, 1, 5, wind"
       ];
@@ -284,7 +347,9 @@ in
       bind = [
         # Quickshell controles
         "SUPER SHIFT, P, exec, qs ipc call launcher toggle"
-        "SUPER SHIFT, L, exec, qs ipc call bar toggle"
+        # SUPER+SHIFT+L passou a abrir os painéis LLM; a barra foi movida
+        # para SUPER+ALT+L para evitar sobreposição.
+        "SUPER ALT, L, exec, qs ipc call bar toggle"
         "SUPER, N, exec, qs ipc call notifications dismiss_all"
         "SUPER SHIFT, N, exec, qs ipc call notifications dnd_toggle"
         "SUPER, M, exec, qs ipc call media toggle"
@@ -297,11 +362,20 @@ in
 
         # Programas
         "SUPER, RETURN, exec, ${terminal}"
-        ''SUPER, S, exec, grim -g "$(slurp)"''
+        # O binário instalado pelo pacote oficial chama-se Telegram (T maiúsculo).
+        "SUPER SHIFT, T, exec, [workspace 10] Telegram"
+        "SUPER SHIFT, M, exec, [workspace 2] ${morningMessages}/bin/morning-messages"
+        "SUPER SHIFT, L, exec, [workspace 8] ${llmDashboards}/bin/llm-dashboards"
         "SUPER SHIFT, B, exec, ${browser}"
         "SUPER SHIFT, E, exec, ${editor}"
         "SUPER SHIFT, Z, exec, zotero"
         "SUPER SHIFT, F, exec, nautilus"
+
+        # Capturas: Print salva a tela inteira; Shift+Print seleciona uma área.
+        # SUPER+S permanece como alias da captura de área.
+        ", Print, exec, ${screenshotFull}/bin/screenshot-full"
+        "SHIFT, Print, exec, ${screenshotArea}/bin/screenshot-area"
+        "SUPER, S, exec, ${screenshotArea}/bin/screenshot-area"
 
         # Scripts
         "SUPER SHIFT, O, exec, emopicker"
@@ -313,7 +387,8 @@ in
         #        "SUPER SHIFT, I, togglesplit"
         "SUPER, F, fullscreen"
         "SUPER, W, togglefloating"
-        "SUPER SHIFT, C, exit"
+        # Exige três modificadores para evitar encerramento acidental da sessão.
+        "SUPER CTRL SHIFT, C, exit"
         "SUPER SHIFT, R, exec, hyprctl reload"
 
         # Mover janela
