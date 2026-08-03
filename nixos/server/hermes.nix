@@ -20,10 +20,10 @@ let
     ]
   );
 
-  # Runtime compartilhado pelos gateways e pelo dashboard. O serviço principal
-  # do módulo constrói sua própria variante equivalente com messaging.
+  # Runtime compartilhado pelos gateways e pelo dashboard.
   hermesRuntime = config.services.hermes-agent.package.override {
     extraDependencyGroups = [
+      "firecrawl"
       "messaging"
       "web"
     ];
@@ -77,7 +77,11 @@ in
     # ~/.hermes é mantido como link para este estado persistente.
     inherit stateDir;
     workingDirectory = workspace;
-    extraDependencyGroups = [ "messaging" ];
+    extraDependencyGroups = [
+      "firecrawl"
+      "messaging"
+      "web"
+    ];
 
     extraPackages = with pkgs; [
       age
@@ -152,18 +156,24 @@ in
 
   # O Hermes Desktop conecta-se ao dashboard, não ao gateway de mensageria.
   # A porta não é aberta para a LAN; tailscale0 é uma interface confiável.
+  #
+  # O dashboard administra o config.yaml mutável. O módulo NixOS marca o
+  # HERMES_HOME como gerenciado em cada ativação; remova o marcador antes de
+  # iniciar o dashboard e não lhe passe HERMES_MANAGED. O gateway principal
+  # continua gerenciado declarativamente pelo módulo.
   systemd.services.hermes-dashboard = {
     description = "Hermes Dashboard - remote backend over Tailscale";
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     path = servicePath;
-    environment = commonEnvironment;
+    environment = builtins.removeAttrs commonEnvironment [ "HERMES_MANAGED" ];
     serviceConfig = {
       Type = "simple";
       User = user;
       Group = user;
       WorkingDirectory = workspace;
+      ExecStartPre = "${pkgs.coreutils}/bin/rm -f ${hermesHome}/.managed";
       ExecStart = "${hermesRuntime}/bin/hermes dashboard --host 0.0.0.0 --port 9119 --no-open";
       Restart = "always";
       RestartSec = 5;
