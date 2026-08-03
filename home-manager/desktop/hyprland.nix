@@ -27,6 +27,11 @@ let
   browser = userSettings.browser;
   editor = userSettings.editor;
   wallpaper = "${userSettings.wallpaperDir}/battery-gruvbox.png";
+  hyprlandConfigFile =
+    if config.wayland.windowManager.hyprland.configType == "lua" then
+      "hyprland.lua"
+    else
+      "hyprland.conf";
 
   polkitAgent = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
 
@@ -39,7 +44,7 @@ let
     export XDG_SESSION_DESKTOP=Hyprland
     export XDG_SESSION_TYPE=wayland
 
-    exec ${pkgs.hyprland}/bin/Hyprland --config "$HOME/.config/hypr/hyprland.conf"
+    exec ${pkgs.hyprland}/bin/Hyprland --config "$HOME/.config/hypr/${hyprlandConfigFile}"
   '';
 
   hyprlandNestedSafe = pkgs.writeShellScriptBin "hyprland-nested-safe" ''
@@ -103,6 +108,7 @@ let
 in
 {
   imports = [
+    ./hyprland-lua.nix
     ./rofi.nix
     ./quickshell.nix
   ];
