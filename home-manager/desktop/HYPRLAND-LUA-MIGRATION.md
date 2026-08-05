@@ -77,10 +77,17 @@ Não use `switch` como primeiro teste. Após o build, use `test`:
 sudo nixos-rebuild test --flake ~/nixos-flake#$(hostname)
 ```
 
-Ainda dentro da sessão gráfica atual, valide a sintaxe gerada:
+Ainda dentro do GNOME, valide a configuração Lua gerada com o verificador versionado no repositório. O comando avalia o módulo do host, procura estruturas obsoletas ou marcadores não substituídos e executa `luac -p`:
 
 ```bash
-luac -p ~/.config/hypr/hyprland.lua
+nix shell nixpkgs#lua -c \
+  scripts/validate-hyprland-lua.sh "$(hostname)" andre
+```
+
+Essa validação não ativa nenhuma geração. Se você já tiver `luac` no `PATH`, pode executar diretamente:
+
+```bash
+scripts/validate-hyprland-lua.sh "$(hostname)" andre
 ```
 
 Em seguida, teste aninhado a partir do GNOME:
