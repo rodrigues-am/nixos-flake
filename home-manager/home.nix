@@ -62,6 +62,8 @@
       BROWSER = "${userSettings.browser}";
       GTK_IM_MODULE = "cedilla";
       QT_IM_MODULE = "cedilla";
+      XMODIFIERS = "@im=cedilla";
+      INPUT_METHOD = "cedilla";
     };
 
   };

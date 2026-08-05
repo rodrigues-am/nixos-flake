@@ -169,6 +169,8 @@ in
     env = XCOMPOSEFILE,${homeDir}/.XCompose
     env = GTK_IM_MODULE,cedilla
     env = QT_IM_MODULE,cedilla
+    env = XMODIFIERS,@im=cedilla
+    env = INPUT_METHOD,cedilla
 
     general {
       gaps_in = 3
@@ -260,6 +262,8 @@ in
           "XCOMPOSEFILE,${homeDir}/.XCompose"
           "GTK_IM_MODULE,cedilla"
           "QT_IM_MODULE,cedilla"
+          "XMODIFIERS,@im=cedilla"
+          "INPUT_METHOD,cedilla"
           "XDG_CONFIG_HOME,${homeDir}/.config"
           "DOOMLOCALDIR,${homeDir}/.config/doom-local"
           "DOOMDIR,${homeDir}/.config/doom-config"

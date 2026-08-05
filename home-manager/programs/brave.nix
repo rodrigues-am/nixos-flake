@@ -5,7 +5,8 @@
     enable = true;
     package = pkgs-stable.brave;
     commandLineArgs = [
-      "--ozone-platform=x11"
+      "--ozone-platform=wayland"
+      "--enable-wayland-ime"
     ];
     extensions = [
       "ekhagklcjbdpajgpjgmbionohlpdbjgc" # zotero

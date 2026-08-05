@@ -69,8 +69,9 @@ let
     (builtins.readFile ./hyprland-lua.lua);
 in
 {
-  # Este módulo só é importado na branch hyprland-lua-migration. As opções
-  # mkForce anulam a árvore Hyprlang do módulo-base sem alterar a branch main.
+  # Este módulo substitui a árvore Hyprlang do módulo-base pela
+  # configuração Lua canônica do Hyprland 0.55+. As opções mkForce
+  # anulam settings e extraConfig do módulo-base.
   wayland.windowManager.hyprland = {
     configType = lib.mkForce "lua";
     settings = lib.mkForce { };
