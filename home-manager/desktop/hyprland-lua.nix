@@ -69,12 +69,8 @@ let
     (builtins.readFile ./hyprland-lua.lua);
 in
 {
-  # Este módulo substitui a árvore Hyprlang do módulo-base pela
-  # configuração Lua canônica do Hyprland 0.55+. As opções mkForce
-  # anulam settings e extraConfig do módulo-base.
-  wayland.windowManager.hyprland = {
-    configType = lib.mkForce "lua";
-    settings = lib.mkForce { };
-    extraConfig = lib.mkForce luaConfig;
-  };
+  # Injeta a configuração Lua canônica do Hyprland 0.55+ como extraConfig.
+  # hyprland.nix define configType = "lua" e não fornece settings hyprlang,
+  # então este extraConfig é a única fonte de configuração.
+  wayland.windowManager.hyprland.extraConfig = luaConfig;
 }
