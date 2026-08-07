@@ -37,7 +37,6 @@
       gnucash
       gnutar
       graphviz # build diagrams declaratively
-      gtk-engine-murrine
       gucharmap
       fastfetch
       htop

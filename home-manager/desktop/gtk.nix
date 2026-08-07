@@ -16,14 +16,14 @@
     #};
     theme = {
       #      name = "Nordic";
-      name = "Gruvbox GTK Themes";
-      #name = "Catppuccin-Mocha-Standard-Mauve-Dark";
-      package = pkgs.gruvbox-gtk-theme;
+      #      name = "Gruvbox GTK Themes";
+      name = "Catppuccin-Mocha-Standard-Mauve-Dark";
+      #      package = pkgs.gruvbox-gtk-theme;  # removido do nixpkgs (gtk-engine-murrine descontinuado)
       #      package = pkgs.nordic;
-      #  pkgs.catppuccin-gtk.override {
-      #   accents = [ "mauve" ];
-      #   variant = "mocha";
-      # };
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "mauve" ];
+        variant = "mocha";
+      };
     };
 
     # gtk2.extraConfig = {

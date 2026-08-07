@@ -150,6 +150,7 @@
        (org
         +journal
         +dragndrop
+        +pandoc
         +present
         +pretty
         +gnuplot
