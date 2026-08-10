@@ -9,8 +9,10 @@ let
   profileDir = "/home/${user}/.zotero/zotero/hermes-server";
   enableLocalAPI = pkgs.writeShellScript "zotero-enable-local-api" ''
     set -eu
-    mkdir -p ${profileDir}
-    printf '%s\n' 'user_pref("httpServer.localAPI.enabled", true);' > ${profileDir}/user.js
+    printf '%s\n' \
+      'user_pref("extensions.zotero.httpServer.enabled", true);' \
+      'user_pref("extensions.zotero.httpServer.localAPI.enabled", true);' \
+      > ${profileDir}/user.js
   '';
   checkLocalAPIPort = pkgs.writeShellScript "zotero-check-local-api-port" ''
     set -euo pipefail
@@ -37,6 +39,9 @@ in
   # anexos, conforme a configuração em ./webdav.nix.
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0700 ${user} ${user} - -"
+    "d /home/${user}/.zotero 0700 ${user} ${user} - -"
+    "d /home/${user}/.zotero/zotero 0700 ${user} ${user} - -"
+    "d ${profileDir} 0700 ${user} ${user} - -"
   ];
 
   # O Zotero não oferece atualmente um daemon headless oficial. Este serviço
