@@ -5,6 +5,7 @@
     ../common/desktop.nix
     ./nvidia.nix
     ./game.nix
+    ./hermes-desktop.nix
     ../common/desktop-keymap.nix
     ../common/desktop-boot.nix
     ./labdemo.nix
