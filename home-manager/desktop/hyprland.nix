@@ -2,23 +2,11 @@
   config,
   lib,
   pkgs,
-  pkgs-stable ? pkgs,
-  machineName,
-  userSettings,
   ...
 }:
 
 let
-  theme = config.colorScheme.palette;
-  homeDir = "/home/${userSettings.name}";
-  isNvidia = machineName == "home-desktop";
-
-  terminal = userSettings.term;
-  browser = userSettings.browser;
-  editor = userSettings.editor;
-  wallpaper = "${userSettings.wallpaperDir}/battery-gruvbox.png";
-
-  polkitAgent = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  brave = lib.getExe config.programs.brave.finalPackage;
 
   hyprlandNested = pkgs.writeShellScriptBin "hyprland-nested" ''
     set -euo pipefail
@@ -35,7 +23,7 @@ let
   morningMessages = pkgs.writeShellScriptBin "morning-messages" ''
     set -euo pipefail
 
-    exec ${pkgs-stable.brave}/bin/brave --new-window \
+    exec ${brave} --new-window \
       "https://calendar.google.com/calendar/u/1/r/week" \
       "https://mail.google.com/mail/u/1/#inbox" \
       "https://web.whatsapp.com/" \
@@ -45,7 +33,7 @@ let
   llmDashboards = pkgs.writeShellScriptBin "llm-dashboards" ''
     set -euo pipefail
 
-    exec ${pkgs-stable.brave}/bin/brave --new-window \
+    exec ${brave} --new-window \
       "http://100.83.180.41:9119/models" \
       "https://ollama.com/settings" \
       "https://chatgpt.com/codex/cloud/settings/analytics" \
@@ -86,45 +74,46 @@ in
     ./quickshell.nix
   ];
 
-  home.pointerCursor = {
-    enable = true;
-    gtk.enable = true;
-    hyprcursor.enable = true;
-    hyprcursor.size = 24;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Ice";
-    size = 24;
-  };
+  home = {
+    pointerCursor = {
+      enable = true;
+      gtk.enable = true;
+      hyprcursor.enable = true;
+      hyprcursor.size = 24;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 24;
+    };
 
-  home.packages =
-    (with pkgs; [
-      awww
-      grim
-      slurp
-      wl-clipboard
-      ydotool
-      xhost
-      wev
-      nautilus
-      hyprlock
-      brightnessctl
-      wireplumber
-      polkit_gnome
-    ])
-    ++ [
-      hyprlandNested
-      morningMessages
-      llmDashboards
-      screenshotFull
-      screenshotArea
-    ]
-    ++ (with pkgs-stable; [ ]);
+    packages =
+      (with pkgs; [
+        awww
+        grim
+        slurp
+        wl-clipboard
+        ydotool
+        xhost
+        wev
+        nautilus
+        hyprlock
+        brightnessctl
+        wireplumber
+        polkit_gnome
+      ])
+      ++ [
+        hyprlandNested
+        morningMessages
+        llmDashboards
+        screenshotFull
+        screenshotArea
+      ];
 
-  home.file = {
-    ".config/zaney-stinger.mov".source = ../resources/zaney-stinger.mov;
-    ".base16-themes".source = ../resources/base16-themes;
-    ".face".source = ../resources/face.jpg;
-    ".config/rofi/rofi.jpg".source = ../resources/rofi-gruvbox.jpg;
+    file = {
+      ".config/zaney-stinger.mov".source = ../resources/zaney-stinger.mov;
+      ".base16-themes".source = ../resources/base16-themes;
+      ".face".source = ../resources/face.jpg;
+      ".config/rofi/rofi.jpg".source = ../resources/rofi-gruvbox.jpg;
+    };
   };
 
   wayland.windowManager.hyprland = {

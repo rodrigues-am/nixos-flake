@@ -29,44 +29,46 @@ let
       };
 
   polkitAgent = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  browser = lib.getExe config.programs.brave.finalPackage;
   wallpaper = "${userSettings.wallpaperDir}/battery-gruvbox.png";
 
-  luaConfig = builtins.replaceStrings
-    [
-      "@terminal@"
-      "@browser@"
-      "@editor@"
-      "@isNvidia@"
-      "@monitorOutput@"
-      "@monitorMode@"
-      "@monitorPosition@"
-      "@monitorScale@"
-      "@homeDir@"
-      "@activeBorderA@"
-      "@activeBorderB@"
-      "@inactiveBorderA@"
-      "@inactiveBorderB@"
-      "@polkitAgent@"
-      "@wallpaper@"
-    ]
-    [
-      userSettings.term
-      userSettings.browser
-      userSettings.editor
-      (if isNvidia then "true" else "false")
-      monitor.output
-      monitor.mode
-      monitor.position
-      monitor.scale
-      homeDir
-      theme.base0C
-      theme.base0D
-      theme.base00
-      theme.base01
-      polkitAgent
-      wallpaper
-    ]
-    (builtins.readFile ./hyprland-lua.lua);
+  luaConfig =
+    builtins.replaceStrings
+      [
+        "@terminal@"
+        "@browser@"
+        "@editor@"
+        "@isNvidia@"
+        "@monitorOutput@"
+        "@monitorMode@"
+        "@monitorPosition@"
+        "@monitorScale@"
+        "@homeDir@"
+        "@activeBorderA@"
+        "@activeBorderB@"
+        "@inactiveBorderA@"
+        "@inactiveBorderB@"
+        "@polkitAgent@"
+        "@wallpaper@"
+      ]
+      [
+        userSettings.term
+        browser
+        userSettings.editor
+        (if isNvidia then "true" else "false")
+        monitor.output
+        monitor.mode
+        monitor.position
+        monitor.scale
+        homeDir
+        theme.base0C
+        theme.base0D
+        theme.base00
+        theme.base01
+        polkitAgent
+        wallpaper
+      ]
+      (builtins.readFile ./hyprland-lua.lua);
 in
 {
   # Injeta a configuração Lua canônica do Hyprland 0.55+ como extraConfig.

@@ -17,6 +17,7 @@
     ../modules/syncthing.nix
     ./via.nix
     ./webdav.nix
+    ./zotero.nix
   ];
 
   # Este servidor tem 8 GiB de RAM e não possui partição swap. Atualizações
