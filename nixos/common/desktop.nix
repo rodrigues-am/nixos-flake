@@ -92,6 +92,9 @@
   };
   services.desktopManager.gnome.enable = true;
 
+  # Garante o módulo e as permissões de /dev/uinput para o Espanso EVDEV.
+  hardware.uinput.enable = true;
+
   services.printing.enable = true;
 
   services.pulseaudio.enable = false;

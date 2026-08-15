@@ -121,7 +121,8 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
   hl.exec_cmd("awww-daemon")
   hl.exec_cmd("awww img @wallpaper@ --transition-type wipe")
-  hl.exec_cmd("quickshell")
+  -- Quickshell é supervisionado pelo serviço de usuário ligado ao
+  -- hyprland-session.target, depois que o ambiente Wayland/D-Bus é importado.
 end)
 
 -- Quickshell
