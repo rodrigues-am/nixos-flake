@@ -49,6 +49,8 @@
 
   programs.nix-ld.enable = true;
 
+  environment.localBinInPath = true;
+
   nix = {
     package = pkgs.nixVersions.stable;
 

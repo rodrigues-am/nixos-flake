@@ -12,7 +12,6 @@
       eval "$(zoxide init bash)"
       eval "$(pandoc --bash-completion)"
       export PATH="$HOME/.emacs.d/bin:$PATH"
-      export PATH="$HOME/.local/bin:$PATH"
       export GTK_IM_MODULE="cedilla"
       # export WINIT_XKB_IM_MODULE=cedilla
       # export QT_IM_MODULE=cedilla
