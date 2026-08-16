@@ -279,8 +279,8 @@ in
         "--health-timeout=10s"
         "--health-retries=5"
         "--health-start-period=10m"
-        "--log-opt=max-size=25m"
-        "--log-opt=max-file=3"
+        # NixOS usa o driver journald; sua retenção é gerida pelo próprio
+        # journal. max-size/max-file são opções inválidas para esse driver.
       ];
     };
   };
