@@ -16,9 +16,10 @@ let
     mode = "local_external";
     api_url = "http://127.0.0.1:8888";
     api_key = config.sops.placeholder.hindsight_api_key;
-    bank_id = "hermes-default";
-    bank_id_template = "hermes-{profile}";
-    bank_mission = "Memória durável e específica de cada perfil do Hermes Agent.";
+    # Todos os perfis compartilham deliberadamente o mesmo banco. A origem do
+    # perfil continua registrada nos metadados das memórias migradas.
+    bank_id = "hermes-shared";
+    bank_mission = "Memória durável compartilhada por todos os perfis do Hermes Agent de André.";
     recall_budget = "mid";
     recall_types = "observation,world,experience";
     memory_mode = "hybrid";
@@ -288,8 +289,16 @@ in
     services = {
       postgresql-hindsight-extensions = {
         description = "Install PostgreSQL extensions required by Hindsight";
-        after = [ "postgresql.service" ];
-        requires = [ "postgresql.service" ];
+        # postgresql-setup cria os bancos e papéis declarados. Ordenar somente
+        # após postgresql.service permite uma corrida na primeira ativação.
+        after = [
+          "postgresql.service"
+          "postgresql-setup.service"
+        ];
+        requires = [
+          "postgresql.service"
+          "postgresql-setup.service"
+        ];
         before = [ "docker-hindsight.service" ];
         serviceConfig = {
           Type = "oneshot";
