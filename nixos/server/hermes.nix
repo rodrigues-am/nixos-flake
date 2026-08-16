@@ -24,6 +24,7 @@ let
   hermesRuntime = config.services.hermes-agent.package.override {
     extraDependencyGroups = [
       "firecrawl"
+      "hindsight"
       "messaging"
       "web"
     ];
@@ -79,9 +80,12 @@ in
     workingDirectory = workspace;
     extraDependencyGroups = [
       "firecrawl"
+      "hindsight"
       "messaging"
       "web"
     ];
+
+    settings.memory.provider = "hindsight";
 
     extraPackages = with pkgs; [
       age
@@ -116,20 +120,31 @@ in
   # mas não as transfere para a unidade gerada. Aplique-os diretamente ao
   # serviço systemd para habilitar a API OpenAI compatível do gateway padrão.
   systemd.services.hermes-agent = {
+    after = [ "hindsight-healthcheck.service" ];
+    wants = [ "hindsight-healthcheck.service" ];
     environment = {
       API_SERVER_ENABLED = "true";
       API_SERVER_HOST = "0.0.0.0";
       API_SERVER_PORT = "8642";
     };
-    serviceConfig.EnvironmentFile = config.sops.templates."hermes-api-server.env".path;
+    serviceConfig.EnvironmentFile = [
+      config.sops.templates."hermes-api-server.env".path
+      config.sops.templates."hindsight-hermes.env".path
+    ];
   };
 
   # O Secretario usa o .env mutável do próprio perfil; seu antigo bloco SOPS
   # foi removido sem impedir que o perfil continue sendo um Hermes normal.
   systemd.services.hermes-agent-secretario = {
     description = "Hermes Agent Gateway - Secretario profile";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
+    after = [
+      "hindsight-healthcheck.service"
+      "network-online.target"
+    ];
+    wants = [
+      "hindsight-healthcheck.service"
+      "network-online.target"
+    ];
     wantedBy = [ "multi-user.target" ];
     path = servicePath;
     environment = commonEnvironment;
@@ -138,6 +153,7 @@ in
       User = user;
       Group = user;
       WorkingDirectory = "/home/${user}";
+      EnvironmentFile = [ config.sops.templates."hindsight-hermes.env".path ];
       ExecStart = "${hermesRuntime}/bin/hermes -p secretario gateway";
       Restart = "always";
       RestartSec = 5;
@@ -163,8 +179,14 @@ in
   # continua gerenciado declarativamente pelo módulo.
   systemd.services.hermes-dashboard = {
     description = "Hermes Dashboard - remote backend over Tailscale";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
+    after = [
+      "hindsight-healthcheck.service"
+      "network-online.target"
+    ];
+    wants = [
+      "hindsight-healthcheck.service"
+      "network-online.target"
+    ];
     wantedBy = [ "multi-user.target" ];
     path = servicePath;
     environment = builtins.removeAttrs commonEnvironment [ "HERMES_MANAGED" ];
@@ -173,6 +195,7 @@ in
       User = user;
       Group = user;
       WorkingDirectory = workspace;
+      EnvironmentFile = [ config.sops.templates."hindsight-hermes.env".path ];
       ExecStartPre = "${pkgs.coreutils}/bin/rm -f ${hermesHome}/.managed";
       ExecStart = "${hermesRuntime}/bin/hermes dashboard --host 0.0.0.0 --port 9119 --no-open";
       Restart = "always";

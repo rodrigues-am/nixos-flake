@@ -12,6 +12,7 @@
     ../common/sops.nix
     ./bash.nix
     ./hermes.nix
+    ./hindsight.nix
     ./postgresql.nix
     ./power.nix
     ../modules/syncthing.nix
