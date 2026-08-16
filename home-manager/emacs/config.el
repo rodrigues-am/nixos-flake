@@ -9,7 +9,7 @@
 
 (use-package! auth-source
   :custom
-  (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
+  (auth-sources  '("~/.authinfo-amr")))
 
 (use-package! sops-mode
   :mode ("\\.sops\\.ya?ml\\'" . sops-mode)

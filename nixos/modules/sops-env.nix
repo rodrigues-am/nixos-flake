@@ -29,7 +29,7 @@
     };
 
     templates.".authinfo-amr" = {
-      path = "/home/${userSettings.name}/sync/pessoal/security/.authinfo-amr";
+      path = "/home/${userSettings.name}/.authinfo-amr";
       owner = "${userSettings.name}";
       content = ''
         machine openrouter.ai login hermes_key password ${config.sops.placeholder.openrouter_token_hermes}

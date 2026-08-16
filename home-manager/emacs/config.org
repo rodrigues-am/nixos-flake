@@ -33,7 +33,7 @@ Some personal information.
 #+begin_src emacs-lisp
 (use-package! auth-source
   :custom
-  (auth-sources  '("~/sync/pessoal/security/.authinfo-amr")))
+  (auth-sources  '("~/.authinfo-amr")))
 #+end_src
 
 #+RESULTS:

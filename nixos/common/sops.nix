@@ -35,7 +35,7 @@
     };
 
     templates.".authinfo-amr" = {
-      path = "/home/${userSettings.name}/sync/pessoal/security/.authinfo-amr";
+      path = "/home/${userSettings.name}/.authinfo-amr";
       owner = userSettings.name;
       group = userSettings.name;
       mode = "0400";
