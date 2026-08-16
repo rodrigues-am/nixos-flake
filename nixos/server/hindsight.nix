@@ -199,6 +199,7 @@ in
   sops.templates = {
     "hindsight-server.env" = {
       mode = "0400";
+      restartUnits = [ "docker-hindsight.service" ];
       content = ''
         HINDSIGHT_API_LLM_API_KEY=${config.sops.placeholder.ollama_key}
         HINDSIGHT_API_DATABASE_URL=postgresql://hindsight:${config.sops.placeholder.hindsight_db_password}@127.0.0.1:5432/hindsight
@@ -212,6 +213,11 @@ in
       owner = user;
       group = user;
       mode = "0400";
+      restartUnits = [
+        "hermes-agent.service"
+        "hermes-agent-secretario.service"
+        "hermes-dashboard.service"
+      ];
       content = ''
         HINDSIGHT_API_KEY=${config.sops.placeholder.hindsight_api_key}
       '';
@@ -221,6 +227,13 @@ in
       owner = user;
       group = user;
       mode = "0400";
+      # O gateway mantém o provedor em memória. Reinicie os consumidores quando
+      # banco, modo de recall ou outra configuração do cliente mudar.
+      restartUnits = [
+        "hermes-agent.service"
+        "hermes-agent-secretario.service"
+        "hermes-dashboard.service"
+      ];
       content = hindsightClientConfig;
     };
 
