@@ -1,7 +1,8 @@
 { pkgs, ... }:
 {
-  home.file.".config/quickshell/shell.qml".source = ../resources/quickshell/shell.qml;
-
+  # A configuração em ~/.config/quickshell é um repositório Git independente.
+  # O Home Manager instala o programa e supervisiona o processo, mas não deve
+  # substituir o shell.qml personalizado por um ponto de entrada próprio.
   programs.quickshell = {
     enable = true;
   };
