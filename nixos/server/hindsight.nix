@@ -356,9 +356,7 @@ in
     text = ''
       HERMES_STATE_DIR=${lib.escapeShellArg stateDir} \
       HERMES_USER=${lib.escapeShellArg user} \
-      HINDSIGHT_CLIENT_CONFIG=${
-        lib.escapeShellArg config.sops.templates."hindsight-client.json".path
-      } \
+      HINDSIGHT_CLIENT_CONFIG=${lib.escapeShellArg config.sops.templates."hindsight-client.json".path} \
         ${pkgs.python3}/bin/python3 ${configureProfiles}
     '';
   };
