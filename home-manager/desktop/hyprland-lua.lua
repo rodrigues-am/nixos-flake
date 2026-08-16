@@ -118,11 +118,11 @@ hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "wind" }
 hl.on("hyprland.start", function()
   hl.exec_cmd("@polkitAgent@")
   hl.exec_cmd("dbus-update-activation-environment --systemd --all")
-  hl.exec_cmd("systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+  hl.exec_cmd("systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user start quickshell.service")
   hl.exec_cmd("awww-daemon")
   hl.exec_cmd("awww img @wallpaper@ --transition-type wipe")
-  -- Quickshell é supervisionado pelo serviço de usuário ligado ao
-  -- hyprland-session.target, depois que o ambiente Wayland/D-Bus é importado.
+  -- O serviço é iniciado acima depois que o ambiente Wayland/D-Bus é
+  -- importado e permanece supervisionado pelo systemd do usuário.
 end)
 
 -- Quickshell
