@@ -359,6 +359,15 @@ in
           exit 1
         '';
       };
+
+      # O conteúdo não secreto do cliente também precisa participar do hash da
+      # unidade. Assim a primeira mudança de banco reinicia gateways já ativos;
+      # restartUnits acima cobre rotações futuras dos segredos SOPS.
+      hermes-agent.restartTriggers = [ config.sops.templates."hindsight-client.json".file ];
+      hermes-agent-secretario.restartTriggers = [
+        config.sops.templates."hindsight-client.json".file
+      ];
+      hermes-dashboard.restartTriggers = [ config.sops.templates."hindsight-client.json".file ];
     };
 
     # O acesso à UI é uma conveniência para shells interativos. A configuração
