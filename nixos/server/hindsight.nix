@@ -261,7 +261,7 @@ in
         HINDSIGHT_API_DB_POOL_MIN_SIZE = "2";
         HINDSIGHT_API_DB_POOL_MAX_SIZE = "10";
         HINDSIGHT_API_LLM_PROVIDER = "ollama-cloud";
-        HINDSIGHT_API_LLM_MODEL = "glm-5.2";
+        HINDSIGHT_API_LLM_MODEL = "gpt-oss:120b";
         HINDSIGHT_API_LLM_MAX_CONCURRENT = "2";
         HINDSIGHT_API_EMBEDDINGS_PROVIDER = "local";
         HINDSIGHT_API_EMBEDDINGS_LOCAL_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2";
