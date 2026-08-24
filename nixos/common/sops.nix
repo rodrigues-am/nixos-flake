@@ -1,6 +1,7 @@
 { config, userSettings, ... }:
 {
   sops = {
+    useSystemdActivation = true;
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${userSettings.name}/sync/pessoal/security/sops/age/keys.txt";
