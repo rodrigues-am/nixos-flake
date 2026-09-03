@@ -20,7 +20,7 @@
       cmake
       curl
       dig
-      element-desktop
+      #element-desktop
       eza
       fd
       firefox # web browser
@@ -106,7 +106,7 @@
       imagemagick
       krita
       ntfs3g
-      nyxt # web browser
+      #nyxt # web browser
       tesseract4
       vulkan-tools
       jre8

@@ -1,7 +1,7 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs-stable, ... }:
 
 let
-  myEmacs = (pkgs.emacsPackagesFor pkgs.emacs30-pgtk).emacsWithPackages (
+  myEmacs = (pkgs-stable.emacsPackagesFor pkgs-stable.emacs-pgtk).emacsWithPackages (
     epkgs: with epkgs; [
       mu4e
       vterm

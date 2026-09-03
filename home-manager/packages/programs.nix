@@ -119,7 +119,7 @@ in
       #postgresql
 
       # general
-      postman
+      #postman
       #surrealdb
 
       # sh
@@ -133,16 +133,16 @@ in
       # python
 
       # Core
-      cargo
-      rustc
-      rust-analyzer
-      rustfmt
-      clippy
+      #cargo
+      #rustc
+      #rust-analyzer
+      #rustfmt
+      #clippy
 
       # Utilities
-      bacon
-      cargo-expand
-      gdb # Ou lldb para debugging
+      #bacon
+      #cargo-expand
+      #gdb # Ou lldb para debugging
 
       #Web
       html-tidy
@@ -158,9 +158,9 @@ in
       nixd
 
       #Guile Scheme
-      guile
-      guile-fibers
-      guile-lib
+      #guile
+      #guile-fibers
+      #guile-lib
 
       #(pkgs.guile.withPackages (p: [ p.fibers p.guile-lib ]))
 
