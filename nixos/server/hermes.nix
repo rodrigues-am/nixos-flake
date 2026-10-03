@@ -24,7 +24,6 @@ let
   hermesRuntime = config.services.hermes-agent.package.override {
     extraDependencyGroups = [
       "firecrawl"
-      "hindsight"
       "messaging"
       "web"
     ];
@@ -80,7 +79,6 @@ in
     workingDirectory = workspace;
     extraDependencyGroups = [
       "firecrawl"
-      "hindsight"
       "messaging"
       "web"
     ];

@@ -34,6 +34,8 @@ let
   '';
 in
 {
+  environment.systemPackages = [ pkgs.zotero ];
+
   # O banco SQLite e os anexos precisam permanecer em um diretório local do
   # host. O WebDAV do servidor continua sendo um backend separado para os
   # anexos, conforme a configuração em ./webdav.nix.

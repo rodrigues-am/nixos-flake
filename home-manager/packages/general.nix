@@ -86,7 +86,6 @@
       zathura # pdf viwer
       zellij
       zip
-      zotero
       zoxide
       kitty
       libxcvt
