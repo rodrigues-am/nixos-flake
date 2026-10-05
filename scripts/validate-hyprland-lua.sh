@@ -43,19 +43,21 @@ fi
 attr=".#nixosConfigurations.${host}.config.home-manager.users.${user}.xdg.configFile.\"hypr/hyprland.lua\".text"
 nix eval --no-write-lock-file --raw "$attr" > "$tmp"
 
-python3 - "$tmp" <<'PY'
+python3 - "$tmp" "$host" "$user" <<'PY'
 from pathlib import Path
 import re
 import sys
 
 path = Path(sys.argv[1])
+host = sys.argv[2]
+user = sys.argv[3]
 text = path.read_text()
 
 bad_patterns = {
     r"hl\.(?:binde|exec-once|general|input|misc|decoration|dwindle)\b": "chamada Lua gerada a partir de chave Hyprlang antiga",
     r"bind\s*=\s*=": "atribuição de bind malformada",
     r"WLR_NO_HARDWARE_CURSORS": "variável wlroots obsoleta",
-    r"@(?:terminal|browser|editor|isNvidia|monitorOutput|monitorMode|monitorPosition|monitorScale|homeDir|activeBorderA|activeBorderB|inactiveBorderA|inactiveBorderB|polkitAgent|wallpaper)@": "marcador Nix não substituído",
+    r"@(?:terminal|browser|editor|isNvidia|monitorOutput|monitorMode|monitorPosition|monitorScale|homeDir|activeBorderA|activeBorderB|inactiveBorderA|inactiveBorderB|polkitAgent|wallpaper|hermesDesktopBinding)@": "marcador Nix não substituído",
 }
 
 errors = []
@@ -73,6 +75,12 @@ required = [
     'workspace = "2"',
     'workspace = "8"',
 ]
+if host == "home-desktop":
+    required.append(
+        f'hl.bind("SUPER + SHIFT + H", hl.dsp.exec_cmd("/home/{user}/.local/bin/hermes desktop --skip-build"))'
+    )
+elif 'hl.bind("SUPER + SHIFT + H"' in text:
+    errors.append("atalho Hermes foi incluído fora do host home-desktop")
 for anchor in required:
     if anchor not in text:
         errors.append(f"trecho obrigatório ausente: {anchor}")

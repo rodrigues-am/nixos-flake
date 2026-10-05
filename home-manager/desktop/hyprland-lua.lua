@@ -135,6 +135,7 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("qs ipc call media play_pause"))
 hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("qs ipc call wallpaper toggle"))
 
 -- Programas e painéis diários
+@hermesDesktopBinding@
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("Telegram", { workspace = "10" }))
 hl.bind("SUPER + SHIFT + M", hl.dsp.exec_cmd("morning-messages", { workspace = "2" }))

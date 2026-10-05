@@ -11,6 +11,13 @@ let
   theme = config.colorScheme.palette;
   homeDir = "/home/${userSettings.name}";
   isNvidia = machineName == "home-desktop";
+  hermesDesktopBinding =
+    if machineName == "home-desktop" then
+      ''
+        hl.bind("SUPER + SHIFT + H", hl.dsp.exec_cmd("${homeDir}/.local/bin/hermes desktop --skip-build"))
+      ''
+    else
+      "";
 
   monitor =
     if machineName == "home-desktop" then
@@ -50,6 +57,7 @@ let
         "@inactiveBorderB@"
         "@polkitAgent@"
         "@wallpaper@"
+        "@hermesDesktopBinding@"
       ]
       [
         userSettings.term
@@ -67,6 +75,7 @@ let
         theme.base01
         polkitAgent
         wallpaper
+        hermesDesktopBinding
       ]
       (builtins.readFile ./hyprland-lua.lua);
 in
