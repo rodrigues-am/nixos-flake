@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgs-stable,
+  pkgs-zotero,
   lib,
   inputs,
   machineName,
@@ -17,6 +18,7 @@
       inherit (inputs) nix-doom-emacs;
       inherit (inputs) nix-colors;
       inherit pkgs-stable;
+      inherit pkgs-zotero;
     };
 
     useUserPackages = true;

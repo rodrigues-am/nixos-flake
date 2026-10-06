@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgs-stable,
+  pkgs-zotero,
   ...
 }:
 {
@@ -111,6 +112,8 @@
       jre8
       libinput
       evtest
-    ]);
+    ])
+    # Zotero usa um nixpkgs separado, preso à revisão que passou no build.
+    ++ [ pkgs-zotero.zotero ];
 
 }
