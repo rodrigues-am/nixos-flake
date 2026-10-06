@@ -1,10 +1,12 @@
 {
   pkgs,
+  pkgs-zotero,
   userSettings,
   ...
 }:
 let
   user = userSettings.name;
+  zoteroPackage = pkgs-zotero.zotero;
   dataDir = "/home/${user}/Zotero";
   profileDir = "/home/${user}/.zotero/zotero/hermes-server";
   enableLocalAPI = pkgs.writeShellScript "zotero-enable-local-api" ''
@@ -34,7 +36,7 @@ let
   '';
 in
 {
-  environment.systemPackages = [ pkgs.zotero ];
+  environment.systemPackages = [ zoteroPackage ];
 
   # O banco SQLite e os anexos precisam permanecer em um diretório local do
   # host. O WebDAV do servidor continua sendo um backend separado para os
@@ -77,7 +79,7 @@ in
         "${pkgs.xvfb-run}/bin/xvfb-run "
         + "-a "
         + "-s '-screen 0 1280x1024x24 -nolisten tcp' "
-        + "${pkgs.zotero}/bin/zotero "
+        + "${zoteroPackage}/bin/zotero "
         + "-profile ${profileDir} "
         + "-datadir ${dataDir}";
       ExecStartPost = waitForLocalAPI;

@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    # Zotero 10.0.4 falha no patch do pacote; manter esta revisão separada e imutável.
+    nixpkgs-zotero.url = "github:NixOS/nixpkgs/774debe7a0d1b496e35677ad955a1011c6ff74f3";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -73,6 +75,13 @@
         };
       };
 
+      pkgs-zotero = import inputs.nixpkgs-zotero {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+      };
+
       mkHost = machineName: module:
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -83,6 +92,7 @@
               system
               userSettings
               pkgs-stable
+              pkgs-zotero
               ;
             nixpkgs = { inherit pkgs; };
           };
