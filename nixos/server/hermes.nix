@@ -23,6 +23,7 @@ let
   # Runtime compartilhado pelos gateways e pelo dashboard.
   hermesRuntime = config.services.hermes-agent.package.override {
     extraDependencyGroups = [
+      "anthropic"
       "firecrawl"
       "messaging"
       "web"
@@ -78,6 +79,7 @@ in
     inherit stateDir;
     workingDirectory = workspace;
     extraDependencyGroups = [
+      "anthropic"
       "firecrawl"
       "messaging"
       "web"
