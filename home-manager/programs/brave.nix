@@ -1,9 +1,9 @@
-{ pkgs-stable, ... }:
+{ pkgs-brave, ... }:
 
 {
   programs.brave = {
     enable = true;
-    package = pkgs-stable.brave;
+    package = pkgs-brave.brave;
     commandLineArgs = [
       "--ozone-platform=x11"
     ];

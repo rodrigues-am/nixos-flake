@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    # Temporário: manter Brave isolado enquanto o nixpkgs não o disponibiliza.
+    nixpkgs-brave.url = "github:NixOS/nixpkgs/cd4ea8d57de16f4810bc5f14207bac45fbf19f67";
     # Zotero 10.0.4 falha após a troca do Firefox ESR; esta revisão fornece 10.0.2 validado.
     nixpkgs-zotero.url = "github:NixOS/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
 
@@ -75,6 +77,11 @@
         };
       };
 
+      pkgs-brave = import inputs.nixpkgs-brave {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
       pkgs-zotero = import inputs.nixpkgs-zotero {
         inherit system;
         config = {
@@ -92,6 +99,7 @@
               system
               userSettings
               pkgs-stable
+              pkgs-brave
               pkgs-zotero
               ;
             nixpkgs = { inherit pkgs; };

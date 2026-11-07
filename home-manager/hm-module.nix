@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgs-stable,
+  pkgs-brave,
   pkgs-zotero,
   lib,
   inputs,
@@ -18,6 +19,7 @@
       inherit (inputs) nix-doom-emacs;
       inherit (inputs) nix-colors;
       inherit pkgs-stable;
+      inherit pkgs-brave;
       inherit pkgs-zotero;
     };
 

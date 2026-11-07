@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-stable, ... }:
 
 {
   # Ativa o suporte a impressão
@@ -17,6 +17,7 @@
   environment.systemPackages = with pkgs; [
     # Exemplo de aplicativos de digitalização
     simple-scan
-    xsane
+    # XSane ainda usa GTK2; manter pacote estável até a migração.
+    pkgs-stable.xsane
   ];
 }
